@@ -1,0 +1,669 @@
+--// check game //
+local notify = game.StarterGui 
+local Basic = Instance.new('BindableFunction')
+
+function Basic.OnInvoke(got)
+    task.spawn(function()
+        local message = Instance.new("Message", workspace)
+        task.spawn(function()
+            message.Text = "Loading"
+        end)
+        wait(4)
+        message:Destroy()
+    end)
+
+    if got == '✅' then
+        if game.PlaceId == 1554960397 then goods = true else
+            local player = game.Players:GetPlayerFromCharacter(char)
+            local teleportService = game:GetService("TeleportService")
+            
+            local Sound = Instance.new("Sound", game:GetService("SoundService"))
+            Sound.SoundId = "rbxassetid://2323663829"
+            Sound:Play()
+
+            local dealership = Instance.new('BindableFunction')
+            function dealership.OnInvoke(state)
+                if state == 'join Car Dealership Tycoon' then
+                    pcall(function()
+                        teleportService:Teleport(1554960397, player)
+                    end)
+                end
+            end
+
+            game.StarterGui:SetCore('SendNotification', {
+                Title = "Error";
+                Text = "no support for this game";
+                Icon = "rbxthumb://type=Asset&id=14378806462&w=150&h=150";
+                Duration = math.huge,
+                Callback = dealership,
+                Button1 = 'join Car Dealership Tycoon',
+                Button2 = '❌'
+            })
+            return
+        end
+    end
+end
+
+notify:SetCore('SendNotification', {
+    Title = 'load the script',
+    Text = 'Want to Load Script. This was created to prevent loading 2 Scripts at once',
+    Duration = math.huge,
+    Callback = Basic,
+    Button1 = '✅',
+    Button2 = '❌'
+})
+
+while not goods do task.wait(0.5) end
+
+--// end check game //
+
+
+
+--// Library //
+local Library = loadstring(game:HttpGet("https://bit.ly/Kavo-Ui-2"))();
+
+--// Loadstrings //
+loadstring(game:HttpGet("https://bit.ly/typeSpeed-script"))();
+AkaliNotif = loadstring(game:HttpGet("https://bit.ly/3OnnrTi"))();
+
+--// Variáveis Globais //
+grown = 0
+infMS = "____"
+infMSh = "_____"
+VDA = "____"
+VM = "____"
+
+--// Variáveis Locais //
+local sv = "V2"
+local tabb = true
+local VM, VDA = "nil", "nil"
+local plr = game:GetService("Players").LocalPlayer
+local player = game:GetService("Players").LocalPlayer
+local charr = game:GetService("Players").LocalPlayer.Character
+local bolet = charr:FindFirstChildOfClass("Humanoid")
+local plrs, players = game:GetService("Players"), game:GetService("Players")
+local a, b, c, d, e = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed, game.Players.LocalPlayer.Character.Humanoid.JumpPower, workspace.Gravity, workspace.CurrentCamera.FieldOfView
+
+--// Tabela ttb //
+local ttb = {
+    SchemeColor = Color3.fromRGB(255, 255, 255),
+    Background = Color3.fromRGB(255, 255, 255),
+    Header = Color3.fromRGB(255, 255, 255),
+    TextColor = Color3.fromRGB(255, 255, 255),
+    ElementColor = Color3.fromRGB(255, 255, 255)
+}
+--// FIM //
+
+
+coroutine.wrap(function()
+     task.spawn(function()
+         game.StarterGui:SetCore("SendNotification", {
+	      Title = "By Liver zMods";
+	      Text = "created by Brazilian!";
+             Icon = "rbxthumb://type=Asset&id=11935866652&w=150&h=150";
+             Duration = 31;
+          })
+    end)
+end)()
+
+
+--// functions //
+
+coroutine.wrap(function()
+
+    local function nilbear() end
+
+    local function ForceThePlayerKebin(string)
+        game:GetService("VirtualInputManager"):SendKeyEvent(true, string ,false ,game)
+    end
+
+    local function Gravity(string)
+        workspace.Gravity = string
+    end
+
+    local function playerHP(number)
+        game.Players.LocalPlayer.Character.Humanoid.Health = number
+    end
+
+    local function subtractHP(number)
+        game.Players.LocalPlayer.Character.Humanoid:TakeDamage(number)
+    end
+end)()
+
+
+task.spawn(function()
+     --// criando Library //
+local Window = Library.CreateLib("ws-Rawnder 'Car Dealership Tycoon' { " .. sv .. " } 🇱 🇲 ", ttb)
+
+--// Abas da library //
+local plrM = Window:NewTab("Main")
+local plrS = Window:NewTab("Player") 
+local plrD = Window:NewTab("Ui") 
+local plrO = Window:NewTab("Others")
+
+    
+--// Seções da Library //
+local plrM_ = plrM:NewSection("Main")    
+local plrS_ = plrS:NewSection("Player: " .. plr.DisplayName or plr.Name)
+local plrD_ = plrD:NewSection("Ui colors")
+local plrO_ = plrO:NewSection("Others")
+
+--// outro Script //
+coroutine.wrap(function()
+    task.wait(0.1)
+    Library:ChangeColor("SchemeColor", Color3.fromRGB(227, 27, 27))
+    Library:ChangeColor("Background", Color3.fromRGB(10, 10, 10))
+    Library:ChangeColor("Header", Color3.fromRGB(5, 5, 5))
+    Library:ChangeColor("TextColor", Color3.fromRGB(255, 255, 255))
+    Library:ChangeColor("ElementColor", Color3.fromRGB(20, 20, 20))
+end)()
+
+task.wait()
+
+
+coroutine.wrap(function()
+--// 'botões' e 'toggles' //
+--// aba main //
+
+plrM_:NewToggle("Km/h.", "it will translate what you write in the text box below.", function(value)
+    pcall(function()
+        if value then
+            KMPH = true
+        else
+            KMPH = false
+        end
+    end)
+end)
+
+
+plrM_:NewTextBox("Acceleration Speed", "Decreases time to reach high speeds", function(type)
+    pcall(function()
+        VDA = type
+    end)
+end)
+
+plrM_:NewTextBox("Max Speed", "Decreases time to reach high speeds", function(type)
+    pcall(function()
+        if KMPH then
+            infMSh = type
+            local input = type
+            local mKmph = tonumber(input:match("%d+"))
+            local Mph = mKmph * 0.6213712
+            local result = string.format("%.2f", Mph)
+            VM = result
+        else
+            VM = type
+            infMS = type
+        end
+    end)
+end)
+
+task.wait()
+--// retag //
+pcall(function() infMS, infMSh, VDA, VM = "____", "____", "____", "____" end)
+--// end 'retag' //
+task.wait()
+
+local plrM_ = plrM:NewSection("Information")
+task.wait()
+local plrLI = plrM_:NewButton("Acceleration Speed: " .. VDA, "This shows the number you wrote")
+local plrLIT = plrM_:NewButton("Max Speed: " .. VM, "This shows the number you wrote")
+
+task.wait()
+coroutine.wrap(function()
+     while task.wait(0.25) do
+     coroutine.wrap(function()
+         plrLI:UpdateButton("Acceleration Speed: " .. VDA)
+         if KMPH then
+                 task.spawn(function()
+                     pcall(function()
+                        for i = 1, 6 do task.wait()
+                            plrLIT:UpdateButton("Max Speed: " ..infMSh.. "Km/h.")
+                        end
+                    end)
+                 end)
+             else
+                 task.spawn(function()
+                     pcall(function()
+                        for i = 1, 6 do task.wait()
+                            plrLIT:UpdateButton("Max Speed: " ..infMS.. "Mp/h.")
+                        end
+                    end)
+                end)
+             end
+         end)()
+     end
+end)()
+
+local plrM_ = plrM:NewSection("Apply The Changes")
+
+plrM_:NewButton("Apply", "the name already says", function(type)
+    task.wait()
+    if VDA == nil and VM == nil then else
+        pcall(function()
+            task.spawn(function()
+                 for ws = 1, 25 do
+                     typeSpeed(VDA, VM)
+                 end
+                 grown = grown + 1
+            end)
+        end)
+    end task.wait()
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Success";
+        Text = "Credit: Liver zMods!";
+        Icon = "rbxthumb://type=Asset&id=14378716037&w=150&h=150";
+        Duration = 3;
+    })
+end)
+
+--// aba Player //
+local plrS_ = plrS:NewSection("WalkSpeed")
+plrS_:NewTextBox("Speed", "Enter the number", function(type)
+    velocidade = nil
+    task.wait()
+    velocidade = type
+    pcall(function()
+        charr.Humanoid.WalkSpeed = velocidade
+    end)
+end)
+plrS_:NewButton("SET", "speed!", function()
+    charr.Humanoid.WalkSpeed = velocidade
+end)
+plrS_:NewToggle("Auto SET", "speed!!", function(mmRawnder)
+    speeder = mmRawnder
+    coroutine.wrap(function()
+        pcall(function()
+            while speeder do
+                if velocidade ~= charr.Humanoid.WalkSpeed then
+                    charr.Humanoid.WalkSpeed = velocidade
+                end
+                task.wait()
+            end
+        end)
+    end)()
+end)
+plrS_:NewButton("Restore Speed", "Reset", function()
+    charr.Humanoid.WalkSpeed = a
+    task.wait()
+end)
+
+local plrS_ = plrS:NewSection("jump")
+plrS_:NewTextBox("jump", "enter the number", function(type)
+    salto = nil
+    task.wait()
+    salto = type
+    charr.Humanoid.JumpPower = salto
+end)
+plrS_:NewButton("SET", "jump!!", function()
+    charr.Humanoid.JumpPower = salto
+end)
+plrS_:NewToggle("Auto SET", "jump!!", function(mmRawnder)
+    jumper = mmRawnder
+    coroutine.wrap(function()
+        pcall(function()
+            while jumper do
+                if salto ~= charr.Humanoid.JumpPower then
+                    charr.Humanoid.JumpPower = salto
+                end
+                task.wait()
+            end
+        end)
+    end)()
+end)
+plrS_:NewButton("Restore Jump", "resets", function()
+    charr.Humanoid.JumpPower = b
+    task.wait()
+end)
+
+local plrS_ = plrS:NewSection("gravity")
+plrS_:NewTextBox("Gravity", "change your gravity", function(type)
+    gravidade = nil
+    task.wait()
+    gravidade = type
+    Gravity(gravidade)
+end)
+plrS_:NewButton("SET", "gravity!!", function()
+    Gravity(gravidade)
+end)
+plrS_:NewButton("restore gravity", "resets", function()
+    Gravity(c)
+    task.wait()
+end)
+
+local plrS_ = plrS:NewSection("Fov Camera")
+plrS_:NewTextBox("Fov camera", "enter the number", function(type)
+    camera = nil
+    task.wait()
+    camera = type
+    workspace.CurrentCamera.FieldOfView = camera
+end)
+plrS_:NewButton("SET", "Fov!!", function()
+    workspace.CurrentCamera.FieldOfView = camera
+end)
+plrS_:NewButton("To restore Fov", "resets", function()
+    workspace.CurrentCamera.FieldOfView = d
+    task.wait()
+end)
+
+local plrS_ = plrS:NewSection("Life [not 'FE']")
+plrS_:NewTextBox("Your Life", "Enter the number", function(type)
+    vida = nil
+    task.wait()
+    vida = type
+    playerHP(vida)
+end)
+plrS_:NewButton("SET", "health!", function()
+    playerHP(vida)
+end)
+plrS_:NewButton("Resetar", "Redefine", function()
+    playerHP(0)
+    task.wait()
+end)
+
+local plrS_ = plrS:NewSection("Others")
+plrS_:NewToggle("Run", "Walk fast", function(mmRawnder)
+    if mmRawnder then 
+        speeder = mmRawnder
+        coroutine.wrap(function()
+            pcall(function()
+                while speeder do
+                    if 25 ~= charr.Humanoid.WalkSpeed then
+                        charr.Humanoid.WalkSpeed = 25
+                    end
+                    task.wait()
+                end
+            end)
+        end)()
+        jumper = mmRawnder
+        coroutine.wrap(function()
+            pcall(function()
+                while jumper do
+                    if 56 ~= charr.Humanoid.JumpPower then
+                        charr.Humanoid.JumpPower = 56
+                    end
+                    task.wait()
+                end
+            end)
+        end)()
+    else
+        speeder = false
+        jumper = false
+        task.wait()
+        charr:FindFirstChildOfClass('Humanoid').UseJumpPower = b
+        charr.Humanoid.WalkSpeed = a
+    end
+end)
+
+plrS_:NewToggle("Noclip", "Atravesse a parede", function(xRawnder)
+    if xRawnder then
+        _G.Noclip = true
+        bolet.Sit = false 
+    else
+        _G.Noclip = false
+        bolet.Sit = true  
+        task.wait(0.3)
+        bolet.Sit = false 
+    end
+end)
+
+plrS_:NewToggle("Infinite Jumps", "Op", function(value)
+    getgenv().InfiniteJump = value
+    game.UserInputService.JumpRequest:connect(function()
+        if not getgenv().InfiniteJump then return end
+        plr.Character.Humanoid:ChangeState('Jumping')
+    end)
+end)
+end)()
+
+
+--// Ui //
+    plrD_:NewColorPicker("Tab Color", "Change the interface color", ttb.SchemeColor, function(color3)
+    Library:ChangeColor("SchemeColor", color3)
+end)
+
+plrD_:NewColorPicker("Background", "Change the interface color", ttb.Background, function(color3)
+coroutine.wrap(function()
+    Library:ChangeColor("Background", color3)
+    end)()
+end)
+
+plrD_:NewColorPicker("Header", "Change the interface color", ttb.Header, function(color3)
+    Library:ChangeColor("Header", color3)
+end)
+
+plrD_:NewColorPicker("Text Color", "Change the interface color", ttb.TextColor, function(color3)
+coroutine.wrap(function()
+    Library:ChangeColor("TextColor", color3)
+    end)()
+end)
+
+plrD_:NewColorPicker("Element Color", "Change the interface color", ttb.ElementColor, function(color3)
+coroutine.wrap(function()
+    Library:ChangeColor("ElementColor", color3)
+    end)()
+end)
+
+plrD_:NewColorPicker("Element Color", "Change the interface color", ttb.ElementColor, function(color3)
+coroutine.wrap(function()
+    Library:ChangeColor("ElementColor", color3)
+    end)()
+end)
+
+task.spawn(function()
+plrD_:NewButton("Original", "resets to original color", function()
+    coroutine.wrap(function()
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("SchemeColor", Color3.fromRGB(225, 255, 255))
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("Background", Color3.fromRGB(225, 255, 255))
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("Header", Color3.fromRGB(225, 255, 255))
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("TextColor", Color3.fromRGB(255, 255, 255))
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("ElementColor", Color3.fromRGB(225, 255, 255))
+        task.wait() task.wait() task.wait(0.05) 
+        task.wait(0.3) task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("SchemeColor", Color3.fromRGB(227, 27, 27))
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("Background", Color3.fromRGB(10, 10, 10))
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("Header", Color3.fromRGB(5, 5, 5))
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("TextColor", Color3.fromRGB(255, 255, 255))
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("ElementColor", Color3.fromRGB(20, 20, 20))
+        task.wait() task.wait() task.wait(0.05) 
+        end)()
+    end)
+end)
+
+   
+plrO_:NewButton("F3X", "e último", function()
+        loadstring(game:GetObjects("rbxassetid://6695644299")[1].Source)()
+    end)
+    plrO_:NewButton("Infinite Yield", "comando de adms", function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+    end)     
+    plrO_:NewButton("anti-lag", "reduz o lag", function()
+ coroutine.wrap(function()
+    local executed = false
+if executed then return end
+if not executed then
+    
+
+    
+    executed = true
+
+
+    
+local lighting = game:GetService("Lighting")
+local player = game.Players.LocalPlayer
+
+local function Time(hour)
+    pcall(function()
+        lighting.TimeOfDay = hour
+    end)
+end
+
+
+coroutine.wrap(function()
+    while true do 
+        Time(15)
+        task.wait()
+    end
+end)()
+
+task.spawn(function()
+    
+
+task.wait(0.05)
+
+local decalsyeeted = true 
+local g = game
+local w = g.Workspace
+local l = g.Lighting
+local t = w.Terrain
+t.WaterWaveSize = 0
+t.WaterWaveSpeed = 0
+t.WaterReflectance = 0
+t.WaterTransparency = 0
+for i = 1, 50 do
+l.GlobalShadows = false
+l.GlobalShadows = false
+end
+l.FogEnd = 9e9
+l.Brightness = 0
+settings().Rendering.QualityLevel = "Level01"
+for i, v in pairs(g:GetDescendants()) do
+    if v:IsA("Part") or v:IsA("Union") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
+        v.Material = "Plastic"
+        v.Reflectance = 0
+    elseif v:IsA("Decal") or v:IsA("Texture") and decalsyeeted then
+        v.Transparency = 1
+    elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+        v.Lifetime = NumberRange.new(0)
+    elseif v:IsA("Explosion") then
+        v.BlastPressure = 1
+        v.BlastRadius = 1
+    elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") or v:IsA("Sparkles") then
+        v.Enabled = false
+    elseif v:IsA("MeshPart") then
+        v.Material = "Plastic"
+        v.Reflectance = 0
+        v.TextureID = 10385902758728957
+    end
+end
+for i, e in pairs(l:GetChildren()) do
+    if e:IsA("BlurEffect") or e:IsA("SunRaysEffect") or e:IsA("ColorCorrectionEffect") or e:IsA("BloomEffect") or e:IsA("DepthOfFieldEffect") then
+        e.Enabled = false
+    end
+  end
+end)
+
+task.spawn(function()
+spawn(function()
+task.spawn(function()
+spawn(function()
+local player = game.Players.LocalPlayer
+
+
+player.CharacterAdded:Connect(destroyCharacter)
+destroyCharacter(player.Character)
+
+while task.wait(0.15) do
+    if player.Character then
+        pcall(function()
+            destroyCharacter(player.Character)
+        end)
+    end
+end
+end)
+end)
+end)
+end)
+
+
+task.spawn(function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/--script/main/Bob"))()
+	_G.BoostFps = true
+		
+		for _, v in pairs(game:GetDescendants()) do
+			pcall(function()
+				v.Material = Enum.Material.Plastic
+				States[v.Name] = {Material = v.Material}
+			end)
+		end
+task.wait(0.7)
+_G.autore = false
+_G.refresh = false
+
+
+
+		while wait() do
+			if _G.BoostFps then
+				for i,v in pairs(game.Players:GetChildren()) do
+					if v ~= game.Players.LocalPlayer then
+						pcall(function()
+							if v.Character.Humanoid.Health < 1 then
+								v.Character:Destroy()
+							end
+						end)
+					end
+				end
+			end
+		end
+    end)     executed = true
+  end
+  end)()
+  end)
+ plrO_:NewButton("Keyboard", "E Usado Muito em celular", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/advxzivhsjjdhxhsidifvsh/mobkeyboard/main/main.txt", true))()
+    end)    
+plrO_:NewButton("Fly Gui ", "Gui Fly feito por min", function()
+loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY", true))()
+end)
+plrO_:NewButton("Fly Car Gui", "vooe de carro, suporte para todos executores Moblies", function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/LiverMods/ModsScriptsGames-/main/FlyCar'))()
+    end)  
+
+--// etcs //
+
+coroutine.wrap(function()
+    local gui = Instance.new("ScreenGui")
+    gui.Name = "hiden"
+    gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0.0325, 0, 0.076, 0)
+    frame.Position = UDim2.new(0.20, 0, 0, 0)
+    frame.AnchorPoint = Vector2.new(0.5, 0.5)
+    frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    frame.BackgroundTransparency = 0.450101838
+    frame.BorderSizePixel = 0
+    frame.Parent = gui
+
+    local imageButton = Instance.new("ImageButton")
+    imageButton.Size = UDim2.new(1, 0, 1, 0)
+    imageButton.BackgroundTransparency = 1
+    imageButton.Image = "rbxassetid://14133402605"
+    imageButton.Position = UDim2.new(0, 0, 0, 0)
+    imageButton.Parent = frame
+    imageButton.MouseButton1Click:Connect(function()
+        spawn(function()
+            local Sound = Instance.new("Sound", game:GetService("SoundService"))
+            Sound.SoundId = "rbxassetid://9119720940"
+            Sound:Play()
+            task.wait()
+            
+            Library:ToggleUI()
+        end)
+    end)
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0.2, 0.1)
+    corner.Parent = frame
+end)()
+
+end)
