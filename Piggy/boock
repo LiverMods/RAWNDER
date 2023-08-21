@@ -13,7 +13,7 @@ function Basic.OnInvoke(got)
         message:Destroy()
 
     if got == '✅' then
-        if game.PlaceId == 4623386862 then goods = true else
+        if game.PlaceId == 4623386862 or game.PlaceId == 5661005779 then goods = true else
             local player = game.Players:GetPlayerFromCharacter(char)
             local teleportService = game:GetService("TeleportService")
             
