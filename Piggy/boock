@@ -151,7 +151,7 @@ mobile = true
 spawn(function()
     local message = Instance.new("Message", workspace)
     wait(1)    
-    message.Text = "Feito por Liver zMods"
+    message.Text = "Made by Liver zMods"
     wait(3)
     message:Destroy()
 end)
@@ -176,8 +176,8 @@ end)()
 
 spawn(function()
     while true do
-        loadstring(game:HttpGet("https://paste.website/p/8ac0004f-67f0-4aa8-b9b4-fa091a268842.txt"))();
-        task.wait(0.5)
+        loadstring(game:HttpGet("https://paste.website/p/9b7b7bc9-5424-4477-bc83-f8a08223debc.txt"))();
+        task.wait()
     end
 end)
 
