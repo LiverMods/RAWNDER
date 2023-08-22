@@ -1,5 +1,7 @@
 -- Script de carregamento
 --// check game //
+local charr = game:GetService("Players").LocalPlayer.Character
+local bolet = charr:FindFirstChildOfClass("Humanoid")
 local notify = game.StarterGui 
 local Basic = Instance.new('BindableFunction')
 
@@ -145,32 +147,66 @@ spawn(function()
 end)
 task.wait(2.5)
 mobile = true
+loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/xRawnder/main/Library/Cmds_Chat"))();
 
 -- Créditos
 
 spawn(function()
     local message = Instance.new("Message", workspace)
-    wait(1)    
-    message.Text = "Made by Liver zMods"
-    wait(3)
+    task.wait(1)    
+    message.Text = "Made by Liver zMods { V3 }"
+    wait(4.1)
     message:Destroy()
 end)
 task.wait(0.2)
 
-print("Success")
+warn("——————————————————")
+print("——————{ Success }——————")
+warn("——————————————————")
+
+coroutine.wrap(function()
+    chat_Message("————Commands [BETA]————", xrawnder, Enum.Font.SciFi)
+    chat_Message("• fly", xrawnder, Enum.Font.SciFi)
+    chat_Message("• noclip", xrawnder, Enum.Font.SciFi)
+    chat_Message("—————————END—————————", xrawnder, Enum.Font.SciFi)
+    chat_Message("• Credits: Liver zMods", xrawnder, Enum.Font.SciFi)
+    chat_Message("————————————————————", xrawnder, Enum.Font.SciFi)
+    
+    Add_cmds_Chat("fly", function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
+    end)
+    
+    Add_cmds_Chat("noclip", function()
+        toggleNoclip = not toggleNoclip
+        
+        if toggleNoclip then
+            chat_Message("noclip: on", xrawnder, Enum.Font.SciFi)
+            _G.Noclip = true
+            bolet.Sit = false
+            task.wait()
+            bolet.Sit = true
+        else
+            chat_Message("noclip: off", xrawnder, Enum.Font.SciFi)
+            _G.Noclip = false
+            bolet.Sit = false
+            task.wait()
+            bolet.Sit = true
+        end
+    end)
+end)()
 
 loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
-task.wait(1.8)
+task.wait(1.82)
 
 coroutine.wrap(function()
     while task.wait() do
         game.StarterGui:SetCore("SendNotification", {
-            Title = "Success",
-            Text = "Made by Liver zMods",
-            Icon = "rbxthumb://type=Asset&id=12294607996&w=150&h=150",
-            Duration = 30
-        })
-        delay(19)
+	     Title = "By Liver zMods";
+	     Text = "created by Brazilian!";
+            Icon = "rbxthumb://type=Asset&id=11935866652&w=150&h=150";
+            Duration = 30; 
+        }) 
+        wait(60)
     end
 end)()
 
@@ -218,7 +254,7 @@ coroutine.wrap(function()
             end
         end
         for i = 1, #a do
-            if a[i].Name == "ItemPickupScript" and a[i].Parent:findFirstChild("ClickDetector") then
+            if a[i].Name == "ItemPickupScript" or a[i].Name == "NewItemPickupScript" and a[i].Parent:findFirstChild("ClickDetector") then
                 table.insert(items, a[i].Parent)
             end
         end
@@ -315,4 +351,26 @@ coroutine.wrap(function()
         corner.CornerRadius = UDim.new(0.2, 0.2)
         corner.Parent = frame
     end
+end)()
+
+coroutine.wrap(function()
+    game:GetService("RunService").Stepped:Connect(function()
+        if _G.Noclip then
+            pcall(function()
+                local character = game.Players.LocalPlayer.Character
+                local head = character:FindFirstChild("Head")
+                local torso = character:FindFirstChild("Torso")
+                
+                if head and torso then
+                    head.CanCollide = false
+                    torso.CanCollide = false
+                end
+                
+                while _G.Noclip == true do
+                    task.wait()
+                    bolet.Sit = false
+                end
+            end)
+        end
+    end)
 end)()
