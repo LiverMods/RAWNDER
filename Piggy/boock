@@ -1,5 +1,6 @@
 -- Script de carregamento
 --// check game //
+local pulse = true
 local charr = game:GetService("Players").LocalPlayer.Character
 local bolet = charr:FindFirstChildOfClass("Humanoid")
 local notify = game.StarterGui 
@@ -15,7 +16,7 @@ function Basic.OnInvoke(got)
         message:Destroy()
 
     if got == '✅' then
-        if game.PlaceId == 4623386862 or game.PlaceId == 5661005779 or game.PlaceId == 5247067896 then goods = true else
+        if game.PlaceId == 4623386862 or game.PlaceId == 5661005779 or 5247067896 then goods = true else
             local player = game.Players:GetPlayerFromCharacter(char)
             local teleportService = game:GetService("TeleportService")
             
@@ -154,7 +155,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/xRawnder/ma
 spawn(function()
     local message = Instance.new("Message", workspace)
     task.wait(1)    
-    message.Text = "Made by Liver zMods { V3 }"
+    message.Text = "Made by Liver zMods { V4 }"
     wait(4.1)
     message:Destroy()
 end)
@@ -168,12 +169,29 @@ coroutine.wrap(function()
     chat_Message("————Commands [BETA]————", xrawnder, Enum.Font.SciFi)
     chat_Message("• fly", xrawnder, Enum.Font.SciFi)
     chat_Message("• noclip", xrawnder, Enum.Font.SciFi)
+    chat_Message("• esp", xrawnder, Enum.Font.SciFi)
+    chat_Message("• add prefix", xrawnder, Enum.Font.SciFi)
+    chat_Message("—————————END—————————")
+    chat_Message("——————prefix [BETA]——————", xrawnder, Enum.Font.SciFi)
+    for _, v in ipairs(prefix) do
+        chat_Message("----------------{ " .. v .. " }----------------", xrawnder, Enum.Font.SciFi)
+    end
     chat_Message("—————————END—————————", xrawnder, Enum.Font.SciFi)
     chat_Message("• Credits: Liver zMods", xrawnder, Enum.Font.SciFi)
     chat_Message("————————————————————", xrawnder, Enum.Font.SciFi)
     
     Add_cmds_Chat("fly", function()
         loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
+    end)
+    
+    Add_cmds_Chat("esp", function()
+        task.wait()
+        if not pulse then return end
+        pcall(function()
+            loadstring(game:HttpGet("https://paste.website/p/0fb41af6-dc64-409c-ba72-834258ead245.txt"))();
+        end)
+        chat_Message("this can be buggy as it is in BETA version", xrawnder, Enum.Font.SciFi)
+        pulse = false
     end)
     
     Add_cmds_Chat("noclip", function()
@@ -194,6 +212,7 @@ coroutine.wrap(function()
         end
     end)
 end)()
+
 
 loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
 task.wait(1.82)
@@ -352,6 +371,7 @@ coroutine.wrap(function()
         corner.Parent = frame
     end
 end)()
+
 
 coroutine.wrap(function()
     game:GetService("RunService").Stepped:Connect(function()
