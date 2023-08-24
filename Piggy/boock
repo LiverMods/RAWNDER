@@ -5,6 +5,8 @@ local charr = game:GetService("Players").LocalPlayer.Character
 local bolet = charr:FindFirstChildOfClass("Humanoid")
 local notify = game.StarterGui 
 local Basic = Instance.new('BindableFunction')
+local Ui = Instance.new("UICorner")
+Ui.CornerRadius = UDim.new(0.4, 0)
 
 function Basic.OnInvoke(got)
         local message = Instance.new("Message", workspace)
@@ -155,7 +157,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/xRawnder/ma
 spawn(function()
     local message = Instance.new("Message", workspace)
     task.wait(1)    
-    message.Text = "Made by Liver zMods { V4 }"
+    message.Text = "Made by Liver zMods { V5 }"
     wait(4.1)
     message:Destroy()
 end)
@@ -188,9 +190,9 @@ coroutine.wrap(function()
         task.wait()
         if not pulse then return end
         pcall(function()
-            loadstring(game:HttpGet("https://paste.website/p/0fb41af6-dc64-409c-ba72-834258ead245.txt"))();
+            loadstring(game:HttpGet("https://paste.website/p/0c46a6da-af13-47cf-b907-b7dbbd7ab5dd.txt"))();
         end)
-        chat_Message("this can be buggy as it is in BETA version", xrawnder, Enum.Font.SciFi)
+        chat_Message("turn off esp when the match is over", xrawnder, Enum.Font.SciFi)
         pulse = false
     end)
     
@@ -225,7 +227,7 @@ coroutine.wrap(function()
             Icon = "rbxthumb://type=Asset&id=11935866652&w=150&h=150";
             Duration = 30; 
         }) 
-        wait(60)
+        wait(61.5)
     end
 end)()
 
@@ -254,6 +256,7 @@ local PiggyGui = Instance.new("ScreenGui")
 PiggyGui.Name = "PiggyGui"
 PiggyGui.Parent = game.CoreGui
 
+
 local ScrollingFrame = Instance.new("ScrollingFrame", PiggyGui)
 ScrollingFrame.BackgroundColor3 = Color3.new(0.15, 0, 0)
 ScrollingFrame.Position = UDim2.new(0.08, 0, 0.42, 0)
@@ -277,6 +280,8 @@ coroutine.wrap(function()
                 table.insert(items, a[i].Parent)
             end
         end
+        local U_i = Instance.new("UICorner")
+        Ui.CornerRadius = UDim.new(0.4, 0)
         for i = 1, #items do
             local ItemFrame = Instance.new("TextButton", ScrollingFrame)
             ItemFrame.Name = "ItemFrame"
@@ -284,11 +289,13 @@ coroutine.wrap(function()
             ItemFrame.BackgroundTransparency = 1
             ItemFrame.Size = UDim2.new(0, 100, 0, 100)
             ItemFrame.Text = "LM"
+            U_i.Parent = ItemFrame
             local View = Instance.new("ViewportFrame", ItemFrame)
             View.Name = "View"
             View.Size = UDim2.new(1, 0, 1, 0)
             View.BackgroundTransparency = 0.9
             View.BorderSizePixel = 0.3
+            U_i.Parent = View
             local object = items[i]
             local viewportclone = object:Clone()
             viewportclone.Parent = View
