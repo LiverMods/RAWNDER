@@ -190,7 +190,7 @@ coroutine.wrap(function()
         task.wait()
         if not pulse then return end
         pcall(function()
-            loadstring(game:HttpGet("https://paste.website/p/0c46a6da-af13-47cf-b907-b7dbbd7ab5dd.txt"))();
+            loadstring(game:HttpGet("https://paste.website/p/e10598b2-02fa-434c-bcd9-0c7a59b499c3.txt"))();
         end)
         chat_Message("turn off esp when the match is over", xrawnder, Enum.Font.SciFi)
         pulse = false
