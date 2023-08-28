@@ -1,6 +1,7 @@
 -- Script de carregamento
 --// check game //
 local pulse = true
+nelhaudhqb10 = 16
 local charr = game:GetService("Players").LocalPlayer.Character
 local bolet = charr:FindFirstChildOfClass("Humanoid")
 local notify = game.StarterGui 
@@ -158,7 +159,7 @@ spawn(function()
     local message = Instance.new("Message", workspace)
     task.wait(1)    
     message.Text = "Made by Liver zMods { V5 }"
-    wait(4.1)
+    wait(4.3)
     message:Destroy()
 end)
 task.wait(0.2)
@@ -172,6 +173,7 @@ coroutine.wrap(function()
     chat_Message("• fly", xrawnder, Enum.Font.SciFi)
     chat_Message("• noclip", xrawnder, Enum.Font.SciFi)
     chat_Message("• esp", xrawnder, Enum.Font.SciFi)
+    chat_Message("• ws", xrawnder, Enum.Font.SciFi)
     chat_Message("• add prefix", xrawnder, Enum.Font.SciFi)
     chat_Message("—————————END—————————")
     chat_Message("——————prefix [BETA]——————", xrawnder, Enum.Font.SciFi)
@@ -190,10 +192,14 @@ coroutine.wrap(function()
         task.wait()
         if not pulse then return end
         pcall(function()
-            loadstring(game:HttpGet("https://paste.website/p/e10598b2-02fa-434c-bcd9-0c7a59b499c3.txt"))();
+            loadstring(game:HttpGet("https://paste.website/p/0e606de9-848b-49e1-98a2-7e3db5a65e7d.txt"))();
         end)
         chat_Message("turn off esp when the match is over", xrawnder, Enum.Font.SciFi)
         pulse = false
+    end)
+    
+    Add_cmds_ChatSearch("ws", fovs, function(fovs)
+        nelhaudhqb10 = fovs
     end)
     
     Add_cmds_Chat("noclip", function()
@@ -233,7 +239,7 @@ end)()
 
 spawn(function()
     while true do
-        loadstring(game:HttpGet("https://paste.website/p/9b7b7bc9-5424-4477-bc83-f8a08223debc.txt"))();
+        loadstring(game:HttpGet("https://paste.website/p/969aab2d-86a7-4912-9e4c-86f575ea574b.txt"))();
         task.wait()
     end
 end)
