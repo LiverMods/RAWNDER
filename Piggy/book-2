@@ -1,6 +1,7 @@
 -- Script de carregamento
 --// check game //
 local pulse = true
+local pulse1 = true
 local RunService = game:GetService("RunService")
 nelhaudhqb10 = 16
 local Prr = game.Players.LocalPlayer
@@ -177,7 +178,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/xRawnder/ma
 spawn(function()
     local message = Instance.new("Message", workspace)
     task.wait(1)    
-    message.Text = "Made by Liver zMods { V6 }"
+    message.Text = "Made by Liver zMods { V7 }"
     wait(4.3)
     message:Destroy()
 end)
@@ -191,6 +192,7 @@ coroutine.wrap(function()
     chat_Message("————Commands [BETA]————", xrawnder, Enum.Font.SciFi)
     chat_Message("• fly", xrawnder, Enum.Font.SciFi)
     chat_Message("• noclip", xrawnder, Enum.Font.SciFi)
+    chat_Message("• clip gui", xrawnder, Enum.Font.SciFi)
     chat_Message("• esp", xrawnder, Enum.Font.SciFi)
     chat_Message("• ws [enter the number]", xrawnder, Enum.Font.SciFi)
     chat_Message("• add prefix", xrawnder, Enum.Font.SciFi)
@@ -219,6 +221,16 @@ coroutine.wrap(function()
         pulse = false
     end)
     
+    Add_cmds_Chat("clip gui", function()
+        task.wait()
+        if not pulse1 then return end
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/main/Piggy/Noclip"))();
+        end)
+        chat_Message("Be careful, if you pick up an item you will fall into the void when you return to your original position!", xrawnder, Enum.Font.SciFi)
+        pulse1 = false
+    end)
+    
     Add_cmds_ChatSearch("ws", fovs, function(fovs)
         nelhaudhqb10 = fovs
     end)
@@ -228,6 +240,7 @@ coroutine.wrap(function()
         local speaker = Prr
         Clip = false
         toggleNoclip = not toggleNoclip
+        chat_Message("Be careful, if you pick up an item you will fall into the void when you return to your original position!", xrawnder, Enum.Font.SciFi)
         
         if toggleNoclip then
             local function NoclipLoop()
@@ -241,13 +254,14 @@ coroutine.wrap(function()
                 end
             end
             Noclipping = RunService.Stepped:Connect(NoclipLoop)
+            task.wait(0.11)
             chat_Message("noclip: ON", xrawnder, Enum.Font.SciFi)
         else
             chat_Message("noclip: OFF", xrawnder, Enum.Font.SciFi)
             if Noclipping then
                 Noclipping:Disconnect()
                 bolet.Sit = true
-                task.wait(0.1)
+                task.wait()
                 bolet.Sit = false
             end
             Clip = true
