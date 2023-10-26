@@ -3,7 +3,6 @@
 local pulse = true
 local pulse1 = true
 local RunService = game:GetService("RunService")
-nelhaudhqb10 = 16
 local Prr = game.Players.LocalPlayer
 local camPos = game.Workspace.CurrentCamera
 local CPs = camPos.CameraSubject
@@ -25,8 +24,8 @@ function Basic.OnInvoke(got)
         message:Destroy()
 
     if got == '✅' then
-        if game.PlaceId == 4623386862 or game.PlaceId == 5661005779 or 5247067896 then goods = true else
-            local player = game.Players:GetPlayerFromCharacter(char)
+        if game.PlaceId == 4623386862 or game.PlaceId == 5661005779 or game.PlaceId == 5247067896 then goods = true else
+            local player = game.Players:GetPlayerFromCharacter(charr)
             local teleportService = game:GetService("TeleportService")
             
             local Sound = Instance.new("Sound", game:GetService("SoundService"))
@@ -192,7 +191,6 @@ coroutine.wrap(function()
     chat_Message("————Commands [BETA]————", xrawnder, Enum.Font.SciFi)
     chat_Message("• fly", xrawnder, Enum.Font.SciFi)
     chat_Message("• noclip", xrawnder, Enum.Font.SciFi)
-    chat_Message("• clip gui", xrawnder, Enum.Font.SciFi)
     chat_Message("• esp", xrawnder, Enum.Font.SciFi)
     chat_Message("• ws [enter the number]", xrawnder, Enum.Font.SciFi)
     chat_Message("• add prefix", xrawnder, Enum.Font.SciFi)
@@ -221,7 +219,7 @@ coroutine.wrap(function()
         pulse = false
     end)
     
-    Add_cmds_Chat("clip gui", function()
+    Add_cmds_Chat("noclip", function()
         task.wait()
         if not pulse1 then return end
         pcall(function()
@@ -231,47 +229,23 @@ coroutine.wrap(function()
         pulse1 = false
     end)
     
-    Add_cmds_ChatSearch("ws", fovs, function(fovs)
-        nelhaudhqb10 = fovs
+    iaiwjjw8s7q0a = 16
+    Add_cmds_ChatSearch("ws", spe, function(spe)
+        iaiwjjw8s7q0a = spe
+        warn(spe)
     end)
-    
-    Noclipping = nil
-    Add_cmds_Chat("noclip", function()
-        local speaker = Prr
-        Clip = false
-        toggleNoclip = not toggleNoclip
-        chat_Message("Be careful, if you pick up an item you will fall into the void when you return to your original position!", xrawnder, Enum.Font.SciFi)
-        
-        if toggleNoclip then
-            local function NoclipLoop()
-                if Clip == false and charr ~= nil then
-                    for _, child in pairs(charr:GetDescendants()) do
-                        if child:IsA("BasePart") and child.CanCollide == true and child.Name ~= floatName then
-                            child.CanCollide = false
-                            bolet.Sit = false
-                        end
-                    end
-                end
-            end
-            Noclipping = RunService.Stepped:Connect(NoclipLoop)
-            task.wait(0.11)
-            chat_Message("noclip: ON", xrawnder, Enum.Font.SciFi)
-        else
-            chat_Message("noclip: OFF", xrawnder, Enum.Font.SciFi)
-            if Noclipping then
-                Noclipping:Disconnect()
-                bolet.Sit = true
-                task.wait()
-                bolet.Sit = false
-            end
-            Clip = true
+
+    task.spawn(function()
+        while true do
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/raw/main/nelhaudhqb1"))();
+            task.wait()
         end
     end)
 end)()
 
 
 loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
-task.wait(1.82)
+wait(1)
 
 coroutine.wrap(function()
     while task.wait() do
@@ -285,12 +259,7 @@ coroutine.wrap(function()
     end
 end)()
 
-spawn(function()
-    while true do
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/raw/main/nelhaudhqb1"))();
-        task.wait()
-    end
-end)
+
 
 -- Gui do Piggy
 
@@ -410,7 +379,7 @@ coroutine.wrap(function()
     imageButton.Draggable = true
     imageButton.Parent = gui
     imageButton.MouseButton1Click:Connect(function()
-        spawn(function()
+        task.spawn(function()
             local Sound = Instance.new("Sound", game:GetService("SoundService"))
             Sound.SoundId = "rbxassetid://9119720940"
             Sound:Play()
@@ -419,7 +388,6 @@ coroutine.wrap(function()
             end 
             
             PiggyGui.Enabled = not PiggyGui.Enabled
-                    Flm.Enabled = not Flm.Enabled
         end)
     end)
 
