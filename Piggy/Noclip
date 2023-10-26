@@ -66,7 +66,7 @@ Rawnder.TextSize = 22.892
 Rawnder.MouseButton1Down:connect(function()
     boolean2 = not boolean2
     Rawnder.Text = boolean2 and "ON" or "OFF"
-    noti("⚠️ Status ⚠️", boolean2 and "ON" or "OFF", 3.4)
+    
     task.wait()
     
     task.spawn(function()
