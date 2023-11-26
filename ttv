@@ -57,7 +57,14 @@ while not goods do task.wait(0.5) end
 
 --// end check game //
 
-
+local function randomString()
+    local length = math.random(17,45)
+    local array = {}
+    for i = 1, length do
+        array[i] = string.char(math.random(32, 126))
+    end
+    return table.concat(array)
+end
 
 --// Library //
 local Library = loadstring(game:HttpGet("https://bit.ly/Kavo-Ui-2"))();
@@ -74,7 +81,7 @@ VDA = "____"
 VM = "____"
 
 --// Variáveis Locais //
-local sv = "V2"
+local sv = "V3"
 local tabb = true
 local VM, VDA = "nil", "nil"
 local plr = game:GetService("Players").LocalPlayer
@@ -632,24 +639,24 @@ loadstring(game:HttpGet('https://raw.githubusercontent.com/LiverMods/ModsScripts
 
 coroutine.wrap(function()
     local gui = Instance.new("ScreenGui")
-    gui.Name = "hiden"
-    gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-
-    local frame = Instance.new("Frame")
-    frame.Size = UDim2.new(0.0325, 0, 0.076, 0)
-    frame.Position = UDim2.new(0.20, 0, 0, 0)
-    frame.AnchorPoint = Vector2.new(0.5, 0.5)
-    frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-    frame.BackgroundTransparency = 0.450101838
-    frame.BorderSizePixel = 0
-    frame.Parent = gui
+    gui.Name = randomString()
+    gui.Parent = game.Players.LocalPlayer.PlayerGui
+    coroutine.wrap(function()
+        while task.wait() do
+            gui.RobloxLocked = true
+            gui.ResetOnSpawn = false
+            gui.Enabled = true
+        end
+    end)()
 
     local imageButton = Instance.new("ImageButton")
-    imageButton.Size = UDim2.new(1, 0, 1, 0)
-    imageButton.BackgroundTransparency = 1
+    imageButton.Size = UDim2.new(0.0325, 0, 0.076, 0)
+    imageButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    imageButton.BackgroundTransparency = 0.450101838
     imageButton.Image = "rbxassetid://14133402605"
-    imageButton.Position = UDim2.new(0, 0, 0, 0)
-    imageButton.Parent = frame
+    imageButton.Position = UDim2.new(0.20, 0, 0, 0)
+    imageButton.Draggable = true
+    imageButton.Parent = gui
     imageButton.MouseButton1Click:Connect(function()
         spawn(function()
             local Sound = Instance.new("Sound", game:GetService("SoundService"))
@@ -663,7 +670,7 @@ coroutine.wrap(function()
 
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0.2, 0.1)
-    corner.Parent = frame
+    corner.Parent = imageButton
 end)()
 
 end)
