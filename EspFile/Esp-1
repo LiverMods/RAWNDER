@@ -153,7 +153,11 @@
 				self.Components[i] = nil
 			end
 		end
- 
+
+                function ESP_Toggle(bool)
+                    ESP:Toggle(bool)
+                end
+
 		function boxBase:Update()
 			if not self.PrimaryPart then
 				--warn("not supposed to print", self.Object)
