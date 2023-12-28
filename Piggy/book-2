@@ -9,6 +9,7 @@ local CPs = camPos.CameraSubject
 local charr = game:GetService("Players").LocalPlayer.Character
 local bolet = charr:FindFirstChildOfClass("Humanoid")
 local notify = game.StarterGui 
+local chelse
 local Basic = Instance.new('BindableFunction')
 local Ui = Instance.new("UICorner")
 Noclipping = nil
@@ -166,6 +167,14 @@ spawn(function()
         end)
     end)()
 end)
+
+local function tw(gui, targetPosition, duration)
+    local tweenInfo = TweenInfo.new(duration, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+    local tween = game.TweenService:Create(gui, tweenInfo, { Position = targetPosition })
+
+    tween:Play()
+end
+
 task.wait(2.5)
 mobile = true
 Floating = false
@@ -272,28 +281,17 @@ local PiggyGui = Instance.new("ScreenGui")
 PiggyGui.Name = "PiggyGui"
 PiggyGui.Enabled = true
 PiggyGui.ResetOnSpawn = false
-PiggyGui.Parent = game.StarterGui
-U_i.Parent = PiggyGui
-
-local ScrollingFrame = Instance.new("ScrollingFrame", PiggyGui)
-ScrollingFrame.BackgroundColor3 = Color3.new(0.15, 0, 0)
-ScrollingFrame.Position = UDim2.new(0.08, 0, 0.42, 0)
-ScrollingFrame.Size = UDim2.new(0, 296, 0, 100)
-
-
-local PiggyGui = Instance.new("ScreenGui")
-PiggyGui.Name = "PiggyGui"
 PiggyGui.Parent = game.CoreGui
-U_i_2.Parent = ScrollingFrame
-
 
 local ScrollingFrame = Instance.new("ScrollingFrame", PiggyGui)
 ScrollingFrame.BackgroundColor3 = Color3.new(0.15, 0, 0)
-ScrollingFrame.Position = UDim2.new(0.08, 0, 0.42, 0)
+ScrollingFrame.Position = UDim2.new(0.08, 0, -0.95, 0)
 ScrollingFrame.Size = UDim2.new(0, 296, 0, 388)
 
 local UIGridLayout = Instance.new("UIGridLayout", ScrollingFrame)
 UIGridLayout.CellSize = UDim2.new(0, 90, 0, 90)
+
+tw(ScrollingFrame, UDim2.new(0.08, 0, 0.42, 0), 1.3)
 
 coroutine.wrap(function()
     while wait(1.5) do
@@ -380,6 +378,7 @@ coroutine.wrap(function()
     imageButton.Parent = gui
     imageButton.MouseButton1Click:Connect(function()
         task.spawn(function()
+            chelse = not chelse
             local Sound = Instance.new("Sound", game:GetService("SoundService"))
             Sound.SoundId = "rbxassetid://9119720940"
             Sound:Play()
@@ -387,7 +386,11 @@ coroutine.wrap(function()
                 task.wait()
             end 
             
-            PiggyGui.Enabled = not PiggyGui.Enabled
+            if chelse then
+                tw(ScrollingFrame, UDim2.new(0.08, 0, 1.1, 0), 0.58)
+            else
+                tw(ScrollingFrame, UDim2.new(0.08, 0, 0.42, 0), 0.48)
+            end
         end)
     end)
 
