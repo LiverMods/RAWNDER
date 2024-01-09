@@ -187,7 +187,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/xRawnder/ma
 spawn(function()
     local message = Instance.new("Message", workspace)
     task.wait(1)    
-    message.Text = "Made by Liver zMods { V7 }"
+    message.Text = "Made by Liver zMods { V1 }"
     wait(4.3)
     message:Destroy()
 end)
