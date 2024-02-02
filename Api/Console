@@ -6,6 +6,8 @@ if not executed then
     local LogsText = Instance.new("TextBox")
     local ClearLogs = Instance.new("TextButton")
     local CopyLogs = Instance.new("TextButton")
+    ImpostorGui.ResetOnSpawn = false
+    ImpostorGui.DisplayOrder = 9e9
     
     local function randomString(leng, seed) --does this even do anything?
     
@@ -99,7 +101,7 @@ end)()
   --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
     task.spawn(function()
-        task.wait() local Sound = Instance.new("Sound",game:GetService("SoundService")) Sound.SoundId = "rbxassetid://488265234" Sound.Volume = 1 Sound:Play()
+        task.wait() local Sound = Instance.new("Sound",game:GetService("SoundService")) Sound.SoundId = "rbxassetid://488265234" Sound.Volume = 2 Sound:Play()
     end)
     
   --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
