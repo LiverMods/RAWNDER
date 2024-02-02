@@ -1,0 +1,281 @@
+if not executed then
+    local chelse = false
+    local girado = false
+    local ImpostorGui = Instance.new("ScreenGui")
+    local CustomConsoleBG = Instance.new("Frame")
+    local LogsText = Instance.new("TextBox")
+    local ClearLogs = Instance.new("TextButton")
+    local CopyLogs = Instance.new("TextButton")
+    
+    local function randomString(leng, seed) --does this even do anything?
+    
+    	local array = {}
+    
+    	for i = 0, leng do
+    		local leNumberPlus = (math.floor((i*6)*(256^2)))
+    		math.randomseed(seed+leNumberPlus)
+    		array[i] = string.char(math.random(33, 126))
+    
+    	end
+    
+    	return table.concat(array)
+    
+    end
+    
+    local function tw(gui, targetPosition, duration)
+        local tweenInfo = TweenInfo.new(duration, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+        local tween = game.TweenService:Create(gui, tweenInfo, { Position = targetPosition })
+    
+        tween:Play()
+    end
+    
+    ImpostorGui.Name = randomString(12, 0)
+    ImpostorGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    
+    CustomConsoleBG.Name = randomString(12, 40)
+    CustomConsoleBG.Parent = ImpostorGui
+    CustomConsoleBG.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    CustomConsoleBG.BorderColor3 = Color3.fromRGB(255, 0, 0)
+    CustomConsoleBG.BorderSizePixel = 2
+    CustomConsoleBG.Position = UDim2.new(0.60392499, 0, 0.533521414, 0)
+    CustomConsoleBG.Size = UDim2.new(0, 410, 0, 245)
+    CustomConsoleBG.Visible = true
+    CustomConsoleBG.ZIndex = -1
+    
+    LogsText.Name = randomString(12, 41)
+    LogsText.Parent = CustomConsoleBG
+    LogsText.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    LogsText.BorderColor3 = Color3.fromRGB(255, 0, 0)
+    LogsText.BorderSizePixel = 2
+    LogsText.Selectable = false
+    LogsText.TextEditable = false
+    LogsText.Size = UDim2.new(0, 410, 0, 175)
+    LogsText.ClearTextOnFocus = false
+    LogsText.Font = Enum.Font.Ubuntu
+    LogsText.MultiLine = true
+    LogsText.PlaceholderColor3 = Color3.fromRGB(178, 178, 178)
+    LogsText.Text = " "
+    LogsText.TextColor3 = Color3.fromRGB(255, 0, 0)
+    LogsText.TextSize = 14.000
+    LogsText.TextWrapped = true
+    
+    ClearLogs.Name = randomString(12, 42)
+    ClearLogs.Parent = CustomConsoleBG
+    ClearLogs.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    ClearLogs.BackgroundTransparency = 0.850
+    ClearLogs.BorderColor3 = Color3.fromRGB(255, 255, 255)
+    ClearLogs.Position = UDim2.new(0.546975613, 0, 0.754999995, 0)
+    ClearLogs.Size = UDim2.new(0, 150, 0, 50)
+    ClearLogs.Font = Enum.Font.Ubuntu
+    ClearLogs.Text = "Clear"
+    ClearLogs.TextColor3 = Color3.fromRGB(255, 255, 255)
+    ClearLogs.TextSize = 16.000
+    
+    CopyLogs.Name = randomString(12, 43)
+    CopyLogs.Parent = CustomConsoleBG
+    CopyLogs.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    CopyLogs.BackgroundTransparency = 0.850
+    CopyLogs.BorderColor3 = Color3.fromRGB(255, 255, 255)
+    CopyLogs.Position = UDim2.new(0.0876097605, 0, 0.754999995, 0)
+    CopyLogs.Size = UDim2.new(0, 150, 0, 50)
+    CopyLogs.Font = Enum.Font.Ubuntu
+    CopyLogs.Text = "Copy"
+    CopyLogs.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CopyLogs.TextSize = 16.000
+    
+  --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+  
+coroutine.wrap(function()
+    task.spawn(function()
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "By Liver zMods";
+            Text = "created by Brazilian!";
+            Icon = "rbxthumb://type=Asset&id=11935866652&w=150&h=150";
+            Duration = 31
+        })
+    end)
+end)()
+  
+  --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+    task.spawn(function()
+        task.wait() local Sound = Instance.new("Sound",game:GetService("SoundService")) Sound.SoundId = "rbxassetid://488265234" Sound.Volume = 1 Sound:Play()
+    end)
+    
+  --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+    
+    local logTable = {}
+    local function FMZSUM_fake_script()
+    	local script = Instance.new("LocalScript", CustomConsoleBG)
+    
+    	local frame = script.Parent
+    	local mouse = game:GetService("Players").LocalPlayer:GetMouse()
+    
+    	local keybind = "q"
+    
+    	mouse.KeyDown:connect(
+    		function(key)
+    			key = key:lower()
+    			if key == keybind then
+    				
+    			end
+    		end
+    	)
+    end
+    coroutine.wrap(FMZSUM_fake_script)()
+    local function URYDQKV_fake_script()
+    	local script = Instance.new("LocalScript", CustomConsoleBG)
+    
+    	local UserInputService = game:GetService("UserInputService")
+    
+    	local gui = script.Parent
+    
+    	local dragging
+    	local dragInput
+    	local dragStart
+    	local startPos
+    
+    	local function update(input)
+    		local delta = input.Position - dragStart
+    		gui.Position =
+    			UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    	end
+    
+    	gui.InputBegan:Connect(
+    		function(input)
+    			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+    				dragging = true
+    				dragStart = input.Position
+    				startPos = gui.Position
+    
+    				input.Changed:Connect(
+    					function()
+    						if input.UserInputState == Enum.UserInputState.End then
+    							dragging = false
+    						end
+    					end
+    				)
+    			end
+    		end
+    	)
+    
+    	gui.InputChanged:Connect(
+    		function(input)
+    			if
+    				input.UserInputType == Enum.UserInputType.MouseMovement or
+    				input.UserInputType == Enum.UserInputType.Touch
+    			then
+    				dragInput = input
+    			end
+    		end
+    	)
+    
+    	UserInputService.InputChanged:Connect(
+    		function(input)
+    			if input == dragInput and dragging then
+    				update(input)
+    			end
+    		end
+    	)
+    end
+    coroutine.wrap(URYDQKV_fake_script)()
+    game:GetService("LogService").MessageOut:Connect(
+    function(Message)
+    	repeat
+    		wait(.1)
+    	until Message
+    	logTable[#logTable + 1] = Message
+    	LogsText.Text = (table.concat(logTable, "\n"))
+    	for i, v in pairs(logTable) do
+    		if i == 5 then
+    			table.remove(logTable, 1)
+    		end
+    	end
+    end
+    )
+    ClearLogs.MouseButton1Click:Connect(
+    	function()
+    		table.remove(logTable, 4)
+    		table.remove(logTable, 3)
+    		table.remove(logTable, 2)
+    		table.remove(logTable, 1)
+    		table.remove(logTable)
+    		task.wait()
+    		LogsText.Text = "hello " .. game.Players.LocalPlayer.DisplayName or game.Players.LocalPlayer.Name .. "\n"
+    	end
+    )
+    CopyLogs.MouseButton1Click:Connect(
+    	function()
+    		setclipboard(LogsText.Text)
+    	end
+    )
+    
+    task.spawn(function()
+        coroutine.wrap(function()
+            wait(.4)
+    		table.remove(logTable, 4)
+    		table.remove(logTable, 3)
+    		table.remove(logTable, 2)
+    		table.remove(logTable, 1)
+    		table.remove(logTable)
+    		task.wait()
+    		LogsText.Text = "Welcome " .. game.Players.LocalPlayer.DisplayName or game.Players.LocalPlayer.Name .. "\n"
+    	end)()
+    end)
+    
+    coroutine.wrap(function()
+        local gui = Instance.new("ScreenGui")
+        gui.Name = randomString(12, 0)
+        gui.Parent = game.Players.LocalPlayer.PlayerGui
+        coroutine.wrap(function()
+            while task.wait() do
+                gui.RobloxLocked = true
+                gui.ResetOnSpawn = false
+                gui.Enabled = true
+            end
+        end)()
+    
+        local imageButton = Instance.new("ImageButton")
+        imageButton.Name = randomString(12, 0)
+        imageButton.Size = UDim2.new(0.0325, 0, 0.076, 0)
+        imageButton.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+        imageButton.BackgroundTransparency = 0.350101838
+        imageButton.Image = "rbxassetid://16214308825"
+        imageButton.Position = UDim2.new(0.20, 0, 0, 0)
+        imageButton.Draggable = true
+        local imageButtonBorder = Instance.new("UIStroke", imageButton)
+        imageButtonBorder.Color = Color3.fromRGB(255, 0, 0)
+        imageButtonBorder.Thickness = 1.6
+        imageButton.Parent = gui
+        
+        local TweenService = game:GetService("TweenService")
+        local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Linear, Enum.EasingDirection.Out, 0, false, 0)
+        
+        imageButton.MouseButton1Click:Connect(function()
+            task.spawn(function()
+                chelse = not chelse
+                girado = not girado
+                local angulo = girado and 180 or 0
+                local Tween = TweenService:Create(imageButton, tweenInfo, {Rotation = angulo})
+                Tween:Play()
+                local Sound = Instance.new("Sound", game:GetService("SoundService"))
+                Sound.SoundId = "rbxassetid://9119720940"
+                Sound:Play()
+                for i = 1, 5 do
+                    task.wait()
+                end 
+                
+                if chelse then
+                    tw(CustomConsoleBG, UDim2.new(0.60392499, 0, 1.10521414, 0), 0.55)
+                else
+                    tw(CustomConsoleBG, UDim2.new(0.60392499, 0, 0.533521414, 0), 0.48)
+                end
+            end)
+        end)
+    
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0.2, 0.1)
+        corner.Parent = imageButton
+    end)()
+    executed = true
+end
