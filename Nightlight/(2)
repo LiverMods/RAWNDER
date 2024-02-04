@@ -1,0 +1,1278 @@
+--// Variáveis //--
+local CC
+local Tol
+local SC = false
+local executed = "not"
+local lapd = "not executed"
+local toggled = false
+local loopESp = nil
+local nupt = 0
+local esptableinstances = {}
+local Camera = workspace.CurrentCamera
+local WorldToViewportPoint = Camera.WorldToViewportPoint
+local WorldToViewport = function(...) return WorldToViewportPoint(Camera, ...) end
+local GlobalESPFolder = game.CoreGui:FindFirstChild("ESPFolder")
+
+--// Outro //
+if GlobalESPFolder == nil then
+	GlobalESPFolder = Instance.new("Folder", game.CoreGui)
+	GlobalESPFolder.Name = "ESPFolder"
+end
+
+
+--// Tabelas //--
+local flags = {
+    tracers = true
+}
+
+local ESP = {
+    Enabled = false,
+    Boxes = true,
+    BoxShift = CFrame.new(0,-1.5,0),
+    BoxSize = Vector3.new(4,6,0),
+    Color = Color3.fromRGB(0, 101, 243),
+    FaceCamera = false,
+    Names = true,
+    TeamColor = true,
+    Thickness = 2,
+    AttachShift = 1,
+    TeamMates = true,
+    Players = true,
+
+    Objects = setmetatable({}, {__mode="kv"}),
+    Overrides = {}
+}
+
+--// Funções //--
+local function randomString(leng, seed)
+    local array = {}
+    for i = 0, leng do
+        local leNumberPlus = (math.floor((i*6)*(256^2)))
+        math.randomseed(seed+leNumberPlus)
+        array[i] = string.char(math.random(33, 126))
+    end
+    
+    return table.concat(array)
+end
+
+local function randomString(leng, seed)
+    local array = {}
+    for i = 0, leng do
+        local leNumberPlus = (math.floor((i*6)*(256^2)))
+        math.randomseed(seed+leNumberPlus)
+        array[i] = string.char(math.random(33, 126))
+    end
+    
+    return table.concat(array)
+end
+
+local function SAD(object, wk)
+    local a = wk:getDescendants()
+    for i = 1, #a do
+        if object == "all" or a[i].Name == object then
+            a[i]:Destroy()
+        end
+    end
+end
+
+function esp(what,color,core,name)
+	local parts
+	task.wait(.05)
+
+	local esp_folder = GlobalESPFolder:FindFirstChild(name)
+	if game.Players:FindFirstChild(name) then
+		esp_folder = GlobalESPFolder:FindFirstChild("PlayerESP")
+		if not esp_folder then
+			esp_folder = Instance.new("Folder")
+			esp_folder.Parent = GlobalESPFolder
+			esp_folder.Name = "PlayerESP"
+		end
+	end
+	if not esp_folder then
+		esp_folder = Instance.new("Folder")
+		esp_folder.Parent = GlobalESPFolder
+		esp_folder.Name = "Folder: " .. name
+	end
+
+	if typeof(what) == "Instance" then
+		if what:IsA("Model") then
+			parts = what:GetChildren()
+		elseif what:IsA("BasePart") then
+			parts = {what,table.unpack(what:GetChildren())}
+		end
+	elseif typeof(what) == "table" then
+		parts = what
+	end
+
+	local bill
+	local boxes = {}
+
+	local s,e = pcall(function()
+		if typeof(parts) ~= "table" then parts = {parts} end
+
+		for i,v in pairs(parts) do
+			if typeof(v) == "table" then
+				for ii,vv in pairs(v) do
+					if v:IsA("BasePart") then
+						local box = Instance.new("BoxHandleAdornment")
+						box.Size = v.Size
+						box.AlwaysOnTop = true
+						box.ZIndex = 1
+						box.AdornCullingMode = Enum.AdornCullingMode.Never
+						box.Color3 = color
+						box.Transparency = 0.75
+						box.Adornee = v
+						box.Parent = esp_folder
+
+						table.insert(boxes, box)
+
+						task.spawn(function()
+							box.Adornee.Destroying:Connect(function()
+								box.Adornee = nil
+								box.Visible = false
+								box:Destroy()
+							end)
+							--while box do
+							--	if box.Adornee == nil or not box.Adornee:IsDescendantOf(workspace) then
+							--		box.Adornee = nil
+							--		box.Visible = false
+							--		box:Destroy()
+							--	end  
+							--	task.wait()
+							--end
+						end)
+					end
+				end
+			else
+				if v:IsA("BasePart") then
+					local box = Instance.new("BoxHandleAdornment")
+					box.Size = v.Size
+					box.AlwaysOnTop = true
+					box.ZIndex = 1
+					box.AdornCullingMode = Enum.AdornCullingMode.Never
+					box.Color3 = color
+					box.Transparency = 0.75
+					box.Adornee = v
+					box.Parent = esp_folder
+
+					table.insert(boxes, box)
+
+					task.spawn(function()
+						box.Adornee.Destroying:Connect(function()
+							box.Adornee = nil
+							box.Visible = false
+							box:Destroy()
+						end)
+						--while box do
+						--	if box.Adornee == nil or not box.Adornee:IsDescendantOf(workspace) then
+						----		box.Adornee = nil
+						--		box.Visible = false
+						--		box:Destroy()
+						--	end  
+						--	task.wait()
+						--end
+					end)
+				end
+			end
+		end
+	end)
+
+	if e then
+		warn(e)
+		print("box esp failed")
+	end
+
+	if core and name then
+		bill = Instance.new("BillboardGui", esp_folder)
+		bill.AlwaysOnTop = true
+		bill.Size = UDim2.new(0,400,0,100)
+		bill.Adornee = core
+		bill.MaxDistance = math.huge
+
+		local mid = Instance.new("Frame",bill)
+		mid.AnchorPoint = Vector2.new(0.5,0.5)
+		mid.BackgroundColor3 = color
+		mid.Size = UDim2.new(0,8,0,8)
+		mid.Position = UDim2.new(0.5,0,0.5,0)
+		Instance.new("UICorner",mid).CornerRadius = UDim.new(1,0)
+		Instance.new("UIStroke",mid)
+		local CM = mid.BackgroundColor3
+		local lobbyButton = game.Players.LocalPlayer.PlayerGui.ResultsUI.ResultsScreen.ButtonFrame.LobbyButton
+        local ui = Instance.new("UIGradient", mid)
+        ui.Color = lobbyButton.UIGradient.Color
+        
+		local txt = Instance.new("TextLabel",bill)
+		txt.AnchorPoint = Vector2.new(0.5,0.5)
+		txt.BackgroundTransparency = 1
+		txt.BackgroundColor3 = color
+		txt.TextColor3 = color
+		txt.Size = UDim2.new(2,0,0,30)
+		txt.Position = UDim2.new(0.5,0,0.7,0)
+		txt.Text = name
+		task.wait()
+		local Stro = Instance.new("UIStroke",txt)
+		local R = (color.R / 2)
+		local G = (color.G / 2)
+		local B = (color.B / 2)
+		Stro.Thickness = 0.3
+        Stro.Color = Color3.fromRGB(R,G,B)
+
+		local novoUIGradient = Instance.new("UIGradient", txt)
+        novoUIGradient.Color = lobbyButton.UIGradient.Color
+
+		task.spawn(function()
+			bill.Adornee.Destroying:Connect(function()
+				bill.Enabled = false
+				bill.Adornee = nil
+				--pcall(function() table.remove(boxes, table.find(boxes, bill)) end)
+				bill:Destroy() 
+			end)
+			--while bill do
+			--	if bill.Adornee == nil or not bill.Adornee:IsDescendantOf(workspace) then
+			--		bill.Enabled = false
+			--		bill.Adornee = nil
+			--		--pcall(function() table.remove(boxes, table.find(boxes, bill)) end)
+			--		bill:Destroy() 
+			--	end  
+			--	task.wait()
+			--end
+		end)
+	end
+
+	local Tracer = nil
+
+	local ret = {}
+	ret.delete = function()
+		task.spawn(function()
+			for i,v in pairs(boxes) do
+				pcall(function()
+					table.remove(esptableinstances, table.find(esptableinstances, v.Adornee))
+				end)
+				pcall(function()
+					table.remove(esptableinstances, table.find(esptableinstances, v.Parent))
+				end)
+				v.Adornee = nil
+				v.Visible = false
+				v:Destroy()
+				task.wait()
+			end
+		end)
+
+		if bill then
+			pcall(function()
+				table.remove(esptableinstances, table.find(esptableinstances, bill.Adornee))
+			end)
+			pcall(function()
+				table.remove(esptableinstances, table.find(esptableinstances, bill.Parent))
+			end)
+			bill.Adornee = nil
+			bill.Enabled = false
+			bill:Destroy() 
+		end
+
+	end
+
+	return ret 
+end
+
+task.wait(.1)
+
+--// Tests //
+local espInstances = {}
+
+--// Library //
+local Library = loadstring(game:HttpGet("https://bit.ly/Kavo-Ui-2"))();
+
+--// Loadstrings //
+loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/Break-in/main/Info"))();
+AkaliNotif = loadstring(game:HttpGet("https://bit.ly/3OnnrTi"))();
+
+--// Variáveis Locais //
+local bs = game.PlaceId
+local Lob_1 = 3851622790
+local Lob_2 = 13864661000
+local Break_1 = 4620170611
+local Break_2 = 13864667823
+local tabb = true
+local dat, mon, yea = 04, 02, 2024
+local sv = "V1"
+local plr = game:GetService("Players").LocalPlayer
+local player, Player = plr, plr
+local charr = plr.Character or plr.CharacterAdded:Wait();
+local bolet = charr:FindFirstChildOfClass("Humanoid");
+local Character = plr.Character 
+local Humanoid = charr:FindFirstChild("Humanoid");
+local HRP = charr:FindFirstChild("HumanoidRootPart");
+local plrs, players = game:GetService("Players"), game:GetService("Players");
+local Plrs, Players = plrs, players
+local a, b, c, d, e = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed, game.Players.LocalPlayer.Character.Humanoid.JumpPower, workspace.Gravity, workspace.CurrentCamera.FieldOfView
+
+--// Variáveis Globais //
+bs = game.PlaceId
+Lob_1 = 3851622790
+Lob_2 = 13864661000
+Break_1 = 4620170611
+Break_2 = 13864667823
+
+--// Tabela ttb //
+local ttb = {
+    SchemeColor = Color3.fromRGB(255, 255, 255),
+    Background = Color3.fromRGB(255, 255, 255),
+    Header = Color3.fromRGB(255, 255, 255),
+    TextColor = Color3.fromRGB(255, 255, 255),
+    ElementColor = Color3.fromRGB(255, 255, 255)
+}
+local Matches = {}
+local Coins = {}
+local Notes = {}
+--// FIM //
+
+
+coroutine.wrap(function()
+     task.spawn(function()
+         game.StarterGui:SetCore("SendNotification", {
+	      Title = "By Liver zMods";
+	      Text = "created by Brazilian!";
+             Icon = "rbxthumb://type=Asset&id=11935866652&w=150&h=150";
+             Duration = 31;
+          })
+    end)
+end)()
+
+
+--// functions //
+
+coroutine.wrap(function()
+
+    local function annoyfunction()
+    if Wrkspc.PlayerVehicles:FindFirstChild("Vehicle_"..Player.Name) == nil then
+        game:GetService("ReplicatedStorage").Remotes.SpawnVehicle:InvokeServer(1, charr.HumanoidRootPart.CFrame)
+        task.wait(1)
+        main = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass
+    else
+        main = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass
+    end
+    local goal = Players[target]
+    repeat task.wait() until goal.charr
+    main.CFrame = (goal.charr.LowerTorso.CFrame * CFrame.Angles(math.random(0.5, 2),math.random(0.5, 2),math.random(0.5, 2)))
+    charr.HumanoidRootPart.CFrame = Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].Mass.CFrame
+    fireproximityprompt(Wrkspc.PlayerVehicles["Vehicle_"..Player.Name].DriveSeat.Prompt, 10)
+    if getgenv().settingsTable.annoytoggle == false then
+        for i = 1,20 do task.wait()
+            main.CFrame = main.CFrame
+            task.wait(0.05)
+        end
+    end
+end
+
+    local function nilbear() end
+
+    local function ForceThePlayerKebin(string)
+        game:GetService("VirtualInputManager"):SendKeyEvent(true, string ,false ,game)
+    end
+
+    local function Gravity(string)
+        workspace.Gravity = string
+    end
+
+    local function playerHP(number)
+        game.Players.LocalPlayer.Character.Humanoid.Health = number
+    end
+
+    local function subtractHP(number)
+        game.Players.LocalPlayer.Character.Humanoid:TakeDamage(number)
+    end
+end)()
+
+
+     --// criando Library //
+local Window = Library.CreateLib("Rawnder 'NightLight' { " .. sv .. " } 🇱 🇲 ", ttb)
+
+--// Abas da library //
+local plrR = Window:NewTab("Main")
+local plrS = Window:NewTab("Player") 
+local plrD = Window:NewTab("Ui") 
+local plrO = Window:NewTab("Others")
+local info = Window:NewTab("info")
+    
+--// Seções da Library //
+local plrR_ = plrR:NewSection("Esp")
+local plrS_ = plrS:NewSection("Player: " .. plr.DisplayName or plr.Name)
+local plrD_ = plrD:NewSection("Ui colors")
+local plrO_ = plrO:NewSection("Others")
+local info_ = info:NewSection("Player Local: " .. plr.DisplayName or plr.Name)
+
+--// info //
+local inf = info_:NewButton("Loading ...")
+local inf2 = info_:NewButton("Loading ...")
+local inf3 = info_:NewButton("Loading ...")
+local inf4 = info_:NewButton("Loading ...")
+local inf5 = info_:NewButton("Loading ...")
+local inf6 = info_:NewButton("Loading ...")
+local inf7 = info_:NewButton("Loading ...")
+
+--// function extra //
+local startTime = 0
+local function updatePlayTime()
+    startTime = startTime + 1
+    local hours = math.floor(startTime / 3600)
+    local minutes = math.floor((startTime % 3600) / 60)
+    local seconds = startTime % 60
+    local timeString = string.format("%02dh %02dm %02ds", hours, minutes, seconds)
+
+    inf4:UpdateButton("Hours Played: " .. timeString)
+end
+
+coroutine.wrap(function()
+    wait(4)
+    coroutine.wrap(function()
+        while true do
+            updatePlayTime()
+            wait(1)
+        end
+    end)()
+    inf3:UpdateButton("Id Game: " .. bs)
+    inf5:UpdateButton("Created By Liver zMods")
+    inf2:UpdateButton("Game: Nightlight")
+    while task.wait(0.3) do
+        local pl_rs = game.Players:GetPlayers()
+        inf:UpdateButton("Players: " .. #pl_rs .. "/" .. game.Players.MaxPlayers)
+        inf6:UpdateButton("Ping: " .. math.round(plr:GetNetworkPing() * 1000) .. "ms")
+        inf7:UpdateButton("Latest Update: " ..dat.. "/" ..mon.. "/" ..yea)
+    end
+end)()
+
+--// outro Script //
+coroutine.wrap(function()
+    task.wait(0.1)
+    Library:ChangeColor("SchemeColor", Color3.fromRGB(227, 27, 27))
+    Library:ChangeColor("Background", Color3.fromRGB(10, 10, 10))
+    Library:ChangeColor("Header", Color3.fromRGB(5, 5, 5))
+    Library:ChangeColor("TextColor", Color3.fromRGB(255, 255, 255))
+    Library:ChangeColor("ElementColor", Color3.fromRGB(20, 20, 20))
+end)()
+
+task.wait()
+
+
+--// Aba roles //
+plrR_:NewToggle("Esp: Matches", "see all matches", function(toggle)
+    if toggle then
+        local Matches = {}
+        
+        for _, v in pairs(workspace.Matches:GetChildren()) do
+            if v:IsA("Model") then
+                if not Matches[v] then
+                    Matches[v] = esp(v, Color3.fromRGB(15.198, 93.4332, 211.8771), v, "Match")
+                end
+            end
+        end
+    else
+        SAD("Folder: Match", game.CoreGui.ESPFolder)
+        Matches[v]:Remove()
+        Matches[v] = nil
+    end
+end)
+
+plrR_:NewToggle("Esp: Coins", "see all coins", function(toggle)
+    if toggle then
+        local Coins = {}
+        
+        for _, v in pairs(workspace.House.Coins:GetChildren()) do
+            if v:IsA("Model") then
+                if not Coins[v] then
+                    Coins[v] = esp(v, Color3.fromRGB(221, 177, 12), v, "Coin")
+                end
+            end
+        end
+    else
+        SAD("Folder: Coin", game.CoreGui.ESPFolder)
+        Coins[v]:Remove()
+        Coins[v] = nil
+    end
+end)
+
+plrR_:NewToggle("Esp: Notes", "see all notes", function(toggle)
+    if toggle then
+        local Notes = {}
+        
+        for _, v in pairs(workspace.Notes:GetChildren()) do
+            if v:IsA("BasePart") then
+                if not Notes[v] then
+                    Notes[v] = esp(v, Color3.fromRGB(166, 255, 222), v, "Note")
+                end
+            end
+        end
+    else
+        SAD("Folder: Note", game.CoreGui.ESPFolder)
+        Notes[v]:Remove()
+        Notes[v] = nil
+    end
+end)
+
+plrR_:NewToggle("Esp: moster", "see most", function(toggle)
+    if toggle then
+        esp(workspace.Beta, Color3.fromRGB(254.443, 55.8437, 25), workspace.Beta, "Moster")
+    else
+        SAD("Folder: Moster", game.CoreGui.ESPFolder)
+    end
+end)
+
+local plrR_ = plrR:NewSection("others")
+
+plrR_:NewButton("Instant ProximityPrompt", "And that button that holds. ", function()
+    if lapd == "not executed" then
+        task.spawn(function()
+            while true do
+                for i,v in ipairs(game:GetService("Workspace"):GetDescendants()) do
+                    if v.ClassName == "ProximityPrompt" then
+                        v.HoldDuration = 0
+                    end
+                end
+                wait(1.5)
+            end
+        end)
+        lapd = "executed"
+    end
+end)
+
+plrR_:NewToggle("No Midnight", "destroy the enemy", function(toggle)
+    NoMidnight = toggle
+end)
+
+plrR_:NewToggle("No Eyesight", "destroy the enemy", function(toggle)
+    NoEyesight = toggle
+end)
+
+local plrR_ = plrR:NewSection("Auto Collect")
+
+plrR_:NewToggle("Matches", "self collect", function(toggle)
+    _G.Matches = toggle
+end)
+
+plrR_:NewToggle("Coins", "self collect", function(toggle)
+    _G.Coins = toggle
+end)
+
+plrR_:NewToggle("Notes", "self collect", function(toggle)
+    _G.Notes = toggle
+end)
+
+local plrR_ = plrR:NewSection("Add")
+
+plrR_:NewToggle("GodMode", "self collect", function(toggle)
+    if toggle then
+        plr.Character:FindFirstChildOfClass('Humanoid'):UnequipTools()
+        local OT = game.Players.LocalPlayer.Backpack:FindFirstChild("Candle")
+        
+        if OT then
+            CT = OT:Clone()
+        
+            CT.Name = "Candle False"
+        
+            CT.Parent = game.Players.LocalPlayer.Backpack
+            task.wait()
+            CT.Parent = game.Players.LocalPlayer.Character
+        end
+        
+        task.spawn(function()
+            task.wait(.25)
+            OT.Parent = game.Lighting
+        end)
+            
+        task.spawn(function()
+            _G.gdMode = true
+        end)
+        
+        game.Players.LocalPlayer.Character:FindFirstChild("Candle False").Handle.Attachment.PointLight.Brightness = 1.2
+        F.BackgroundColor3 = Color3.fromRGB(2, 127, 204)
+    else
+        plr.Character:FindFirstChildOfClass('Humanoid'):UnequipTools()
+        local OT = game.Lighting:FindFirstChild("Candle")
+        
+        if OT then
+            OT.Parent = game.Players.LocalPlayer.Backpack
+            task.wait()
+            OT.Parent = game.Players.LocalPlayer.Character
+        end
+        
+        task.spawn(function()
+            task.wait(.25)
+            CT:Destroy()
+        end)
+            
+        task.spawn(function()
+            _G.gdMode = false
+        end)
+    end
+end)
+
+infos = false
+plrR_:NewToggle("Sailing Information", "displays the percentage of the candle", function(toggle)
+    infos = toggle
+end)
+
+ecd = true
+
+RTab = plrR_:NewButton("to escape", "self escape", function()
+    if ecd == true then
+        Library:ToggleUI()
+        ecd = false
+        for t_p = 1, 4 do
+            for i,v in ipairs(game:GetService("Workspace").Notes:GetDescendants()) do
+                if v.ClassName == "ProximityPrompt" then
+                    task.wait(.25)
+                    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Parent.CFrame
+                    task.wait(.25)
+                    for i = 1, 4 do
+                        fireproximityprompt(v)
+                        task.wait()
+                    end
+                end
+            end
+            
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = workspace.House.ExitPart.CFrame
+            task.wait(.45)
+            for i = 1, 4 do
+                fireproximityprompt(workspace.House.ExitPart.ProximityPrompt)
+                task.wait()
+            end
+            task.wait(0.26)
+        end
+        ecd = true
+    end
+end)
+
+coroutine.wrap(function()
+    while true do
+        if ecd then
+            RTab:UpdateButton("to escape", "self escape")
+        else
+            RTab:UpdateButton("Escaping...", "self escape")
+        end
+        task.wait(.1)
+    end
+end)()
+
+--// aba Player //
+local plrS_ = plrS:NewSection("WalkSpeed")
+plrS_:NewTextBox("Speed", "Enter the number", function(type)
+    velocidade = nil
+    task.wait()
+    velocidade = type
+    pcall(function()
+        charr.Humanoid.WalkSpeed = velocidade
+    end)
+end)
+
+plrS_:NewButton("SET", "speed!", function()
+    charr.Humanoid.WalkSpeed = velocidade
+end)
+
+plrS_:NewToggle("Auto SET", "speed!!", function(mmRawnder)
+    speeder = mmRawnder
+    coroutine.wrap(function()
+        pcall(function()
+            while speeder do
+                if velocidade ~= charr.Humanoid.WalkSpeed then
+                    charr.Humanoid.WalkSpeed = velocidade
+                end
+                task.wait()
+            end
+        end)
+    end)()
+end)
+
+plrS_:NewButton("Restore Speed", "Reset", function()
+    charr.Humanoid.WalkSpeed = a
+    task.wait()
+end)
+
+local plrS_ = plrS:NewSection("jump")
+
+plrS_:NewTextBox("jump", "enter the number", function(type)
+    salto = nil
+    task.wait()
+    salto = type
+    charr.Humanoid.JumpPower = salto
+end)
+
+plrS_:NewButton("SET", "jump!!", function()
+    charr.Humanoid.JumpPower = salto
+end)
+
+plrS_:NewToggle("Auto SET", "jump!!", function(mmRawnder)
+    jumper = mmRawnder
+    coroutine.wrap(function()
+        pcall(function()
+            while jumper do
+                if salto ~= charr.Humanoid.JumpPower then
+                    charr.Humanoid.JumpPower = salto
+                end
+                task.wait()
+            end
+        end)
+    end)()
+end)
+
+plrS_:NewButton("Restore Jump", "resets", function()
+    charr.Humanoid.JumpPower = b
+    task.wait()
+end)
+
+local plrS_ = plrS:NewSection("gravity")
+
+plrS_:NewTextBox("Gravity", "change your gravity", function(type)
+    gravidade = nil
+    task.wait()
+    gravidade = type
+    Gravity(gravidade)
+end)
+
+plrS_:NewButton("SET", "gravity!!", function()
+    Gravity(gravidade)
+end)
+
+plrS_:NewButton("restore gravity", "resets", function()
+    Gravity(c)
+    task.wait()
+end)
+
+local plrS_ = plrS:NewSection("Fov Camera")
+
+plrS_:NewTextBox("Fov camera", "enter the number", function(type)
+    camera = nil
+    task.wait()
+    camera = type
+    workspace.CurrentCamera.FieldOfView = camera
+end)
+
+plrS_:NewButton("SET", "Fov!!", function()
+    workspace.CurrentCamera.FieldOfView = camera
+end)
+
+plrS_:NewButton("To restore Fov", "resets", function()
+    workspace.CurrentCamera.FieldOfView = d
+    task.wait()
+end)
+
+local plrS_ = plrS:NewSection("Life [not 'FE']")
+plrS_:NewTextBox("Your Life", "Enter the number", function(type)
+    vida = nil
+    task.wait()
+    vida = type
+    playerHP(vida)
+end)
+
+plrS_:NewButton("SET", "health!", function()
+    playerHP(vida)
+end)
+
+plrS_:NewButton("Resetar", "Redefine", function()
+    playerHP(0)
+    task.wait()
+end)
+
+local plrS_ = plrS:NewSection("Others")
+plrS_:NewToggle("Run", "Walk fast", function(mmRawnder)
+    if mmRawnder then 
+        speeder = mmRawnder
+        coroutine.wrap(function()
+            pcall(function()
+                while speeder do
+                    if 25 ~= charr.Humanoid.WalkSpeed then
+                        charr.Humanoid.WalkSpeed = 25
+                    end
+                    task.wait()
+                end
+            end)
+        end)()
+        jumper = mmRawnder
+        coroutine.wrap(function()
+            pcall(function()
+                while jumper do
+                    if 56 ~= charr.Humanoid.JumpPower then
+                        charr.Humanoid.JumpPower = 56
+                    end
+                    task.wait()
+                end
+            end)
+        end)()
+    else
+        speeder = false
+        jumper = false
+        task.wait()
+        charr:FindFirstChildOfClass('Humanoid').UseJumpPower = b
+        charr.Humanoid.WalkSpeed = a
+    end
+end)
+
+plrS_:NewToggle("Infinite Jumps", "Op", function(value)
+    getgenv().InfiniteJump = value
+    game.UserInputService.JumpRequest:connect(function()
+        if not getgenv().InfiniteJump then return end
+        plr.Character.Humanoid:ChangeState('Jumping')
+    end)
+end)
+
+--// Ui //
+plrD_:NewColorPicker("Tab Color", "Change the interface color", ttb.SchemeColor, function(color3)
+    Library:ChangeColor("SchemeColor", color3)
+end)
+
+plrD_:NewColorPicker("Background", "Change the interface color", ttb.Background, function(color3)
+coroutine.wrap(function()
+    Library:ChangeColor("Background", color3)
+    end)()
+end)
+
+plrD_:NewColorPicker("Header", "Change the interface color", ttb.Header, function(color3)
+    Library:ChangeColor("Header", color3)
+end)
+
+plrD_:NewColorPicker("Text Color", "Change the interface color", ttb.TextColor, function(color3)
+coroutine.wrap(function()
+    Library:ChangeColor("TextColor", color3)
+    end)()
+end)
+
+plrD_:NewColorPicker("Element Color", "Change the interface color", ttb.ElementColor, function(color3)
+coroutine.wrap(function()
+    Library:ChangeColor("ElementColor", color3)
+    end)()
+end)
+
+plrD_:NewColorPicker("Element Color", "Change the interface color", ttb.ElementColor, function(color3)
+coroutine.wrap(function()
+    Library:ChangeColor("ElementColor", color3)
+    end)()
+end)
+
+task.spawn(function()
+plrD_:NewButton("Original", "resets to original color", function()
+    coroutine.wrap(function()
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("SchemeColor", Color3.fromRGB(225, 255, 255))
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("Background", Color3.fromRGB(225, 255, 255))
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("Header", Color3.fromRGB(225, 255, 255))
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("TextColor", Color3.fromRGB(255, 255, 255))
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("ElementColor", Color3.fromRGB(225, 255, 255))
+        task.wait() task.wait() task.wait(0.05) 
+        task.wait(0.3) task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("SchemeColor", Color3.fromRGB(227, 27, 27))
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("Background", Color3.fromRGB(10, 10, 10))
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("Header", Color3.fromRGB(5, 5, 5))
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("TextColor", Color3.fromRGB(255, 255, 255))
+        task.wait() task.wait() task.wait(0.05) 
+        Library:ChangeColor("ElementColor", Color3.fromRGB(20, 20, 20))
+        task.wait() task.wait() task.wait(0.05) 
+        end)()
+    end)
+end)
+
+   
+plrO_:NewButton("F3X", "and useful", function()
+    loadstring(game:GetObjects("rbxassetid://6695644299")[1].Source)()
+end)
+
+plrO_:NewButton("Infinite Yield", "commands", function()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+end)     
+
+plrO_:NewButton("anti-lag", "reduz o lag", function()
+ coroutine.wrap(function()
+    local executed = false
+if executed then return end
+if not executed then
+    
+
+    
+    executed = true
+
+
+    
+local lighting = game:GetService("Lighting")
+local player = game.Players.LocalPlayer
+
+local function Time(hour)
+    pcall(function()
+        lighting.TimeOfDay = hour
+    end)
+end
+
+
+coroutine.wrap(function()
+    while true do 
+        Time(15)
+        task.wait()
+    end
+end)()
+
+task.spawn(function()
+    
+
+task.wait(0.05)
+
+local decalsyeeted = true 
+local g = game
+local w = g.Workspace
+local l = g.Lighting
+local t = w.Terrain
+t.WaterWaveSize = 0
+t.WaterWaveSpeed = 0
+t.WaterReflectance = 0
+t.WaterTransparency = 0
+for i = 1, 50 do
+l.GlobalShadows = false
+l.GlobalShadows = false
+end
+l.FogEnd = 9e9
+l.Brightness = 0
+settings().Rendering.QualityLevel = "Level01"
+for i, v in pairs(g:GetDescendants()) do
+    if v:IsA("Part") or v:IsA("Union") or v:IsA("CornerWedgePart") or v:IsA("TrussPart") then
+        v.Material = "Plastic"
+        v.Reflectance = 0
+    elseif v:IsA("Decal") or v:IsA("Texture") and decalsyeeted then
+        v.Transparency = 1
+    elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+        v.Lifetime = NumberRange.new(0)
+    elseif v:IsA("Explosion") then
+        v.BlastPressure = 1
+        v.BlastRadius = 1
+    elseif v:IsA("Fire") or v:IsA("SpotLight") or v:IsA("Smoke") or v:IsA("Sparkles") then
+        v.Enabled = false
+    elseif v:IsA("MeshPart") then
+        v.Material = "Plastic"
+        v.Reflectance = 0
+        v.TextureID = 10385902758728957
+    end
+end
+for i, e in pairs(l:GetChildren()) do
+    if e:IsA("BlurEffect") or e:IsA("SunRaysEffect") or e:IsA("ColorCorrectionEffect") or e:IsA("BloomEffect") or e:IsA("DepthOfFieldEffect") then
+        e.Enabled = false
+    end
+  end
+end)
+
+task.spawn(function()
+spawn(function()
+task.spawn(function()
+spawn(function()
+local player = game.Players.LocalPlayer
+
+
+player.CharacterAdded:Connect(destroyCharacter)
+destroyCharacter(player.Character)
+
+while task.wait(0.15) do
+    if player.Character then
+        pcall(function()
+            destroyCharacter(player.Character)
+        end)
+    end
+end
+end)
+end)
+end)
+end)
+
+
+task.spawn(function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/--script/main/Bob"))()
+	_G.BoostFps = true
+		
+		for _, v in pairs(game:GetDescendants()) do
+			pcall(function()
+				v.Material = Enum.Material.Plastic
+				States[v.Name] = {Material = v.Material}
+			end)
+		end
+task.wait(0.7)
+_G.autore = false
+_G.refresh = false
+
+
+
+		while wait() do
+			if _G.BoostFps then
+				for i,v in pairs(game.Players:GetChildren()) do
+					if v ~= game.Players.LocalPlayer then
+						pcall(function()
+							if v.Character.Humanoid.Health < 1 then
+								v.Character:Destroy()
+							end
+						end)
+					end
+				end
+			end
+		end
+    end)     executed = true
+  end
+  end)()
+  end)
+plrO_:NewButton("Keyboard", "E Usado Muito em celular", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/advxzivhsjjdhxhsidifvsh/mobkeyboard/main/main.txt", true))()
+end)    
+
+plrO_:NewButton("Fly Gui ", "Gui Fly feito por min", function()
+    loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY", true))()
+end)
+
+--// etcs //
+task.spawn(function()
+    coroutine.wrap(function()
+        local gui = Instance.new("ScreenGui")
+        gui.Name = randomString(12, 0)
+        gui.Parent = game.Players.LocalPlayer.PlayerGui
+        gui.DisplayOrder = 9e9
+        coroutine.wrap(function()
+            while task.wait() do
+                gui.RobloxLocked = true
+                gui.ResetOnSpawn = false
+                gui.Enabled = true
+            end
+        end)()
+    
+        local imageButton = Instance.new("ImageButton")
+        imageButton.Name = randomString(22, 6)
+        imageButton.Size = UDim2.new(0.0325, 0, 0.076, 0)
+        imageButton.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+        imageButton.BackgroundTransparency = 0.350101838
+        imageButton.Image = "rbxassetid://16232556539"
+        imageButton.Position = UDim2.new(0.20, 0, 0, 0)
+        imageButton.Draggable = true
+        local imageButtonBorder = Instance.new("UIStroke", imageButton)
+        imageButtonBorder.Color = Color3.fromRGB(255, 0, 0)
+        imageButtonBorder.Thickness = 1.6
+        imageButton.Parent = gui
+        
+        imageButton.MouseButton1Click:Connect(function()
+            task.spawn(function()
+                local Sound = Instance.new("Sound", game:GetService("SoundService"))
+                Sound.SoundId = "rbxassetid://9119720940"
+                Sound:Play()
+                for i = 1, 5 do
+                    task.wait()
+                end 
+                
+                Library:ToggleUI()
+            end)
+        end)
+        
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0.2, 0.1)
+        corner.Parent = imageButton
+    end)()
+end)
+
+coroutine.wrap(function()
+    while true do
+        if _G.Matches then
+            for i,v in ipairs(game:GetService("Workspace").Matches:GetDescendants()) do
+                if v.ClassName == "ProximityPrompt" then
+                    fireproximityprompt(v)
+                end
+            end
+        end
+        task.wait(.22)
+    end
+end)()
+
+coroutine.wrap(function()
+    while true do
+        if _G.Coins then
+            for i,v in ipairs(game:GetService("Workspace").House.Coins:GetDescendants()) do
+                if v.ClassName == "ProximityPrompt" then
+                    fireproximityprompt(v)
+                end
+            end
+        end
+        task.wait(.22)
+    end
+end)()
+
+coroutine.wrap(function()
+    while true do
+        if _G.Notes then
+            for i,v in ipairs(game:GetService("Workspace").Notes:GetDescendants()) do
+                if v.ClassName == "ProximityPrompt" then
+                    fireproximityprompt(v)
+                end
+            end
+        end
+        task.wait(.22)
+    end
+end)()
+
+coroutine.wrap(function()
+    local saved = game:GetService("Workspace").House.Closets.Closet.SafePart.Position 
+    while true do
+        if _G.gdMode then
+            game:GetService("Workspace").House.Closets.Closet.SafePart.Position = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+        else
+            game:GetService("Workspace").House.Closets.Closet.SafePart.Position = saved
+        end
+        task.wait()
+    end
+end)()
+
+task.spawn(function()
+    --// gui //
+    local __R = 0
+    local __G = 200
+    local __B = 0
+    
+    local _R = 0
+    local _G = 200
+    local _B = 0
+    
+    ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = randomString(13, 2)
+    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    ScreenGui.Enabled = false
+    ScreenGui.ResetOnSpawn = false
+    ScreenGui.DisplayOrder = 9e9
+    
+    F = Instance.new("Frame")
+    F.Name = randomString(13, 2)
+    F.Parent = ScreenGui
+    F.BackgroundColor3 = Color3.fromRGB(__R,__G,__B)
+    F.BorderColor3 = Color3.new(1, 0, 0)
+    F.BorderSizePixel = 2
+    F.Position = UDim2.new(0.411689132, 0, 0.868383408, 0)
+    F.Size = UDim2.new(0.10287945, 0, 0.0901287571, 0)
+    
+    TL = Instance.new("TextLabel")
+    TL.Name = randomString(13, 2)
+    TL.Parent = ScreenGui
+    TL.BackgroundColor3 = Color3.fromRGB(144, 0, 0)
+    TL.BorderColor3 = Color3.new(1, 0, 0)
+    TL.BorderSizePixel = 2
+    TL.Position = UDim2.new(0.411689132, 0, 0.868383408, 0)
+    TL.Size = UDim2.new(0.10287945, 0, 0.0901287571, 0)
+    TL.BackgroundTransparency = 1
+    TL.Text = "100%"
+    TL.TextColor3 = Color3.fromRGB(_R,_G,_B)
+    TL.TextSize = 20
+    TL.TextWrapped = true
+    TL.TextScaled = true
+    
+    local UIG = Instance.new("UIGradient", TL)
+    local UIS = Instance.new("UIStroke",TL)
+    local UIC = Instance.new("UICorner",TL)
+    
+    local _UIG = Instance.new("UIGradient", F)
+    local _UIS = Instance.new("UIStroke", F)
+    local _UIC = Instance.new("UICorner", F)
+    
+    UIG.Color = ColorSequence.new{
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(133, 133, 133)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(_R,_G,_B))
+    }
+    _UIG.Color = ColorSequence.new{
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(__R,__G,__B)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(113, 113, 113))
+    }
+    
+    _UIC.CornerRadius = UDim.new(1, 0)
+    
+    UIS.Thickness = 0.49
+    
+    _UIS.Thickness = 1.5
+    
+    local function updateColor(percent)
+        local defaultColor = Color3.fromRGB(_R, _G, _B)
+    
+        local function flicker(colors, interval)
+            local index = math.floor(tick() / interval) % #colors + 1
+            return colors[index]
+        end
+    
+        if percent >= 90 then
+            return Color3.fromRGB(0, 200, 0)
+        elseif percent >= 80 then
+            return Color3.fromRGB(0, 180, 0)
+        elseif percent >= 70 then
+            return Color3.fromRGB(0, 160, 0)
+        elseif percent >= 60 then
+            return Color3.fromRGB(210, 200, 0)
+        elseif percent >= 50 then
+            return Color3.fromRGB(255, 255, 0)
+        elseif percent >= 25 then
+            return Color3.fromRGB(200, 120, 0)
+        elseif percent >= 15 then
+            return flicker({Color3.fromRGB(255, 105, 5), Color3.fromRGB(205, 5, 5)}, 0.5)  -- Ajuste o intervalo conforme necessário
+        elseif percent > 5 then
+            return Color3.fromRGB(255, 105, 5)
+        elseif percent > 0 then
+            return flicker({Color3.fromRGB(237, 21, 21), Color3.fromRGB(230, 106, 106)}, 0.2)  -- Ajuste o intervalo conforme necessário
+        else
+            return flicker({Color3.fromRGB(237, 21, 21), Color3.fromRGB(230, 106, 106)}, 0.2)  -- Ajuste o intervalo conforme necessário
+        end
+    end
+    
+    coroutine.wrap(function()
+        local TLN = TL.Name
+        
+        while task.wait() do
+            if infos then
+                ScreenGui.Enabled = true
+                local candle = game.Players.LocalPlayer.Character:FindFirstChild("Candle")
+                if candle and candle:IsA("Tool") then
+                    local pointLight = candle:FindFirstChild("Handle") and candle.Handle:FindFirstChild("Attachment") and candle.Handle.Attachment:FindFirstChild("PointLight")
+                    if pointLight then
+                        local brightness = pointLight.Brightness
+                        local percent = math.floor(brightness * 100)
+                        TL.Text = percent .. "%"
+                        TL.TextColor3 = updateColor(percent)
+                        F.BackgroundColor3 = updateColor(percent)
+                        UIG.Color = ColorSequence.new{
+                            ColorSequenceKeypoint.new(0, Color3.fromRGB(133, 133, 133)),
+                            ColorSequenceKeypoint.new(1, updateColor(percent))
+                        }
+                        _UIG.Color = ColorSequence.new{
+                            ColorSequenceKeypoint.new(0, updateColor(percent)),
+                            ColorSequenceKeypoint.new(1, Color3.fromRGB(113, 113, 113))
+                        }
+                    end
+                else
+                    TL.Text = "∞"
+                    TL.TextSize = 35
+                end
+            else
+                ScreenGui.Enabled = false
+            end
+            task.wait()
+        end
+    end)()
+end)
+
+coroutine.wrap(function()
+    while true do
+        if NoMidnight then
+            if game:GetService("Workspace"):FindFirstChild("Midnight") then
+                game:GetService("Workspace").Midnight:Destroy()
+            end
+        end
+        task.wait(.1)
+    end
+end)()
+
+coroutine.wrap(function()
+    while true do
+        if NoEyesight then
+            if game:GetService("Workspace"):FindFirstChild("Eyesight") then
+                game:GetService("Workspace").Eyesight:Destroy()
+            end
+        end
+        task.wait(.05)
+    end
+end)()
