@@ -288,13 +288,14 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/Break-in/ma
 AkaliNotif = loadstring(game:HttpGet("https://bit.ly/3OnnrTi"))();
 
 --// Variáveis Locais //
+local OT
 local bs = game.PlaceId
 local Lob_1 = 3851622790
 local Lob_2 = 13864661000
 local Break_1 = 4620170611
 local Break_2 = 13864667823
 local tabb = true
-local dat, mon, yea = 04, 02, 2024
+local dat, mon, yea = 29, 09, 2023
 local sv = "V1"
 local plr = game:GetService("Players").LocalPlayer
 local player, Player = plr, plr
@@ -563,12 +564,16 @@ local plrR_ = plrR:NewSection("Add")
 plrR_:NewToggle("GodMode", "self collect", function(toggle)
     if toggle then
         plr.Character:FindFirstChildOfClass('Humanoid'):UnequipTools()
-        local OT = game.Players.LocalPlayer.Backpack:FindFirstChild("Candle")
+        for i,v in ipairs(game:GetService("Players").LocalPlayer.Backpack:GetDescendants()) do
+            if v.ClassName == "Tool" then
+                OT = game.Players.LocalPlayer.Backpack:FindFirstChild(v.Name)
+            end
+        end
         
         if OT then
             CT = OT:Clone()
         
-            CT.Name = "Candle False"
+            CT.Name = OT.Name .. " False"
         
             CT.Parent = game.Players.LocalPlayer.Backpack
             task.wait()
@@ -584,11 +589,19 @@ plrR_:NewToggle("GodMode", "self collect", function(toggle)
             _G.gdMode = true
         end)
         
-        game.Players.LocalPlayer.Character:FindFirstChild("Candle False").Handle.Attachment.PointLight.Brightness = 1.2
+        for i,v in ipairs(game:GetService("Players").LocalPlayer.Character:GetDescendants()) do
+            if v.ClassName == "Tool" then
+                game.Players.LocalPlayer.Character:FindFirstChild(v.Name).Handle.Attachment.PointLight.Brightness = 1.25
+            end
+        end
         F.BackgroundColor3 = Color3.fromRGB(2, 127, 204)
     else
         plr.Character:FindFirstChildOfClass('Humanoid'):UnequipTools()
-        local OT = game.Lighting:FindFirstChild("Candle")
+        for i,v in ipairs(game:GetService("Lighting"):GetDescendants()) do
+            if v.ClassName == "Tool" then
+                OT = game.Lighting:FindFirstChild(v.Name)
+            end
+        end
         
         if OT then
             OT.Parent = game.Players.LocalPlayer.Backpack
@@ -1225,8 +1238,12 @@ task.spawn(function()
         while task.wait() do
             if infos then
                 ScreenGui.Enabled = true
-                local candle = game.Players.LocalPlayer.Character:FindFirstChild("Candle")
-                if candle and candle:IsA("Tool") then
+                for i,v in ipairs(game:GetService("Players").LocalPlayer.Character:GetDescendants()) do
+                    if v.ClassName == "Tool" then
+                        candle = game.Players.LocalPlayer.Character:FindFirstChild(v.Name)
+                    end
+                end
+                if candle and candle.Name ~= candle.Name .. " False" then
                     local pointLight = candle:FindFirstChild("Handle") and candle.Handle:FindFirstChild("Attachment") and candle.Handle.Attachment:FindFirstChild("PointLight")
                     if pointLight then
                         local brightness = pointLight.Brightness
@@ -1246,6 +1263,16 @@ task.spawn(function()
                 else
                     TL.Text = "∞"
                     TL.TextSize = 35
+                    TL.TextColor3 = Color3.fromRGB(0, 200, 0)
+                    F.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+                    UIG.Color = ColorSequence.new{
+                            ColorSequenceKeypoint.new(0, Color3.fromRGB(133, 133, 133)),
+                            ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 200, 0))
+                        }
+                        _UIG.Color = ColorSequence.new{
+                            ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 200, 0)),
+                            ColorSequenceKeypoint.new(1, Color3.fromRGB(113, 113, 113))
+                        }
                 end
             else
                 ScreenGui.Enabled = false
