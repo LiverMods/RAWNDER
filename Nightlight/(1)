@@ -12,9 +12,9 @@ end
 
 check({normal, hard}, {
     function()
-        loadstring(game:HttpGet("https://abre.ai/lm-nightlight"))();
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/main/Nightlight/(2)"))();
     end,
     function()
-        loadstring(game:HttpGet("https://abre.ai/lm-nightlight"))();
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/main/Nightlight/(2)"))();
     end
 })
