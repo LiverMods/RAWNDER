@@ -118,11 +118,21 @@ end)
 SecondPlan(function()
     while delay(0.3) do
         if boolean then
-            local b = Character:FindFirstChildOfClass("Humanoid") or AC
-    
-            if not b or not Character then
-                continue
-            end
+            
+            local number = Random(true, -3, 1)
+            
+            SecondPlan(function()
+                delay = task.wait
+                local a = game:GetService("Players").LocalPlayer.Character or game:GetService("Players").LocalPlayer.CharacterAdded:wait()
+                
+                while delay() do
+                    local b = a:FindFirstChildOfClass("Humanoid") or a:FindFirstChildOfClass("AnimationController")
+                    if not b or not a then continue end
+                    for c, d in next, b:GetPlayingAnimationTracks() do
+                        d:AdjustSpeed(number)
+                    end
+                end
+            end)
             
             SecondPlan(function()
                 local saved = Character:GetPrimaryPartCFrame()
@@ -136,29 +146,24 @@ SecondPlan(function()
                 end
             end)
     
-            local number = Random(true, -3, 1)
-            
             SecondPlan(function()
-                for c, d in next, b:GetPlayingAnimationTracks() do
-                    d:AdjustSpeed(number)
-                    if number == (0) and Humanoid.MoveDirection.Magnitude > 0 then
-                        local Player = HRP
-                        Player.CFrame = (Player.CFrame + Player.CFrame.LookVector * 2)
-                        Humanoid.WalkSpeed = (ws - 10)
+                 if number == (0) and Humanoid.MoveDirection.Magnitude > 0 then
+                    local Player = HRP
+                    Player.CFrame = (Player.CFrame + Player.CFrame.LookVector * 2)
+                    Humanoid.WalkSpeed = (ws - 10)
         
-                        FPS(Random(true, 6, 19))
-                    elseif number == (-1) or number == (1) and Humanoid.MoveDirection.Magnitude > 0 then
-                        Humanoid.WalkSpeed = (ws)
-                        Humanoid.WalkSpeed = (ws + 7)
-        
-                        FPS(Random(true, 22, 29))
-        
-                        local Player = HRP
-                        Player.CFrame = (Player.CFrame + Player.CFrame.LookVector * -1.2)
-                    else
-                        Humanoid.WalkSpeed = (ws - 5)
-                        FPS(Random(true, 30, 40))
-                    end
+                    FPS(Random(true, 6, 19))
+                elseif number == (-1) or number == (1) and Humanoid.MoveDirection.Magnitude > 0 then
+                    Humanoid.WalkSpeed = (ws)
+                    Humanoid.WalkSpeed = (ws + 7)
+                    
+                    FPS(Random(true, 22, 29))
+                    
+                    local Player = HRP
+                    Player.CFrame = (Player.CFrame + Player.CFrame.LookVector * -1.2)
+                else
+                    Humanoid.WalkSpeed = (ws - 5)
+                    FPS(Random(true, 30, 40))
                 end
             end)
         else
