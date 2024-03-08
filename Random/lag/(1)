@@ -72,9 +72,7 @@ end
 
 local function FPS(number)
     SecondPlan(function()
-        pcall(function()
-            setfflag("TaskSchedulerTargetFps", number)
-        end)
+        setfflag("TaskSchedulerTargetFps", number)
     end)
 end
 
@@ -118,6 +116,7 @@ end)
 SecondPlan(function()
     while delay(0.3) do
         if boolean then
+            FPS(Random(true, 10, 20))
             
             local number = Random(true, -3, 1)
             
@@ -156,23 +155,19 @@ SecondPlan(function()
                     Player.CFrame = (Player.CFrame + Player.CFrame.LookVector * 2)
                     Humanoid.WalkSpeed = (ws - 10)
         
-                    FPS(Random(true, 6, 19))
                 elseif number == (-1) or number == (1) and Humanoid.MoveDirection.Magnitude > 0 then
                     Humanoid.WalkSpeed = (ws)
                     Humanoid.WalkSpeed = (ws + 7)
-                    
-                    FPS(Random(true, 22, 29))
                     
                     local Player = HRP
                     Player.CFrame = (Player.CFrame + Player.CFrame.LookVector * -1.2)
                 else
                     Humanoid.WalkSpeed = (ws - 5)
-                    FPS(Random(true, 30, 40))
                 end
             end)
         else
             Humanoid.WalkSpeed = (ws)
-            FPS(120)
+            FPS(90)
         end
     end
 end)
