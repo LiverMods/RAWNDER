@@ -120,7 +120,7 @@ SecondPlan(function()
         if boolean then
             local b = Humanoid or AC
     
-            if not b or not a then
+            if not b or not Character then
                 continue
             end
             
