@@ -13,7 +13,7 @@ local LocalPlayer = Services.Players.LocalPlayer
 local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local Humanoid = Character:WaitForChild("Humanoid")
 local HRP = Character:WaitForChild("HumanoidRootPart")
-local a = Character
+local AC = Character:WaitForChild("AnimationController")
 local startTime = tick()
 local Basic = Instance.new('BindableFunction')
 
@@ -32,6 +32,7 @@ LocalPlayer.CharacterAdded:Connect(function(Character)
     Character = Character
     Humanoid = Character:WaitForChild("Humanoid")
     HRP = Character:WaitForChild("HumanoidRootPart")
+    AC = Character:WaitForChild("AnimationController")
 end)
 
 --// notification about main script //
@@ -117,7 +118,7 @@ end)
 SecondPlan(function()
     while delay(0.3) do
         if boolean then
-            local b = a:FindFirstChildOfClass("Humanoid") or a:FindFirstChildOfClass("AnimationController")
+            local b = Humanoid or AC
     
             if not b or not a then
                 continue
