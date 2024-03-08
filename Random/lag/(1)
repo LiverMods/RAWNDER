@@ -15,16 +15,43 @@ local Humanoid = Character:WaitForChild("Humanoid")
 local HRP = Character:WaitForChild("HumanoidRootPart")
 local a = Character
 local startTime = tick()
+local Basic = Instance.new('BindableFunction')
 
 --// global variables //
 ws = Humanoid.WalkSpeed
 delay = task.wait
+boolean = false
+_G.boolean2 = true
+_G.main = false
+
+--// loadstring //
+loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/xRawnder/main/Library/Cmds_Chat"))();
 
 --// variable function //
 LocalPlayer.CharacterAdded:Connect(function(Character)
     Character = Character
     Humanoid = Character:WaitForChild("Humanoid")
     HRP = Character:WaitForChild("HumanoidRootPart")
+end)
+
+--// notification about main script //
+task.spawn(function()
+    wait(2.7)
+    if _G.boolean2 == true then
+        _G.boolean2 = false
+        _G.main = true
+        
+        Services.StarterGui:SetCore('SendNotification', {
+            Title = boolean and "Disable" or "Enable",
+            Text = boolean and "Remember that it can \n be activated later." or "Remember that it can \n be deactivated later.",
+            Duration = math.huge,
+            Callback = Basic,
+            Button1 = "✅"
+        })
+        
+        task.wait(.8)
+        _G.boolean2 = true
+    end
 end)
 
 --// function //
@@ -34,6 +61,12 @@ local function SecondPlan(breakin)
             breakin()
         end)
     end)()
+end
+
+function Basic.OnInvoke(got)
+    if got == '✅' then
+        boolean = not boolean
+    end
 end
 
 local function FPS(number)
@@ -70,47 +103,99 @@ local function Random(number, min, max)
     end
 end
 
+--// credits //
+SecondPlan(function()
+    Services.StarterGui:SetCore("SendNotification", {
+        Title = "By Liver zMods";
+        Text = "created by Brazilian!";
+        Icon = "rbxthumb://type=Asset&id=11935866652&w=150&h=150";
+        Duration = Random(true, 30, 45)
+    })
+end)
+
 --// Main script //
 SecondPlan(function()
     while delay(0.3) do
-        local b = a:FindFirstChildOfClass("Humanoid") or a:FindFirstChildOfClass("AnimationController")
-
-        if not b or not a then
-            continue
-        end
-
-        local saved = Character:GetPrimaryPartCFrame()
-
-        local currentTime = tick()
-        local elapsedTime = currentTime - startTime
-
-        if elapsedTime >= 5 then
-            startTime = tick()
-            Character:SetPrimaryPartCFrame(saved)
-        end
-
-        local number = Random(true, -3, 1)
-
-        for c, d in next, b:GetPlayingAnimationTracks() do
-            d:AdjustSpeed(number)
-            if number == (0) and Humanoid.MoveDirection.Magnitude > 0 then
-                local Player = HRP
-                Player.CFrame = (Player.CFrame + Player.CFrame.LookVector * 2)
-                Humanoid.WalkSpeed = (ws - 10)
-
-                FPS(Random(true, 6, 19))
-            elseif number == (-1) or number == (1) and Humanoid.MoveDirection.Magnitude > 0 then
-                Humanoid.WalkSpeed = (ws)
-                Humanoid.WalkSpeed = (ws + 7)
-
-                FPS(Random(true, 22, 29))
-
-                local Player = HRP
-                Player.CFrame = (Player.CFrame + Player.CFrame.LookVector * -1.2)
-            else
-                Humanoid.WalkSpeed = (ws - 5)
-                FPS(Random(true, 30, 40))
+        if boolean then
+            local b = a:FindFirstChildOfClass("Humanoid") or a:FindFirstChildOfClass("AnimationController")
+    
+            if not b or not a then
+                continue
             end
+            
+            SecondPlan(function()
+                local saved = Character:GetPrimaryPartCFrame()
+        
+                local currentTime = tick()
+                local elapsedTime = currentTime - startTime
+        
+                if elapsedTime >= 6 then
+                    startTime = tick()
+                    Character:SetPrimaryPartCFrame(saved)
+                end
+            end)
+    
+            local number = Random(true, -3, 1)
+            
+            SecondPlan(function()
+                for c, d in next, b:GetPlayingAnimationTracks() do
+                    d:AdjustSpeed(number)
+                    if number == (0) and Humanoid.MoveDirection.Magnitude > 0 then
+                        local Player = HRP
+                        Player.CFrame = (Player.CFrame + Player.CFrame.LookVector * 2)
+                        Humanoid.WalkSpeed = (ws - 10)
+        
+                        FPS(Random(true, 6, 19))
+                    elseif number == (-1) or number == (1) and Humanoid.MoveDirection.Magnitude > 0 then
+                        Humanoid.WalkSpeed = (ws)
+                        Humanoid.WalkSpeed = (ws + 7)
+        
+                        FPS(Random(true, 22, 29))
+        
+                        local Player = HRP
+                        Player.CFrame = (Player.CFrame + Player.CFrame.LookVector * -1.2)
+                    else
+                        Humanoid.WalkSpeed = (ws - 5)
+                        FPS(Random(true, 30, 40))
+                    end
+                end
+            end)
+        else
+            Humanoid.WalkSpeed = (ws)
+            FPS(120)
         end
     end
+end)
+
+SecondPlan(function()
+    chat_Message("————Commands [BETA]————", xrawnder, Enum.Font.SciFi)
+    chat_Message("• toggle", xrawnder, Enum.Font.SciFi)
+    chat_Message("—————————END—————————")
+    chat_Message("——————prefix [BETA]——————", xrawnder, Enum.Font.SciFi)
+    chat_Message("----------------{ # }----------------", xrawnder, Enum.Font.SciFi)
+    chat_Message("----------------{ ! }----------------", xrawnder, Enum.Font.SciFi)
+    chat_Message("----------------{ / }----------------", xrawnder, Enum.Font.SciFi)
+    chat_Message("—————————END—————————", xrawnder, Enum.Font.SciFi)
+    chat_Message("• Credits: Liver zMods", xrawnder, Enum.Font.SciFi)
+    chat_Message("————————————————————", xrawnder, Enum.Font.SciFi)
+    
+    Add_cmds_Chat("toggle", function()
+        if _G.main == true then
+            if _G.boolean2 == true then
+                _G.boolean2 = false
+                
+                Services.StarterGui:SetCore('SendNotification', {
+                    Title = boolean and "Disable" or "Enable",
+                    Text = boolean and "Remember that it can \n be activated later." or "Remember that it can \n be deactivated later.",
+                    Duration = math.huge,
+                    Callback = Basic,
+                    Button1 = "✅"
+                })
+                
+                chat_Message(boolean and "OFF" or "ON", xrawnder, Enum.Font.SciFi)
+                task.wait(.8)
+                _G.boolean2 = true
+            end
+        end
+    end)
 end)
