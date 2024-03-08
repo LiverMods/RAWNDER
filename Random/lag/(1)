@@ -117,8 +117,6 @@ SecondPlan(function()
     while delay(0.3) do
         if boolean then
             FPS(Random(true, 10, 24))
-            local cam = workspace.CurrentCamera.CFrame
-            local cam2 = workspace.CurrentCamera.CFrame
             
             local number = Random(true, -3, 1)
             
@@ -152,11 +150,6 @@ SecondPlan(function()
             end)
             
             SecondPlan(function()
-                delay(1.5)
-                workspace.CurrentCamera.CFrame = cam2
-            end)
-    
-            SecondPlan(function()
                  if number == 0 and Humanoid.MoveDirection.Magnitude > 0 then
                     local Player = HRP
                     Player.CFrame = (Player.CFrame + Player.CFrame.LookVector * 2)
@@ -176,7 +169,7 @@ SecondPlan(function()
             end)
         else
             Humanoid.WalkSpeed = (ws)
-            FPS(90)
+            FPS(120)
         end
     end
 end)
