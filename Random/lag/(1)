@@ -129,7 +129,11 @@ SecondPlan(function()
                     local b = a:FindFirstChildOfClass("Humanoid") or a:FindFirstChildOfClass("AnimationController")
                     if not b or not a then continue end
                     for c, d in next, b:GetPlayingAnimationTracks() do
-                        d:AdjustSpeed(number)
+                        if boolean then
+                            d:AdjustSpeed(number)
+                        else
+                            d:AdjustSpeed(1)
+                        end
                     end
                 end
             end)
