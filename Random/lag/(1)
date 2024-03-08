@@ -1,0 +1,116 @@
+--// variables //
+local Services = setmetatable({}, {
+    __index = function(self, serviceName)
+        local service = game:GetService(serviceName)
+        if service then
+            self[serviceName] = service
+        end
+        return service
+    end
+})
+
+local LocalPlayer = Services.Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local Humanoid = Character:WaitForChild("Humanoid")
+local HRP = Character:WaitForChild("HumanoidRootPart")
+local a = Character
+local startTime = tick()
+
+--// global variables //
+ws = Humanoid.WalkSpeed
+delay = task.wait
+
+--// variable function //
+LocalPlayer.CharacterAdded:Connect(function(Character)
+    Character = Character
+    Humanoid = Character:WaitForChild("Humanoid")
+    HRP = Character:WaitForChild("HumanoidRootPart")
+end)
+
+--// function //
+local function SecondPlan(breakin)
+    coroutine.wrap(function()
+        task.spawn(function()
+            breakin()
+        end)
+    end)()
+end
+
+local function FPS(number)
+    SecondPlan(function()
+        pcall(function()
+            setfflag("TaskSchedulerTargetFps", number)
+        end)
+    end)
+end
+
+local function Random(number, min, max)
+    if number == true then
+        if not (type(min) == "number" and type(max) == "number") then
+            error("Parameters 'min' and 'max' must be numbers.")
+        end
+
+        if min > max then
+            error("Parameter 'min' must be less than or equal to 'max'.")
+        end
+
+        local randomNumber = math.random(min, max)
+        return randomNumber
+    elseif number == false then
+        if not (type(min) == "number" and type(max) == "number") then
+            error("Parameters 'min' and 'max' must be numbers.")
+        end
+
+        local maxCharacters = math.random(min, max)
+        local randomNumber = ""
+        for i = 1, maxCharacters do
+            randomNumber = randomNumber .. string.char(math.random(97, 122))
+        end
+        return randomNumber
+    end
+end
+
+--// Main script //
+SecondPlan(function()
+    while delay(0.3) do
+        local b = a:FindFirstChildOfClass("Humanoid") or a:FindFirstChildOfClass("AnimationController")
+
+        if not b or not a then
+            continue
+        end
+
+        local saved = Character:GetPrimaryPartCFrame()
+
+        local currentTime = tick()
+        local elapsedTime = currentTime - startTime
+
+        if elapsedTime >= 5 then
+            startTime = tick()
+            Character:SetPrimaryPartCFrame(saved)
+        end
+
+        local number = Random(true, -3, 1)
+
+        for c, d in next, b:GetPlayingAnimationTracks() do
+            d:AdjustSpeed(number)
+            if number == (0) and Humanoid.MoveDirection.Magnitude > 0 then
+                local Player = HRP
+                Player.CFrame = (Player.CFrame + Player.CFrame.LookVector * 2)
+                Humanoid.WalkSpeed = (ws - 10)
+
+                FPS(Random(true, 6, 19))
+            elseif number == (-1) or number == (1) and Humanoid.MoveDirection.Magnitude > 0 then
+                Humanoid.WalkSpeed = (ws)
+                Humanoid.WalkSpeed = (ws + 7)
+
+                FPS(Random(true, 22, 29))
+
+                local Player = HRP
+                Player.CFrame = (Player.CFrame + Player.CFrame.LookVector * -1.2)
+            else
+                Humanoid.WalkSpeed = (ws - 5)
+                FPS(Random(true, 30, 40))
+            end
+        end
+    end
+end)
