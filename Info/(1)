@@ -1,3 +1,9 @@
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/xRawnder/main/Library/Kavo-3.lua"))();
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>
+
 local inf = info_:NewButton("Loading ...")
 local inf2 = info_:NewButton("Loading ...")
 local inf3 = info_:NewButton("Loading ...")
@@ -6,7 +12,7 @@ local inf5 = info_:NewButton("Loading ...")
 local inf6 = info_:NewButton("Loading ...")
 local inf7 = info_:NewButton("Loading ...")
 
---<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>
 
 --// function extra //
 local startTime = 0
