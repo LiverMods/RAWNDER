@@ -1,0 +1,42 @@
+local inf = info_:NewButton("Loading ...")
+local inf2 = info_:NewButton("Loading ...")
+local inf3 = info_:NewButton("Loading ...")
+local inf4 = info_:NewButton("Loading ...")
+local inf5 = info_:NewButton("Loading ...")
+local inf6 = info_:NewButton("Loading ...")
+local inf7 = info_:NewButton("Loading ...")
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+--// function extra //
+local startTime = 0
+local function updatePlayTime()
+    startTime = startTime + 1
+    local hours = math.floor(startTime / 3600)
+    local minutes = math.floor((startTime % 3600) / 60)
+    local seconds = startTime % 60
+    local timeString = string.format("%02dh %02dm %02ds", hours, minutes, seconds)
+
+    inf4:UpdateButton("Horas jogadas: " .. timeString)
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+coroutine.wrap(function()
+    wait(4)
+    coroutine.wrap(function()
+        while true do
+            updatePlayTime()
+            wait(1)
+        end
+    end)()
+    inf3:UpdateButton("Jogo de id: " .. bs)
+    inf5:UpdateButton("Criado por Liver zMods")
+    inf2:UpdateButton("Jogo: Prison Life")
+    while task.wait(0.5) do
+        local pl_rs = game.Players:GetPlayers()
+        inf:UpdateButton("Players: " .. #pl_rs .. "/" .. game.Players.MaxPlayers)
+        inf6:UpdateButton("Last update: " ..dat.. "/" ..mon.. "/" ..yea)
+        inf7:UpdateButton("Ping: " .. math.round(plr:GetNetworkPing() * 1000) .. "ms")
+    end
+end)()
