@@ -1,0 +1,1271 @@
+--<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
+if MMr and RX_Loading then
+	error("x-Rawnder is already running!", 0)
+	return
+end
+
+--// check game //
+local notify = game.StarterGui 
+local Basic = Instance.new('BindableFunction')
+local TeleportService = game:GetService("TeleportService")
+
+function Basic.OnInvoke(got)
+    task.spawn(function()
+        local message = Instance.new("Message", workspace)
+        task.spawn(function()
+            message.Text = "Loading"
+        end)
+        task.wait(.76)
+        message:Destroy()
+    end)
+
+    if got == '✅' then
+        if game.PlaceId == 142823291 then goods = true else
+            pcall(function() getgenv().RX_Loading = false end)
+            local player = game.Players:GetPlayerFromCharacter(char)
+            local teleportService = game:GetService("TeleportService")
+            
+            local Sound = Instance.new("Sound", game:GetService("SoundService"))
+            Sound.SoundId = "rbxassetid://1106833903"
+            Sound:Play()
+
+            local mm2 = Instance.new('BindableFunction')
+            function mm2.OnInvoke(state)
+                if state == 'join Murder Mystery 2' then
+                    pcall(function()
+                        teleportService:Teleport(142823291, player )
+                    end)
+                end
+            end
+
+            game.StarterGui:SetCore('SendNotification', {
+                Title = "Error";
+                Text = "no support for this game";
+                Icon = "rbxthumb://type=Asset&id=14378806462&w=150&h=150";
+                Duration = math.huge,
+                Callback = mm2,
+                Button1 = 'join Murder Mystery 2',
+                Button2 = '❌'
+            })
+            return
+        end
+    end
+end
+
+notify:SetCore('SendNotification', {
+    Title = 'load the script',
+    Text = 'Want to Load Script. This was created to prevent loading 2 Scripts at once',
+    Duration = 210,
+    Callback = Basic,
+    Button1 = '✅',
+    Button2 = '❌'
+})
+
+pcall(function() getgenv().RX_Loading = true end)
+
+while not goods do task.wait(0.5) end
+
+local message = Instance.new("Message", workspace)
+task.spawn(function()
+    message.Text = "Loading"
+    task.wait(.299)
+    message:Destroy()
+end)
+
+--// carregando //
+task.spawn(function()
+    coroutine.wrap(function()
+        task.spawn(function()
+            local function randomString()
+            	local length = math.random(10,20)
+            	local array = {}
+            	for i = 1, length do
+            		array[i] = string.char(math.random(32, 126))
+            	end
+            	return table.concat(array)
+            end
+            
+            blur = Instance.new("BlurEffect")
+            
+            local Ui = Instance.new("UICorner")
+            local Ui_ = Instance.new("UICorner")
+            local Ui__ = Instance.new("UICorner")
+            Ui_.CornerRadius = UDim.new(0.2, 0)
+            Ui.CornerRadius = UDim.new(0.15, 0)
+            Ui__.CornerRadius = UDim.new(0.2, 0)
+            
+            blur.Parent = game.Lighting
+            blur.Size = 999
+            blur.Enabled = false
+
+            local ScreenGui = Instance.new("ScreenGui")
+            ScreenGui.Name = randomString()
+            ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+            ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+            Ui.Parent = ScreenGui
+
+            local BackgroundImage = Instance.new("ImageLabel")
+            BackgroundImage.Name = randomString()
+            BackgroundImage.BackgroundTransparency = 1
+            BackgroundImage.Position = UDim2.new(0.5, -250, 0.5, -150)
+            BackgroundImage.Size = UDim2.new(0, 500, 0, 300)
+            BackgroundImage.Image = "https://www.example.com/background.jpg"
+            BackgroundImage.Parent = ScreenGui
+
+            local Frame = Instance.new("Frame")
+            Frame.Name = randomString()
+            Frame.Size = UDim2.new(0, 400, 0, 100)
+            Frame.Position = UDim2.new(0.5, -200, 0.5, -50)
+            Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            Frame.BackgroundTransparency = 0.5
+            Frame.BorderSizePixel = 0
+            Frame.Parent = ScreenGui
+            Ui_.Parent = Frame
+
+            local TextLabel = Instance.new("TextLabel")
+            TextLabel.Name = randomString()
+            TextLabel.Size = UDim2.new(1, 0, 0, 50)
+            TextLabel.Position = UDim2.new(0, 0, 0.06, 0)
+            TextLabel.Text = "Loading..."
+            TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+            TextLabel.BackgroundTransparency = 1
+            TextLabel.TextScaled = true
+            TextLabel.Font = Enum.Font.GothamBold
+            TextLabel.Parent = Frame
+            Ui.Parent = TextLabel
+
+            local Background = Instance.new("Frame")
+            Background.Name = randomString()
+            Background.Size = UDim2.new(0.8, 0, 0, 21)
+            Background.Position = UDim2.new(0.1, 0, 0.73, -5)
+            Background.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+            Background.BorderSizePixel = 0
+            Background.Parent = Frame
+            Ui__.Parent = Background
+
+            local Progress = Instance.new("Frame")
+            Progress.Name = randomString()
+            Progress.Size = UDim2.new(0, 0, 1, 0)
+            Progress.BackgroundColor3 = Color3.fromRGB(30, 145, 255)
+            Progress.BorderSizePixel = 0
+            Progress.Parent = Background
+            Ui.Parent = Progress
+
+            function updateProgress(percent)
+                Progress:TweenSize(UDim2.new(percent, 0, 1, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.2, true)
+                TextLabel.Text = string.format("Carregando... %d%%", percent * 100)
+            end
+
+            blur.Enabled = true
+            
+            roNub1 = 0
+            function up(text)
+                roNub1 = (roNub1 + text)
+                updateProgress(roNub1 / 100)
+    
+                task.wait(.15)
+                if roNub1 == 100 then
+                    task.wait(0.8)
+                    ScreenGui:Destroy()
+                    blur.Enabled = false
+                end
+            end
+        end)
+    end)()
+end)
+
+--// verificação blacklist //
+
+--<>---<>---<>---<>---<>--
+
+task.wait(.7)
+up(0.25)
+task.wait(.1)
+up(0.25)
+task.wait(.2)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/Script-New-/main/print-test-script.txt"))()
+task.wait(.2)
+up(0.5)
+
+--<>---<>---<>---<>---<>--
+
+local itl
+local dat, mon, yea = 01, 07, 2024
+local itl2
+local cam = workspace.CurrentCamera.CFrame
+local sn = game.Players.LocalPlayer.Character:GetPrimaryPartCFrame()
+local verifq = false
+local plr = game.Players.LocalPlayer
+
+--<>---<>---<>---<>---<>--
+
+local blacklistText = "You are on the blacklist"
+
+--<>---<>---<>---<>---<>--
+
+local function kicker(reason)
+    pcall(function()
+        game.Players.LocalPlayer:Kick(reason)
+    end)
+end
+
+--<>---<>---<>---<>---<>--
+
+local function kick(player, reason)
+    task.spawn(function()
+        task.wait()
+        if game.Players.LocalPlayer.Name == player then
+            kicker(reason)
+            wait()
+            print("You are on the Blacklist")
+            return
+        else
+            if itl then return end
+            print("You are on the Whitelist")
+            itl = true
+        end
+    end)
+end
+
+--<>---<>---<>---<>---<>--
+
+local function isDateValid(date)
+    if not date then
+        return true
+    end
+    
+    local currentDate = os.date("*t")
+    local year, month, day = tonumber(date:sub(1,4)), tonumber(date:sub(6,7)), tonumber(date:sub(9,10))
+    
+    if year and month and day then
+        local banDate = {
+            year = year,
+            month = month,
+            day = day
+        }
+        
+        if banDate.year > currentDate.year then
+            return true
+        elseif banDate.year == currentDate.year and banDate.month > currentDate.month then
+            return true
+        elseif banDate.year == currentDate.year and banDate.month == currentDate.month and banDate.day >= currentDate.day then
+            return true
+        end
+    end
+    
+    return false
+end
+
+--<>---<>---<>---<>---<>--
+
+local function BlackList()
+    for _, entry in ipairs(BlacKlIst_89171050018619910013_plr_name) do
+        local username = entry.Username
+        local permanent = entry.permanent
+        local date = entry.date
+        local banType = permanent and "Permanent" or "Temporary"
+        local kickReason = blacklistText .. " | ban: " .. banType .. " (" .. username .. ")"
+        
+        if not permanent then
+            if isDateValid(date) then
+                kickReason = kickReason .. " | date: " .. date
+            else
+                if not itl2 then
+                    print("The ban for " .. username .. " has expired")
+                end
+                itl2 = true
+                continue
+            end
+        end
+        
+        kick(username, kickReason)
+    end
+end
+
+--<>---<>---<>---<>---<>--
+
+local function CheckBlacklist()
+    for _, entry in ipairs(BlacKlIst_89171050018619910013_plr_name) do
+        if entry.Username == plr.Name then
+        
+            if isDateValid(entry.date) then
+                verifq = false
+            else
+                verifq = true
+            end
+            return verifq
+        else
+            verifq = true
+            return verifq
+        end
+    end
+end
+
+--<>---<>---<>---<>---<>--
+
+local cloneref = cloneref or function(o) return o end
+
+--<>---<>---<>---<>---<>--
+
+up(2)
+
+--<>---<>---<>---<>---<>--
+
+coroutine.wrap(function()
+    while true do
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/Script-New-/main/print-test-script.txt"))()
+        BlackList()
+        
+        task.wait(5)
+    end
+end)()
+
+--<>---<>---<>---<>---<>--
+
+task.wait(0.4)
+while not CheckBlacklist() do
+    game.Players.LocalPlayer.Character.Humanoid.JumpPower = 0
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 0
+    game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(sn)
+    workspace.CurrentCamera.CFrame = cam
+    task.wait()
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+--// Variáveis especiais //
+local Services = setmetatable({}, {
+    __index = function(self, serviceName)
+        local service = game:GetService(serviceName)
+        if service then
+            self[serviceName] = service
+        end
+        return service
+    end
+})
+
+--// Variáveis //
+
+local post
+local nia
+local bola
+local vialc
+local allKl
+local TeamNam
+local ColorTea
+local SPlr
+local targetPlayer
+local cam
+local cett
+local savedPosition
+local viewChanged
+local targetPlr
+local nla
+local html
+local CRIM
+local strilo
+local broosk
+local ESPPlayer
+local raio = 20
+local rainOrei = {}
+local trued = false
+local broos = true
+local ggiys = false
+local toggled1 = false
+local toggled2 = false
+local toggled3 = false
+local toggled4 = false
+local bs = game.PlaceId
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlaceId = game.PlaceId
+local JobId = game.JobId
+local linaTrasnp = 0.420101838
+local linaColor = Color3.fromRGB(20, 20, 51)
+local StarterGui = Services.StarterGui
+local linaSize = UDim2.new(0.0325, 0, 0.076, 0)
+local linaImage = "rbxassetid://13503831132"
+local wk = game:GetService("Workspace")
+local RunService = game:GetService("RunService")
+local player = Services.Players.LocalPlayer
+local plr = Services.Players.LocalPlayer
+local IYMouse = plr:GetMouse()
+local charr = plr.Character or plr.CharacterAdded:Wait()
+local bolet = charr:WaitForChild("Humanoid")
+local Prr = Services.Players.LocalPlayer
+local mouse = plr:GetMouse()
+local TeleportService = game:GetService("TeleportService")
+local PlaceId, JobId = game.PlaceId, game.JobId
+local savedPosition
+local ws, jp, gravity, fov = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed, game.Players.LocalPlayer.Character.Humanoid.JumpPower, workspace.Gravity, workspace.CurrentCamera.FieldOfView
+local plr = game:GetService("Players").LocalPlayer
+local plrs = game:GetService("Players")
+local LocalPlayer = Services.Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local Humanoid = Character:WaitForChild("Humanoid")
+local HRP = Character:WaitForChild("HumanoidRootPart")
+local RootPart = Character:WaitForChild("HumanoidRootPart")
+local MarketplaceService = cloneref(game:GetService("MarketplaceService"))
+local AC = Character:FindFirstChildOfClass("AnimationController")
+local GuiService = cloneref(game:GetService("GuiService"))
+local Asset = MarketplaceService:GetProductInfo(PlaceId)
+local startTime = tick()
+local Basic = Instance.new('BindableFunction')
+
+--// variable function //
+LocalPlayer.CharacterAdded:Connect(function(Character)
+    Character = Character
+    charr = Character
+    bolet = Character:WaitForChild("Humanoid")
+    Humanoid = Character:WaitForChild("Humanoid")
+    HRP = Character:WaitForChild("HumanoidRootPart")
+    RootPart = Character:WaitForChild("HumanoidRootPart")
+    AC = Character:FindFirstChildOfClass("AnimationController")
+end)
+
+--// tabela //
+local Blacklist_LocalPlayer = {}
+local Gen = {}
+local playersToTarget = {}
+
+--// variáveis globais //
+_G.lok2 = false
+_G.LP = false
+ws = Humanoid.WalkSpeed
+delay = task.wait
+boolean = false
+_G.boolean2 = true
+_G.main = false
+lolMot = false
+
+up(5)
+ 
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+up(2)
+local function randomString()
+    local length = math.random(17,45)
+    local array = {}
+    for i = 1, length do
+        array[i] = string.char(math.random(32, 126))
+    end
+    return table.concat(array)
+end
+
+--<>---<>---<>---<>---<>--
+
+task.spawn(function()
+    coroutine.wrap(function()
+        ReplicatedStorage = game:GetService("ReplicatedStorage")
+        Players = game:GetService("Players")
+        RunService = game:GetService("RunService")
+        LP = Players.LocalPlayer
+        list = nil
+        
+        function IsDeath(Player)
+        	for i, v in pairs(list) do
+        		if Player.Name == i then
+        			if v.Killed and v.Dead then
+        				return true
+        			elseif not v.Killed and not v.Dead then
+        				return false
+        			end
+        		end
+        	end
+        end
+         
+        -- > Loops < --
+         
+        while true do
+        	list = ReplicatedStorage:FindFirstChild("GetPlayerData", true):InvokeServer()
+        	for i, v in pairs(list) do
+        		if v.Role == "Murderer" then
+        			M = i
+        		elseif v.Role == 'Sheriff' then
+        			S = i
+        		elseif v.Role == 'Hero' then
+        			H = i
+        		end
+        	end
+        	
+        	task.wait(.45)
+        end
+    end)()
+end)
+
+--<>---<>---<>---<>---<>--
+
+function SearchAndNotify(player)
+    local Players = game:GetService("Players")
+    local StarterGui = game:GetService("StarterGui")
+
+    local function NotifyRole(playerName, role)
+        if not IsDeath(Players[playerName]) then
+            local player = Players:FindFirstChild(playerName)
+            if player then
+                local userId = player.UserId
+                local displayName = player.DisplayName
+                local image, isReady = Players:GetUserThumbnailAsync(userId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420)
+                
+                local textToShow = (displayName == playerName) and playerName or (displayName .. "\n" .. playerName)
+
+                StarterGui:SetCore("SendNotification", {
+                    Title = role;
+                    Text = textToShow;
+                    Icon = image;
+                    Duration = 8;
+                })
+            end
+        end
+    end
+
+    local knife = (player.Backpack:FindFirstChild("Knife") or player.Character:FindFirstChild("Knife"))
+    local gun = (player.Backpack:FindFirstChild("Gun") or player.Character:FindFirstChild("Gun"))
+
+    if player.Name == M or knife then
+        NotifyRole(M, "Murderer")
+    elseif player.Name == S then
+        NotifyRole(S, "Sheriff")
+    elseif player.Name == H then
+        if IsDeath(game.Players:FindFirstChild(S)) then
+            NotifyRole(H, "Hero")
+        end
+    end
+end
+
+--<>---<>---<>---<>---<>--
+
+task.spawn(function()
+    coroutine.wrap(function()
+        gui = Instance.new("ScreenGui")
+        gui.Name = randomString()
+        gui.Parent = game.Players.LocalPlayer.PlayerGui
+        gui.DisplayOrder = 9e9
+        gui.Enabled = false
+        coroutine.wrap(function()
+            while task.wait() do
+                gui.RobloxLocked = true
+                gui.ResetOnSpawn = false
+            end
+        end)()
+    
+        local imageButton = Instance.new("ImageButton")
+        imageButton.Name = randomString()
+        imageButton.Size = UDim2.new(0.0325, 0, 0.076, 0)
+        imageButton.BackgroundColor3 = Color3.fromRGB(20, 20, 30)
+        imageButton.BackgroundTransparency = 0.350101838
+        imageButton.Image = "rbxassetid://16529618831"
+        imageButton.Position = UDim2.new(0.20, 0, 0, 0)
+        imageButton.Draggable = true
+        local imageButtonBorder = Instance.new("UIStroke", imageButton)
+        imageButtonBorder.Color = Color3.fromRGB(255, 0, 0)
+        imageButtonBorder.Thickness = 1.6
+        imageButton.Parent = gui
+        
+        imageButton.MouseButton1Click:Connect(function()
+            task.spawn(function()
+                local Sound = Instance.new("Sound", game:GetService("SoundService"))
+                Sound.SoundId = "rbxassetid://4601634016"
+                Sound:Play()
+                for i = 1, 5 do
+                    task.wait()
+                end 
+                
+                for _, v in pairs(game.Players:GetPlayers()) do
+                    SearchAndNotify(v)
+                end
+            end)
+        end)
+        
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0.2, 0.1)
+        corner.Parent = imageButton
+    end)()
+end)
+
+--<>---<>---<>---<>---<>--
+
+local function savePos()
+    return game:GetService("Players").LocalPlayer.Character:GetPrimaryPartCFrame()
+end
+
+--<>---<>---<>---<>---<>--
+
+local function TpPos(save)
+    game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(save)
+end
+
+up(9.5)
+--<>---<>---<>---<>---<>--
+
+coroutine.wrap(function()
+    local ESPEnabled = false
+    local Holder
+
+    function CreateESP()
+        Holder = Instance.new("Folder", game.CoreGui)
+        Holder.Name = "ESP"
+
+        local Box = Instance.new("BoxHandleAdornment")
+        Box.Name = "nilBox"
+        Box.Size = Vector3.new(1, 2, 1)
+        Box.Color3 = Color3.new(100 / 255, 100 / 255, 100 / 255)
+        Box.Transparency = 0.7
+        Box.ZIndex = 0
+        Box.AlwaysOnTop = false
+        Box.Visible = false
+
+        local NameTag = Instance.new("BillboardGui")
+        NameTag.Name = "nilNameTag"
+        NameTag.Enabled = false
+        NameTag.Size = UDim2.new(0, 200, 0, 50)
+        NameTag.AlwaysOnTop = true
+        NameTag.StudsOffset = Vector3.new(0, 1.8, 0)
+        local Tag = Instance.new("TextLabel", NameTag)
+        Tag.Name = "Tag"
+        Tag.BackgroundTransparency = 1
+        Tag.Position = UDim2.new(0, -50, 0, 0)
+        Tag.Size = UDim2.new(0, 300, 0, 20)
+        Tag.TextSize = 15
+        Tag.TextColor3 = Color3.new(100 / 255, 100 / 255, 100 / 255)
+        Tag.TextStrokeColor3 = Color3.new(0 / 255, 0 / 255, 0 / 255)
+        Tag.TextStrokeTransparency = 0.4
+        Tag.Text = "nil"
+        Tag.Font = Enum.Font.SourceSansBold
+        Tag.TextScaled = false
+
+        function LoadCharacter(v)
+            if game.Players.LocalPlayer.Name == v.Name then
+                return
+            end
+            
+            repeat wait() until v.Character ~= nil
+            v.Character:WaitForChild("Humanoid")
+            local vHolder = Holder:FindFirstChild(v.Name)
+            vHolder:ClearAllChildren()
+            local b = Box:Clone()
+            b.Name = v.Name .. "Box"
+            b.Adornee = v.Character
+            b.Parent = vHolder
+            local t = NameTag:Clone()
+            t.Name = v.Name .. "NameTag"
+            t.Enabled = true
+            t.Parent = vHolder
+            t.Adornee = v.Character:WaitForChild("Head", 5)
+            if not t.Adornee then
+                return UnloadCharacter(v)
+            end
+            
+            if v.DisplayName == v.Name then
+                t.Tag.Text = v.Name
+            else
+                t.Tag.Text = v.DisplayName .. "\n" .. v.Name
+            end
+            
+            local knife = (v.Backpack:FindFirstChild("Knife") or v.Character:FindFirstChild("Knife"))
+            local gun = (v.Backpack:FindFirstChild("Gun") or v.Character:FindFirstChild("Gun"))
+            
+            if knife then
+                b.Color3 = Color3.fromRGB(215, 0, 0)
+                t.Tag.TextColor3 = Color3.fromRGB(215, 0, 0)
+            elseif gun then
+                b.Color3 = Color3.fromRGB(0, 0, 225)
+                t.Tag.TextColor3 = Color3.fromRGB(0, 0, 225)
+            else
+                b.Color3 = Color3.fromRGB(0, 215, 0)
+                t.Tag.TextColor3 = Color3.fromRGB(0, 215, 0)
+            end
+            
+            local Update
+            function UpdateNameTag()
+                if not pcall(function()
+                    v.Character.Humanoid.DisplayDistanceType = Enum.HumanoidDisplayDistanceType.None
+                    local maxh = math.floor(v.Character.Humanoid.MaxHealth)
+                    local h = math.floor(v.Character.Humanoid.Health)
+                end) then
+                    Update:Disconnect()
+                end
+            end
+            UpdateNameTag()
+            Update = v.Character.Humanoid.Changed:Connect(UpdateNameTag)
+        end
+
+        function UnloadCharacter(v)
+            local vHolder = Holder:FindFirstChild(v.Name)
+            if vHolder and (vHolder:FindFirstChild(v.Name .. "Box") ~= nil or vHolder:FindFirstChild(v.Name .. "NameTag") ~= nil) then
+                vHolder:ClearAllChildren()
+            end
+        end
+
+        function LoadPlayer(v)
+            local vHolder = Instance.new("Folder", Holder)
+            vHolder.Name = v.Name
+            v.CharacterAdded:Connect(function()
+                pcall(LoadCharacter, v)
+            end)
+            v.CharacterRemoving:Connect(function()
+                pcall(UnloadCharacter, v)
+            end)
+            v.Changed:Connect(function(prop)
+                if prop == "TeamColor" then
+                    UnloadCharacter(v)
+                    wait()
+                    LoadCharacter(v)
+                end
+            end)
+            LoadCharacter(v)
+        end
+
+        function UnloadPlayer(v)
+            UnloadCharacter(v)
+            local vHolder = Holder:FindFirstChild(v.Name)
+            if vHolder then
+                vHolder:Destroy()
+            end
+        end
+        
+        function UpdateColors()
+            for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+                if Holder then
+                local knife = (player.Backpack:FindFirstChild("Knife") or player.Character:FindFirstChild("Knife"))
+                local gun = (player.Backpack:FindFirstChild("Gun") or player.Character:FindFirstChild("Gun"))
+                
+                    for _, child in ipairs(game.CoreGui.ESP:GetDescendants()) do
+                        if child:IsA("BillboardGui") and child.Name == player.Name .. "NameTag" then
+                            local Tag = child:FindFirstChild("Tag")
+                            if Tag then
+                                
+                                if player.Name == S and not IsDeath(player) then
+                                    Tag.TextColor3 = Color3.fromRGB(0, 0, 225)
+                                elseif player.Name == M or knife and not IsDeath(player) then
+                                    Tag.TextColor3 = Color3.fromRGB(215, 0, 0)
+                                elseif player.Name == H and not IsDeath(player) and IsDeath(game.Players[S]) then
+                                    Tag.TextColor3 = Color3.fromRGB(255, 226, 10)
+                                elseif IsDeath(player) then
+                                    Tag.TextColor3 = Color3.fromRGB(30, 258, 140)
+                                else
+                                    Tag.TextColor3 = Color3.fromRGB(0, 215, 0)
+                                end
+                            end
+                        end
+                    end
+                end
+            end
+        end
+
+        for i, v in pairs(game:GetService("Players"):GetPlayers()) do
+            spawn(function()
+                pcall(LoadPlayer, v)
+            end)
+        end
+
+        game:GetService("Players").PlayerAdded:Connect(function(v)
+            pcall(LoadPlayer, v)
+        end)
+
+        game:GetService("Players").PlayerRemoving:Connect(function(v)
+            pcall(UnloadPlayer, v)
+        end)
+    end
+
+    function EnableESP()
+        if ESPEnabled then
+            return
+        end
+
+        ESPEnabled = true
+        CreateESP()
+    end
+
+    function DisableESP()
+        if not ESPEnabled then
+            return
+        end
+
+        ESPEnabled = false
+        if Holder then
+            Holder:ClearAllChildren()
+            Holder:Destroy()
+        end
+    end
+    
+    updated = false
+    task.spawn(function()
+        while true do
+            if ESPEnabled then
+                pcall(UpdateColors)
+            end
+            
+            task.wait(.75)
+        end
+    end)
+end)()
+up(1)
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+--//             •     Edits   =     0                        //--
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+repeat wait() until game:IsLoaded() task.wait()
+
+--// loadstring //
+local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))();
+local redzlib = loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/d1d9f313b317334820cb840f9017f0ff/raw/9b9e7d5c2a57217bfacef7169509b948cbc2e596/LIBRARYv4"))()
+local library2 = loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/main/BaseUI/TbaoHubEz.lua"))();
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbao143/thaibao/main/TbaoHubEz"))() task.wait(.2)
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+--// Janela //
+local Window = redzlib:MakeWindow({
+  Title = "Murder Mystery 2",
+  SubTitle = "by Liver zMods",
+  SaveFolder = nil
+})
+Window:Minimize()
+task.wait(0.1)
+up(2)
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+--// abas //
+local Tab1 = Window:MakeTab({"Combat", "swords"})
+local Tab2 = Window:MakeTab({"Client", "user"})
+local Tab3 = Window:MakeTab({"Info", "info"})
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+--// etc //
+local Wm = library:Watermark("Ping: " .. math.round(plr:GetNetworkPing() * 1000) .. "")
+local FpsWm = Wm:AddWatermark("fps: " .. library.fps)
+coroutine.wrap(function()
+    while task.wait(0.35) do
+    
+        task.spawn(function()
+            pcall(function()
+                FpsWm:Text("Fps: " .. library.fps)
+            end)
+        end)
+        
+        task.spawn(function()
+            pcall(function()
+                Wm:Text("Ping: " .. math.round(plr:GetNetworkPing() * 1000))
+            end)
+        end)
+     end
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+up(12.5)
+--// aba 1 //
+Tab1:AddButton({"HitBox", function()
+    task.spawn(function()
+        local Dialog = Window:Dialog({
+            Title = "He is sure?",
+            Text = "You won't be able to deactivate it!",
+            Options = {
+                {"✅", function()
+                    addHBx()
+                end},
+                {"❌", function()
+                    return
+                end}
+            }
+        })
+    end)
+    
+    function addHBx()
+        function getPlayersName()
+            for _, v in pairs(game:GetChildren()) do
+                if v.ClassName == "Players" then
+                    return v.Name
+                end
+            end
+        end
+        
+        local players = getPlayersName()
+        local plr = game[players].LocalPlayer
+        
+        coroutine.resume(coroutine.create(function()
+            while wait(1) do
+                coroutine.resume(coroutine.create(function()
+                    for _, v in pairs(game[players]:GetPlayers()) do
+                        if v.Name ~= plr.Name and v.Character then
+                            local lowerTorso = v.Character:FindFirstChild("LowerTorso")
+                            local torso = v.Character:FindFirstChild("Torso")
+        
+                            if lowerTorso then
+                                lowerTorso.Transparency = 0.85
+                                lowerTorso.CanCollide = false
+                                lowerTorso.Material = "Neon"
+                                lowerTorso.Size = Vector3.new(5.5, 4.6, 5.5)
+                            elseif torso then
+                                torso.Transparency = 0.85
+                                torso.CanCollide = false
+                                torso.Material = "Neon"
+                                torso.Size = Vector3.new(5.5, 4.6, 5.5)
+                            end
+                        end
+                    end
+                end))
+            end
+        end))
+    end
+end})
+
+Tab1:AddToggle({"<font color='rgb(0, 100, 255)'>Sheriff</font>: slient aim", false, function(tgg)
+    toggleEnabled = tgg
+end})
+
+local Section = Tab1:AddSection("infos")
+
+Tab1:AddToggle({"Esp name", false, function(s)
+    if s then
+        EnableESP()
+        game:GetService("Players").LocalPlayer.NameDisplayDistance = 0
+    else
+        DisableESP()
+        game:GetService("Players").LocalPlayer.NameDisplayDistance = saveGer
+    end
+end})
+
+Tab1:AddToggle({"Notifications", false, function(s)
+    if s then
+        gui.Enabled = true
+    else
+        gui.Enabled = false
+    end
+end})
+
+_G.exect = true
+Tab1:AddButton({"Script Pack MM2", function()
+    if _G.exect then _G.exect = false end
+    loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/214043f838ff5c88041531567a9fbb62/raw/40a13bc36b215d773ea19f177c3acf2ba10e2524/PAXKMM2"))();
+end})
+
+up(10)
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+Tab2:AddSlider({
+    Name = "Speed";
+    Min = 16;
+    Max = 70;
+    Increase = 0.5;
+    Default = 17;
+    Callback = function(Value)
+        game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    end;
+})
+
+Tab2:AddSlider({
+    Name = "Jump";
+    Min = 50;
+    Max = 250;
+    Increase = 2.5;
+    Default = 50;
+    Callback = function(Value)
+        game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = Value
+    end;
+})
+
+local Section = Tab2:AddSection("Teleport")
+
+Tab2:AddButton({"Map", function()
+    for _,child in pairs(Workspace:GetDescendants()) do
+        if child:IsA("BasePart") and child.Name == "Coin_Server" then
+            RootPart.CFrame = CFrame.new(child.Parent.Parent.Map:FindFirstChild("Part").Position);
+        end
+    end
+end})
+
+Tab2:AddButton({"Lobby", function()
+    RootPart.CFrame = workspace.Lobby.Spawns.Spawn.CFrame
+end})
+
+local Players = game:GetService("Players")
+local Plr = Players.LocalPlayer
+local weaponLog = {}
+
+workspace.ChildAdded:Connect(function(child)
+    task.wait(0.25)
+    if child.Name == "GunDrop" then
+        weaponLog[child] = {
+            Position = child.Position,
+            Status = true
+        }
+    end
+end)
+
+workspace.ChildRemoved:Connect(function(child)
+    if weaponLog[child] then
+        weaponLog[child].Status = false
+    end
+end)
+
+
+Tab2:AddButton({"Gun", function()
+    local a = savePos()
+    for child, data in pairs(weaponLog) do
+        if data.Status == true then
+            RootPart.CFrame = CFrame.new(data.Position)
+            break
+        end
+    end
+    task.wait(.25)
+    TpPos(a)
+end})
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+-- local Button = Tab2:AddButton({"Refresh Dropdown"})
+
+--[[Button:Callback(function()
+  Dropdown:Set(game.Players:GetPlayers())
+  Dropdown:Remove(game.Players.LocalPlayer.Name)
+end)
+
+Dropdown:Remove(Player.Name)
+Dropdown:Select(1)]]
+
+--[[ Tab2:AddTextBox({
+  Name = "Textbox",
+  Description = "this is a Text box",
+  Default = "Text",
+  Callback = function(Value)
+    
+  end
+})
+
+Tab3:AddDiscordInvite({
+  Name = "redz Hub | Community",
+  Logo = "rbxassetid://15298567397",
+  Invite = "https://discord.gg/7aR7kNVt4g"
+})
+
+-- Simple example ;)
+-- More in soon... ]]
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+--// info //
+allow_rj = true
+Tab3:AddButton({
+    Name = "Rejoin",
+    Description = "Server re-entry, useful for disabling options that do not disable manually",
+    Callback = function()
+        task.spawn(function()
+            local Dialog = Window:Dialog({
+                Title = "Are you sure?",
+                Text = "If you accept, you will re-enter the game (on the same server), thus losing a round, and all options will be deactivated.",
+                Options = {
+                    {"OK", function()
+                        if #Players:GetPlayers() <= 1 then
+                            LocalPlayer:Kick("\nRejoining...")
+                            task.wait()
+                            TeleportService:Teleport(PlaceId, LocalPlayer)
+                        else
+                            TeleportService:TeleportToPlaceInstance(PlaceId, JobId, LocalPlayer)
+                        end
+                    end},
+                    {"❌", function()
+                        return
+                    end}
+                }
+            })
+        end)
+    end
+})
+
+coroutine.wrap(function()
+    GuiService.ErrorMessageChanged:Connect(function()
+        pcall(function()
+            if #Players:GetPlayers() <= 1 then
+                LocalPlayer:Kick("\nRejoining...")
+                task.wait()
+                TeleportService:Teleport(PlaceId, LocalPlayer)
+            else
+                TeleportService:TeleportToPlaceInstance(PlaceId, JobId, LocalPlayer)
+            end
+        end)
+    end)
+end)()
+
+local inf = Tab3:AddButton({Name = "loading..."; Description = " " })
+local inf2 = Tab3:AddButton({Name = "loading..."; Description = " " })
+local inf3 = Tab3:AddButton({Name = "loading..."; Description = " " })
+local inf4 = Tab3:AddButton({Name = "loading..."; Description = " " })
+local inf5 = Tab3:AddButton({Name = "loading..."; Description = " " })
+local inf6 = Tab3:AddButton({Name = "loading..."; Description = " " })
+local inf7 = Tab3:AddButton({Name = "loading..."; Description = " " })
+local inf8 = Tab3:AddButton({Name = "loading..."; Description = " " })
+up(2.5)
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+--// function extra //
+local startTime = 0
+function updatePlayTime()
+    startTime = startTime + 1
+    local hours = math.floor(startTime / 3600)
+    local minutes = math.floor((startTime % 3600) / 60)
+    local seconds = startTime % 60
+    local timeString = string.format("%02dh %02dm %02ds", hours, minutes, seconds)
+
+    inf4:Set("Hours played: " .. timeString, " ")
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+coroutine.wrap(function()
+    wait(9)
+    coroutine.wrap(function()
+        while true do
+            updatePlayTime()
+            wait(1)
+        end
+    end)()
+    
+    inf3:Set("id game: " .. bs, " ")
+    inf5:Set("Script created by Liver zMods", " ")
+    inf2:Set("Game: " .. Asset.Name, "By @Nikilis")
+    Tab3:AddDiscordInvite({
+        Name = "Redz Hub | Community | V5";
+        Description = "Interface made by real_redz";
+        Logo = "rbxassetid://15298567397";
+        Invite = "https://discord.gg/7aR7kNVt4g"
+    })
+    while task.wait(0.45) do
+        local pl_rs = game.Players:GetPlayers()
+        inf:Set("Players: " .. #pl_rs .. "/" .. game.Players.MaxPlayers, " ")
+        inf6:Set("Last update: " ..dat.. "/" ..mon.. "/" ..yea, " ")
+        inf7:Set("FPS: " .. library.fps, " ")
+        inf8:Set("Ping: " .. math.round(plr:GetNetworkPing() * 1000) .. ".ms", "This measure is known as latency, sometimes also called lag, between the computer and its server.")
+    end
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local Players = game:GetService('Players')
+local Client = Players.LocalPlayer
+local RunService = game:GetService('RunService')
+local Workspace = game:GetService("Workspace")
+local Lighting = game:GetService("Lighting")
+local lastAttack = tick()
+
+coroutine.wrap(function()
+    local Players = game.Players
+    local LocalPlayer = Players.LocalPlayer
+    local GetPlayers = Players.GetPlayers
+    local Camera = workspace.CurrentCamera
+    local WTSP = Camera.WorldToScreenPoint
+    local FindFirstChild = game.FindFirstChild
+    local Vector2_new = Vector2.new
+    local Mouse = LocalPlayer:GetMouse()
+    
+    local toggleEnabled = false
+    
+    function ClosestChar()
+        local Max, Close = math.huge
+        for I,V in pairs(GetPlayers(Players)) do
+            if V ~= LocalPlayer and V.Team ~= LocalPlayer.Team and V.Character then
+                local Torso = FindFirstChild(V.Character, "UpperTorso") or FindFirstChild(V.Character, "LowerTorso")
+                if Torso then
+                    local Pos, OnScreen = WTSP(Camera, Torso.Position)
+                    if OnScreen then
+                        local Dist = (Vector2_new(Pos.X, Pos.Y) - Vector2_new(Mouse.X, Mouse.Y)).Magnitude
+                        if Dist < Max then
+                            Max = Dist
+                            Close = V.Character
+                        end
+                    end
+                end
+            end
+        end
+        return Close
+    end
+    
+    local MT = getrawmetatable(game)
+    local __namecall = MT.__namecall
+    setreadonly(MT, false)
+    MT.__namecall = newcclosure(function(self, ...)
+        local Method = getnamecallmethod()
+        if Method == "FindPartOnRay" and not checkcaller() and tostring(getfenv(0).script) == "GunInterface" then
+            if toggleEnabled then
+                local Character = ClosestChar()
+                if Character then
+                    local Torso = Character:FindFirstChild("UpperTorso") or Character:FindFirstChild("LowerTorso")
+                    if Torso then
+                        return Torso, Torso.Position
+                    end
+                end
+            end
+        end
+    
+        return __namecall(self, ...)
+    end)
+    setreadonly(MT, true)
+    
+    task.wait()
+    
+    toggleEnabled = false
+end)()
+
+up(50)
+task.wait()
+
+task.spawn(function()
+    coroutine.wrap(function()
+        gui2 = Instance.new("ScreenGui")
+        gui2.Name = randomString()
+        gui2.Parent = game.Players.LocalPlayer.PlayerGui
+        gui2.DisplayOrder = 9e9
+        gui2.Enabled = false
+        coroutine.wrap(function()
+            while task.wait() do
+                gui2.RobloxLocked = true
+                gui2.ResetOnSpawn = false
+            end
+        end)()
+    
+        local imageButton = Instance.new("ImageButton")
+        imageButton.Name = randomString()
+        imageButton.Size = UDim2.new(0.0325, 0, 0.076, 0)
+        imageButton.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+        imageButton.BackgroundTransparency = 0.1
+        imageButton.Image = "rbxassetid://18293640018"
+        imageButton.Position = UDim2.new(0.20, 0, 0, 0)
+        imageButton.Draggable = true
+        
+        local imageButtonBorder = Instance.new("UIStroke", imageButton)
+        imageButtonBorder.Color = Color3.fromRGB(71, 71, 71)
+        imageButtonBorder.Thickness = 1.5
+        imageButton.Parent = gui2
+        
+        booletan = false
+        
+        imageButton.MouseButton1Click:Connect(function()
+            task.spawn(function()
+                local Sound = Instance.new("Sound", game:GetService("SoundService"))
+                Sound.SoundId = "rbxassetid://4601634016"
+                booletan = not booletan
+                imageButton.Image = booletan and "rbxassetid://18293634731" or "rbxassetid://18293640018"
+                Sound:Play()
+                for i = 1, 5 do
+                    task.wait()
+                end 
+                
+                Window:Minimize()
+            end)
+        end)
+        
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0.2, 0.1)
+        corner.Parent = imageButton
+    end)()
+end)
+
+Window:Minimize()
+gui2.Enabled = true
+pcall(function() getgenv().MMr = true end); up(2.5)
