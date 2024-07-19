@@ -16,6 +16,8 @@ local HRP = Character:WaitForChild("HumanoidRootPart")
 local AC = Character:FindFirstChildOfClass("AnimationController")
 local startTime = tick()
 local Basic = Instance.new('BindableFunction')
+local Workspace = game:GetService("Workspace")
+local Fallen = Workspace.FallenPartsDestroyHeight
 
 --// global variables //
 ws = Humanoid.WalkSpeed
@@ -112,13 +114,40 @@ SecondPlan(function()
     })
 end)
 
+--// others //
+SecondPlan(function()
+    local plr = Services.Players.LocalPlayer
+    local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbao143/thaibao/main/TbaoHubEz"))() task.wait(.2)
+    
+    --// etc //
+    local Wm = library:Watermark("Ping: " .. math.round(plr:GetNetworkPing() * 1000) .. "")
+    local FpsWm = Wm:AddWatermark("fps: " .. library.fps)
+    coroutine.wrap(function()
+        while task.wait(0.35) do
+        
+            task.spawn(function()
+                pcall(function()
+                    FpsWm:Text("Fps: " .. library.fps)
+                end)
+            end)
+            
+            task.spawn(function()
+                pcall(function()
+                    Wm:Text("Ping: " .. math.round(plr:GetNetworkPing() * 1000))
+                end)
+            end)
+         end
+    end)()
+end)
+
 --// Main script //
 SecondPlan(function()
     while delay(0.3) do
         if boolean then
-            FPS(Random(true, 10, 24))
+            FPS(Random(true, 5, 15))
             
             local number = Random(true, -3, 1)
+            Workspace.FallenPartsDestroyHeight = 9e9
             
             SecondPlan(function()
                 delay = task.wait
@@ -170,6 +199,7 @@ SecondPlan(function()
         else
             Humanoid.WalkSpeed = (ws)
             FPS(120)
+            Workspace.FallenPartsDestroyHeight = Fallen
         end
     end
 end)
