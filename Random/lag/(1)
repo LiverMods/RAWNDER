@@ -144,7 +144,7 @@ end)
 SecondPlan(function()
     while delay(0.3) do
         if boolean then
-            FPS(Random(true, 5, 15))
+            FPS(Random(true, 4, 15))
             
             local number = Random(true, -3, 1)
             Workspace.FallenPartsDestroyHeight = 9e9
