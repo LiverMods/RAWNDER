@@ -292,15 +292,16 @@ local UIGridLayout = Instance.new("UIGridLayout", ScrollingFrame)
 UIGridLayout.Name = randomString()
 UIGridLayout.CellSize = UDim2.new(0, 90, 0, 90)
 
-task.spawn(function() task.wait(.6) tw(ScrollingFrame, UDim2.new(0.08, 0, 0.42, 0), 1.5) end)
+tw(ScrollingFrame, UDim2.new(0.08, 0, 0.42, 0), 1.5)
 
-local itemFrames = {}
+local itemFrames = {} -- Tabela para armazenar os botões dos itens
 
 coroutine.wrap(function()
     while wait(1.5) do
         local itemsFolder = workspace.Items
         local items = {}
 
+        -- Limpar apenas os botões que não têm correspondência no workspace
         for i, itemFrame in pairs(itemFrames) do
             if not itemsFolder:FindFirstChild(itemFrame.ItemName.Value) then
                 itemFrame:Destroy()
@@ -308,6 +309,7 @@ coroutine.wrap(function()
             end
         end
 
+        -- Adicionar novos itens à tabela se ainda não estiverem na GUI
         for _, item in pairs(itemsFolder:GetChildren()) do
             if item:IsA("Model") then
                 local hitbox = item:FindFirstChild("Hitbox")
@@ -350,39 +352,49 @@ coroutine.wrap(function()
                         cam.CFrame = CFrame.new(cameraPosition, objectPosition)
                         View.CurrentCamera = cam
 
+                        -- Armazenar o nome do item
                         local itemNameValue = Instance.new("StringValue", ItemFrame)
                         itemNameValue.Name = "ItemName"
                         itemNameValue.Value = item.Name
 
+                        -- Adicionar à tabela de itemFrames
                         itemFrames[item.Name] = ItemFrame
 
                         ItemFrame.MouseButton1Down:Connect(function()
-                            local __namecall = {
-                                [1] = "AttemptSwapItems",
-                                [2] = hitbox or handleMesh
-                            }
+                            -- Verificar a posição atual do item no workspace
+                            local itemInWorkspace = itemsFolder:FindFirstChild(item.Name)
+                            if itemInWorkspace then
+                                local hitbox = itemInWorkspace:FindFirstChild("Hitbox")
+                                local handleMesh = itemInWorkspace:FindFirstChild("Handle")
+                                
+                                -- Troca de itens (conforme o seu script original)
+                                local __namecall = {
+                                    [1] = "AttemptSwapItems",
+                                    [2] = hitbox or handleMesh
+                                }
 
-                            local cam = workspace.CurrentCamera.CFrame
-                            local cpos = game.Players.LocalPlayer.Character:GetPrimaryPartCFrame()
-                            game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(hitbox and hitbox.CFrame or handleMesh.CFrame)
+                                local cam = workspace.CurrentCamera.CFrame
+                                local cpos = game.Players.LocalPlayer.Character:GetPrimaryPartCFrame()
+                                game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(hitbox and hitbox.CFrame or handleMesh.CFrame)
 
-                            task.spawn(function()
-                                for up = 1, 8 do
-                                    pcall(function()
-                                        game:GetService("ReplicatedStorage").modules.up.Network.RemoteFunction:InvokeServer(unpack(__namecall))
-                                    end)
+                                task.spawn(function()
+                                    for up = 1, 8 do
+                                        pcall(function()
+                                            game:GetService("ReplicatedStorage").modules.up.Network.RemoteFunction:InvokeServer(unpack(__namecall))
+                                        end)
+                                    end
+                                end)
+
+                                repeat
+                                    game:GetService("ReplicatedStorage").modules.up.Network.RemoteFunction:InvokeServer(unpack(__namecall))
+                                    wait()
+                                until workspace.FakeItemModels:FindFirstChild(item.Name)
+                                task.wait()
+
+                                for j = 1, 4 do
+                                    game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(cpos)
+                                    workspace.CurrentCamera.CFrame = cam
                                 end
-                            end)
-
-                            repeat
-                                game:GetService("ReplicatedStorage").modules.up.Network.RemoteFunction:InvokeServer(unpack(__namecall))
-                                wait()
-                            until workspace.FakeItemModels:FindFirstChild(item.Name)
-                            task.wait()
-
-                            for j = 1, 4 do
-                                game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(cpos)
-                                workspace.CurrentCamera.CFrame = cam
                             end
                         end)
                     end
