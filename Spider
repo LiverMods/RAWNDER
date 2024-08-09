@@ -292,83 +292,80 @@ local UIGridLayout = Instance.new("UIGridLayout", ScrollingFrame)
 UIGridLayout.Name = randomString()
 UIGridLayout.CellSize = UDim2.new(0, 90, 0, 90)
 
-tw(ScrollingFrame, UDim2.new(0.08, 0, 0.42, 0), 1.5)
+task.spawn(function() task.wait(.6) tw(ScrollingFrame, UDim2.new(0.08, 0, 0.42, 0), 1.5) end)
+
+local itemFrames = {}
 
 coroutine.wrap(function()
     while wait(1.5) do
         local itemsFolder = workspace.Items
         local items = {}
-        local itemframes = ScrollingFrame:getChildren()
-        
-        for i = 1, #itemframes do
-            if itemframes[i].ClassName == "TextButton" then
-                itemframes[i]:remove()
+
+        for i, itemFrame in pairs(itemFrames) do
+            if not itemsFolder:FindFirstChild(itemFrame.ItemName.Value) then
+                itemFrame:Destroy()
+                itemFrames[i] = nil
             end
         end
-        
+
         for _, item in pairs(itemsFolder:GetChildren()) do
             if item:IsA("Model") then
                 local hitbox = item:FindFirstChild("Hitbox")
                 local handleMesh = item:FindFirstChild("Handle")
-            
-                if item:FindFirstChild("Hitbox") then
-                    table.insert(items, item)
-                elseif item.Handle then
-                    table.insert(items, item)
-                end
-            end
-        end
 
-        for i = 1, #items do
-            local U_i = Instance.new("UICorner")
-            U_i.CornerRadius = UDim.new(0.15, 0)
-            
-            local ItemFrame = Instance.new("TextButton", ScrollingFrame)
-            ItemFrame.Name = randomString()
-            ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
-            ItemFrame.BackgroundTransparency = 1
-            ItemFrame.Size = UDim2.new(0, 100, 0, 100)
-            ItemFrame.Text = " "
-            U_i.Parent = ItemFrame
-            
-            local View = Instance.new("ViewportFrame", ItemFrame)
-            View.Name = randomString()
-            View.Size = UDim2.new(1, 0, 1, 0)
-            View.BackgroundTransparency = 0.9
-            View.BorderSizePixel = 0.3
-            U_i.Parent = View
+                if hitbox or handleMesh then
+                    if not itemFrames[item.Name] then
+                        local U_i = Instance.new("UICorner")
+                        U_i.CornerRadius = UDim.new(0.15, 0)
+                        
+                        local ItemFrame = Instance.new("TextButton", ScrollingFrame)
+                        ItemFrame.Name = randomString()
+                        ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
+                        ItemFrame.BackgroundTransparency = 1
+                        ItemFrame.Size = UDim2.new(0, 100, 0, 100)
+                        ItemFrame.Text = " "
+                        U_i.Parent = ItemFrame
+                        
+                        local View = Instance.new("ViewportFrame", ItemFrame)
+                        View.Name = randomString()
+                        View.Size = UDim2.new(1, 0, 1, 0)
+                        View.BackgroundTransparency = 0.9
+                        View.BorderSizePixel = 0.3
+                        U_i.Parent = View
 
-            local object = items[i]
-            local viewportclone = items[i]:Clone()
-            viewportclone.Parent = View
-            
-            local cam = Instance.new("Camera", viewportclone)
-            cam.CameraType = Enum.CameraType.Fixed
-            local objectPosition
-            if object:FindFirstChild("Hitbox") then
-                objectPosition = object.Hitbox.Position
-            elseif object:FindFirstChild("Handle") then
-                objectPosition = object.Handle.Position
-            else
-                objectPosition = game.Players.LocalPlayer.Character:GetPrimaryPartCFrame()
-            end
-            local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
-            cam.CFrame = CFrame.new(cameraPosition, objectPosition)
-            View.CurrentCamera = cam
+                        local viewportclone = item:Clone()
+                        viewportclone.Parent = View
 
-            ItemFrame.MouseButton1Down:Connect(function()
-                if object:FindFirstChild("Hitbox") then
-                    for _, v in pairs(items) do
-                        if object.Name == v.Name then
+                        local cam = Instance.new("Camera", viewportclone)
+                        cam.CameraType = Enum.CameraType.Fixed
+                        local objectPosition
+                        if item:FindFirstChild("Hitbox") then
+                            objectPosition = item.Hitbox.Position
+                        elseif item:FindFirstChild("Handle") then
+                            objectPosition = item.Handle.Position
+                        else
+                            objectPosition = game.Players.LocalPlayer.Character:GetPrimaryPartCFrame()
+                        end
+                        local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
+                        cam.CFrame = CFrame.new(cameraPosition, objectPosition)
+                        View.CurrentCamera = cam
+
+                        local itemNameValue = Instance.new("StringValue", ItemFrame)
+                        itemNameValue.Name = "ItemName"
+                        itemNameValue.Value = item.Name
+
+                        itemFrames[item.Name] = ItemFrame
+
+                        ItemFrame.MouseButton1Down:Connect(function()
                             local __namecall = {
                                 [1] = "AttemptSwapItems",
-                                [2] = object.Hitbox
+                                [2] = hitbox or handleMesh
                             }
-                            
+
                             local cam = workspace.CurrentCamera.CFrame
                             local cpos = game.Players.LocalPlayer.Character:GetPrimaryPartCFrame()
-                            game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(object.Hitbox.CFrame)
-                            
+                            game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(hitbox and hitbox.CFrame or handleMesh.CFrame)
+
                             task.spawn(function()
                                 for up = 1, 8 do
                                     pcall(function()
@@ -376,48 +373,25 @@ coroutine.wrap(function()
                                     end)
                                 end
                             end)
-                            
+
                             repeat
-                                 game:GetService("ReplicatedStorage").modules.up.Network.RemoteFunction:InvokeServer(unpack(__namecall))
-                                 wait()
-                            until workspace.FakeItemModels:FindFirstChild(v.Name)
+                                game:GetService("ReplicatedStorage").modules.up.Network.RemoteFunction:InvokeServer(unpack(__namecall))
+                                wait()
+                            until workspace.FakeItemModels:FindFirstChild(item.Name)
                             task.wait()
-                            
+
                             for j = 1, 4 do
                                 game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(cpos)
                                 workspace.CurrentCamera.CFrame = cam
                             end
-                        end
-                    end
-                elseif object:FindFirstChild("Handle") then
-                    for _, v in pairs(items) do
-                        if object.Name == v.Name then
-                            local __namecall = {
-                                [1] = "AttemptSwapItems",
-                                [2] = object.Handle
-                            }
-                            
-                            local cam = workspace.CurrentCamera.CFrame
-                            local cpos = game.Players.LocalPlayer.Character:GetPrimaryPartCFrame()
-                            game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(object.Handle.CFrame)
-                            
-                            repeat
-                                 game:GetService("ReplicatedStorage").modules.up.Network.RemoteFunction:InvokeServer(unpack(__namecall))
-                                 wait()
-                            until workspace.FakeItemModels:FindFirstChild(v.Name)
-                            task.wait()
-                            
-                            for j = 1, 4 do
-                                game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(cpos)
-                                workspace.CurrentCamera.CFrame = cam
-                            end
-                        end
+                        end)
                     end
                 end
-            end)
+            end
         end
     end
 end)()
+
 
 coroutine.wrap(function()
     local gui = Instance.new("ScreenGui")
@@ -434,12 +408,18 @@ coroutine.wrap(function()
     local imageButton = Instance.new("ImageButton")
     imageButton.Name = randomString()
     imageButton.Size = UDim2.new(0.0325, 0, 0.076, 0)
-    imageButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    imageButton.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
     imageButton.BackgroundTransparency = 0.450101838
-    imageButton.Image = "rbxassetid://14133402605"
+    imageButton.Image = "rbxassetid://18293640018"
     imageButton.Position = UDim2.new(0.20, 0, 0, 0)
     imageButton.Draggable = true
     imageButton.Parent = gui
+    
+    local imageButtonBorder = Instance.new("UIStroke", imageButton)
+    imageButtonBorder.Color = Color3.fromRGB(71, 71, 71)
+    imageButtonBorder.Thickness = 1.5
+    imageButton.Parent = gui
+        
     imageButton.MouseButton1Click:Connect(function()
         task.spawn(function()
             chelse = not chelse
@@ -450,6 +430,10 @@ coroutine.wrap(function()
                 task.wait()
             end 
             
+            --// trocando a cor! //
+            imageButton.Image = chelse and "rbxassetid://18293634731" or "rbxassetid://18293640018"
+            
+            --// toggle de visibilidade //
             if chelse then
                 tw(ScrollingFrame, UDim2.new(0.08, 0, 1.1, 0), 0.58)
             else
