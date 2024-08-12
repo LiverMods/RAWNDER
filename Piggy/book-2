@@ -1,3 +1,4 @@
+--<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
 -- Script de carregamento
 --// check game //
 local pulse = true
@@ -76,25 +77,40 @@ local function randomString()
     return table.concat(array)
 end
 
-spawn(function()
+--// carregando //
+task.spawn(function()
     coroutine.wrap(function()
         task.spawn(function()
-            local blur = Instance.new("BlurEffect")
+            local function randomString()
+            	local length = math.random(10,20)
+            	local array = {}
+            	for i = 1, length do
+            		array[i] = string.char(math.random(32, 126))
+            	end
+            	return table.concat(array)
+            end
+            
+            blur = Instance.new("BlurEffect")
+            
             local Ui = Instance.new("UICorner")
             local Ui_ = Instance.new("UICorner")
+            local Ui__ = Instance.new("UICorner")
             Ui_.CornerRadius = UDim.new(0.2, 0)
-            Ui.CornerRadius = UDim.new(0.2, 0)
+            Ui.CornerRadius = UDim.new(0.15, 0)
+            Ui__.CornerRadius = UDim.new(0.2, 0)
+            
             blur.Parent = game.Lighting
+            blur.Size = 999
             blur.Enabled = false
 
             local ScreenGui = Instance.new("ScreenGui")
-            ScreenGui.Name = "RobloxGui5"
+            ScreenGui.Name = randomString()
             ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
             ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
             Ui.Parent = ScreenGui
 
             local BackgroundImage = Instance.new("ImageLabel")
-            BackgroundImage.Name = "BackgroundImage"
+            BackgroundImage.Name = randomString()
             BackgroundImage.BackgroundTransparency = 1
             BackgroundImage.Position = UDim2.new(0.5, -250, 0.5, -150)
             BackgroundImage.Size = UDim2.new(0, 500, 0, 300)
@@ -102,7 +118,7 @@ spawn(function()
             BackgroundImage.Parent = ScreenGui
 
             local Frame = Instance.new("Frame")
-            Frame.Name = "ProgressFrame"
+            Frame.Name = randomString()
             Frame.Size = UDim2.new(0, 400, 0, 100)
             Frame.Position = UDim2.new(0.5, -200, 0.5, -50)
             Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
@@ -112,7 +128,7 @@ spawn(function()
             Ui_.Parent = Frame
 
             local TextLabel = Instance.new("TextLabel")
-            TextLabel.Name = "ProgressText"
+            TextLabel.Name = randomString()
             TextLabel.Size = UDim2.new(1, 0, 0, 50)
             TextLabel.Position = UDim2.new(0, 0, 0.06, 0)
             TextLabel.Text = "Loading..."
@@ -124,16 +140,16 @@ spawn(function()
             Ui.Parent = TextLabel
 
             local Background = Instance.new("Frame")
-            Background.Name = "Background"
+            Background.Name = randomString()
             Background.Size = UDim2.new(0.8, 0, 0, 21)
             Background.Position = UDim2.new(0.1, 0, 0.73, -5)
             Background.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
             Background.BorderSizePixel = 0
             Background.Parent = Frame
-            Ui.Parent = Background
+            Ui__.Parent = Background
 
             local Progress = Instance.new("Frame")
-            Progress.Name = "Progress"
+            Progress.Name = randomString()
             Progress.Size = UDim2.new(0, 0, 1, 0)
             Progress.BackgroundColor3 = Color3.fromRGB(30, 145, 255)
             Progress.BorderSizePixel = 0
@@ -142,31 +158,155 @@ spawn(function()
 
             function updateProgress(percent)
                 Progress:TweenSize(UDim2.new(percent, 0, 1, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.2, true)
-                TextLabel.Text = string.format("Loading... %d%%", percent * 100)
+                TextLabel.Text = string.format("Carregando... %d%%", percent * 100)
             end
 
             blur.Enabled = true
-
-            for i = 1, 100, 0.75 do
-                updateProgress(i / 100)
-                local number = i
-
-                task.wait()
-                task.spawn(function()
-                    if number >= 76 then
-                        wait()
-                        return
-                    end
-                end)
+            
+            roNub1 = 0
+            function up(text)
+                roNub1 = (roNub1 + text)
+                updateProgress(roNub1 / 100)
+    
+                task.wait(.15)
+                if roNub1 == 100 then
+                    task.wait(0.8)
+                    ScreenGui:Destroy()
+                    blur.Enabled = false
+                end
             end
-
-            wait(2)
-
-            ScreenGui:Destroy()
-            blur.Enabled = false
         end)
     end)()
 end)
+
+--// verificação blacklist //
+
+--<>---<>---<>---<>---<>--
+
+task.wait(.7)
+up(0.25)
+task.wait(.1)
+up(0.25)
+task.wait(.2)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/Script-New-/main/print-test-script.txt"))()
+task.wait(.2)
+up(0.5)
+
+--<>---<>---<>---<>---<>--
+
+local itl
+local dat, mon, yea = 01, 07, 2024
+local itl2
+local cam = workspace.CurrentCamera.CFrame
+local sn = game.Players.LocalPlayer.Character:GetPrimaryPartCFrame()
+local verifq = false
+local plr = game.Players.LocalPlayer
+
+--<>---<>---<>---<>---<>--
+
+local blacklistText = "You are on the blacklist"
+
+--<>---<>---<>---<>---<>--
+
+local function kicker(reason)
+    pcall(function()
+        game.Players.LocalPlayer:Kick(reason)
+    end)
+end
+
+--<>---<>---<>---<>---<>--
+
+local function kick(player, reason)
+    task.spawn(function()
+        task.wait()
+        if game.Players.LocalPlayer.Name == player then
+            kicker(reason)
+            wait()
+            print("You are on the Blacklist")
+            return
+        else
+            if itl then return end
+            print("You are on the Whitelist")
+            itl = true
+        end
+    end)
+end
+
+--<>---<>---<>---<>---<>--
+
+local function isDateValid(date)
+    if not date then
+        return true
+    end
+    
+    local currentDate = os.date("*t")
+    local year, month, day = tonumber(date:sub(1,4)), tonumber(date:sub(6,7)), tonumber(date:sub(9,10))
+    
+    if year and month and day then
+        local banDate = {
+            year = year,
+            month = month,
+            day = day
+        }
+        
+        if banDate.year > currentDate.year then
+            return true
+        elseif banDate.year == currentDate.year and banDate.month > currentDate.month then
+            return true
+        elseif banDate.year == currentDate.year and banDate.month == currentDate.month and banDate.day >= currentDate.day then
+            return true
+        end
+    end
+    
+    return false
+end
+
+--<>---<>---<>---<>---<>--
+
+local function BlackList()
+    for _, entry in ipairs(BlacKlIst_89171050018619910013_plr_name) do
+        local username = entry.Username
+        local permanent = entry.permanent
+        local date = entry.date
+        local banType = permanent and "Permanent" or "Temporary"
+        local kickReason = blacklistText .. " | ban: " .. banType .. " (" .. username .. ")"
+        
+        if not permanent then
+            if isDateValid(date) then
+                kickReason = kickReason .. " | date: " .. date
+            else
+                if not itl2 then
+                    print("The ban for " .. username .. " has expired")
+                end
+                itl2 = true
+                continue
+            end
+        end
+        
+        kick(username, kickReason)
+    end
+end
+
+--<>---<>---<>---<>---<>--
+
+local function CheckBlacklist()
+    for _, entry in ipairs(BlacKlIst_89171050018619910013_plr_name) do
+        if entry.Username == plr.Name then
+        
+            if isDateValid(entry.date) then
+                verifq = false
+            else
+                verifq = true
+            end
+            return verifq
+        else
+            verifq = true
+            return verifq
+        end
+    end
+end
+
+--<>---<>---<>---<>---<>--
 
 local function tw(gui, targetPosition, duration)
     local tweenInfo = TweenInfo.new(duration, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
@@ -175,32 +315,74 @@ local function tw(gui, targetPosition, duration)
     tween:Play()
 end
 
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
 task.wait(2.5)
 mobile = true
 Floating = false
 floatName = randomString()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/xRawnder/main/Library/Cmds_Chat"))();
 
--- Créditos
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+--// Créditos //
 
-spawn(function()
+task.spawn(function()
     local message = Instance.new("Message", workspace)
     task.wait(1)    
-    message.Text = "Made by Liver zMods { V7 }"
+    message.Text = "Made by Liver zMods { V8 }"
     wait(4.3)
     message:Destroy()
 end)
-task.wait(0.2)
 
+up(5)
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 warn("——————————————————")
 print("——————{ Success }——————")
 warn("——————————————————")
+
+coroutine.wrap(function()
+    function SAD(object, wk)
+        if object == "all" then
+            local b = wk:getDescendants()
+            for i = 1, #b do
+                b[i]:Destroy()
+            end
+        else
+            local a = wk:getDescendants()
+            for i = 1, #a do
+                if a[i].Name == object then
+                    a[i].Parent.CanCollide = false
+                    a[i]:Destroy()
+                end
+            end
+        end
+    end
+    
+    _G.GODMODE = false
+    task.spawn(function()
+        while task.wait() do
+            if _G.GODMODE == true then
+                local a = game:GetService("Workspace"):getDescendants()
+                for i = 1, #a do
+                    if a[i]:FindFirstChild("Enemy") and a[i].Enemy.Value == true then
+                        local ab = a[i].Parent
+                        SAD("TouchInterest", ab)
+                    end
+                end
+            end
+        end
+    end)
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+up(5)
 
 coroutine.wrap(function()
     chat_Message("————Commands [BETA]————", xrawnder, Enum.Font.SciFi)
     chat_Message("• fly", xrawnder, Enum.Font.SciFi)
     chat_Message("• noclip", xrawnder, Enum.Font.SciFi)
     chat_Message("• esp", xrawnder, Enum.Font.SciFi)
+    chat_Message("• godmode", xrawnder, Enum.Font.SciFi)
     chat_Message("• ws [enter the number]", xrawnder, Enum.Font.SciFi)
     chat_Message("• add prefix", xrawnder, Enum.Font.SciFi)
     chat_Message("—————————END—————————")
@@ -216,6 +398,34 @@ coroutine.wrap(function()
     
     Add_cmds_Chat("fly", function()
         loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
+    end)
+    
+    CTT = true
+    Add_cmds_Chat("godmode", function()
+        if not CTT then return end
+        pcall(function()
+            CTT = false
+            task.wait(.5)
+            
+            task.spawn(function()
+                _G.GODMODE = not _G.GODMODE
+                
+                if _G.GODMODE == true then
+                    chat_Message("on", green, Enum.Font.SciFi)
+                    task.spawn(function()
+                        game.StarterGui:SetCore("SendNotification", {
+                    	   Title = "[BETA]";
+                    	   Text = "errors are likely";
+                           Duration = 11.2
+                        })
+                    end)
+                elseif _G.GODMODE == false then
+                    chat_Message("off", red, Enum.Font.SciFi)
+                end
+            end)
+            
+            wait(2.23) CTT = true
+        end)
     end)
     
     Add_cmds_Chat("esp", function()
@@ -252,9 +462,15 @@ coroutine.wrap(function()
     end)
 end)()
 
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+up(9)
 
-loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
-wait(1)
+coroutine.wrap(function()
+    wait(3)
+    loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 coroutine.wrap(function()
     while task.wait() do
@@ -268,34 +484,98 @@ coroutine.wrap(function()
     end
 end)()
 
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
+coroutine.wrap(function()
+    wait(6.1)
+    game.StarterGui:SetCore("SendNotification", {
+         Title = "new update! 🎉";
+         Text = "added: godmode, item support like ammo and pistol etc.";
+         Duration = 40; 
+    }) 
+end)()
 
--- Gui do Piggy
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+up(10)
+
+local function encontrarPasta(scriptName)
+    for _, obj in ipairs(workspace:GetDescendants()) do
+        if obj.Name == scriptName then
+            local parent = obj.Parent
+            while parent and parent.Parent ~= workspace do
+                parent = parent.Parent
+            end
+            return parent --// Retorna a pasta que é parent da workspace //
+        end
+    end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function IsGame()
+    if game.PlaceId == 4623386862 then
+        return encontrarPasta("ItemPickupScript")
+    elseif game.PlaceId == 5661005779 or game.PlaceId == 5247067896 then
+        return encontrarPasta("NewItemPickupScript")
+    end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function randomString()
+	local length = math.random(10,20)
+	local array = {}
+	for i = 1, length do
+		array[i] = string.char(math.random(32, 126))
+	end
+	return table.concat(array)
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+pasta = IsGame()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+--// Gui do Piggy //
 
 local U_i = Instance.new("UICorner")
 local U_i_2 = Instance.new("UICorner")
 U_i.CornerRadius = UDim.new(0.4, 0)
 U_i_2.CornerRadius = UDim.new(0.4, 0)
 
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
 local PiggyGui = Instance.new("ScreenGui")
-PiggyGui.Name = "PiggyGui"
+PiggyGui.Name = randomString()
 PiggyGui.Enabled = true
 PiggyGui.ResetOnSpawn = false
 PiggyGui.Parent = game.CoreGui
 
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
 local ScrollingFrame = Instance.new("ScrollingFrame", PiggyGui)
+ScrollingFrame.Name = randomString()
 ScrollingFrame.BackgroundColor3 = Color3.new(0.15, 0, 0)
 ScrollingFrame.Position = UDim2.new(0.08, 0, -0.95, 0)
 ScrollingFrame.Size = UDim2.new(0, 296, 0, 388)
 
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
 local UIGridLayout = Instance.new("UIGridLayout", ScrollingFrame)
 UIGridLayout.CellSize = UDim2.new(0, 90, 0, 90)
 
-tw(ScrollingFrame, UDim2.new(0.08, 0, 0.42, 0), 1.3)
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+coroutine.wrap(function()
+    task.wait(0.7)
+    tw(ScrollingFrame, UDim2.new(0.08, 0, 0.42, 0), 1.3)
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 coroutine.wrap(function()
     while wait(1.5) do
-        local a = workspace:getDescendants()
+        local a = pasta:getDescendants()
         local items = {}
         local itemframes = ScrollingFrame:getChildren()
         for i = 1, #itemframes do
@@ -304,7 +584,7 @@ coroutine.wrap(function()
             end
         end
         for i = 1, #a do
-            if a[i].Name == "ItemPickupScript" or a[i].Name == "NewItemPickupScript" and a[i].Parent:findFirstChild("ClickDetector") then
+            if a[i].Name == "ItemPickupScript" or a[i].Name == "NewItemPickupScript" or a[i].Name == "Script" and a[i].Parent:findFirstChild("ClickDetector") then
                 table.insert(items, a[i].Parent)
             end
         end
@@ -312,24 +592,29 @@ coroutine.wrap(function()
         for i = 1, #items do
             local U_i = Instance.new("UICorner")
             U_i.CornerRadius = UDim.new(0.15, 0)
+            
             local ItemFrame = Instance.new("TextButton", ScrollingFrame)
             ItemFrame.Name = "ItemFrame"
             ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
             ItemFrame.BackgroundTransparency = 1
             ItemFrame.Size = UDim2.new(0, 100, 0, 100)
-            ItemFrame.Text = "LM"
+            ItemFrame.Text = "★"
             U_i.Parent = ItemFrame
+            
             local View = Instance.new("ViewportFrame", ItemFrame)
             View.Name = "View"
             View.Size = UDim2.new(1, 0, 1, 0)
             View.BackgroundTransparency = 0.9
             View.BorderSizePixel = 0.3
             U_i.Parent = View
+            
             local object = items[i]
             local viewportclone = object:Clone()
             viewportclone.Parent = View
+            
             local cam = Instance.new("Camera", viewportclone)
             cam.CameraType = Enum.CameraType.Fixed
+            
             local objectPosition = object.Position
             local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
             cam.CoordinateFrame = CFrame.new(cameraPosition, objectPosition)
@@ -355,46 +640,69 @@ coroutine.wrap(function()
         end
     end
 end)()
+up(60)
 
-coroutine.wrap(function()
-    local gui = Instance.new("ScreenGui")
-    gui.Name = randomString()
-    gui.Parent = game.Players.LocalPlayer.PlayerGui
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+task.spawn(function()
     coroutine.wrap(function()
-        while task.wait() do
-            gui.RobloxLocked = true
-            gui.ResetOnSpawn = false
-            gui.Enabled = true
-        end
-    end)()
-
-    local imageButton = Instance.new("ImageButton")
-    imageButton.Size = UDim2.new(0.0325, 0, 0.076, 0)
-    imageButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-    imageButton.BackgroundTransparency = 0.450101838
-    imageButton.Image = "rbxassetid://14133402605"
-    imageButton.Position = UDim2.new(0.20, 0, 0, 0)
-    imageButton.Draggable = true
-    imageButton.Parent = gui
-    imageButton.MouseButton1Click:Connect(function()
-        task.spawn(function()
-            chelse = not chelse
-            local Sound = Instance.new("Sound", game:GetService("SoundService"))
-            Sound.SoundId = "rbxassetid://9119720940"
-            Sound:Play()
-            for i = 1, 5 do
-                task.wait()
-            end 
-            
-            if chelse then
-                tw(ScrollingFrame, UDim2.new(0.08, 0, 1.1, 0), 0.58)
-            else
-                tw(ScrollingFrame, UDim2.new(0.08, 0, 0.42, 0), 0.48)
+        gui = Instance.new("ScreenGui")
+        gui.Name = randomString()
+        gui.Parent = game.Players.LocalPlayer.PlayerGui
+        gui.DisplayOrder = 9e9
+        coroutine.wrap(function()
+            while task.wait() do
+                gui.RobloxLocked = true
+                
+                gui.ResetOnSpawn = false
+                PiggyGui.ResetOnSpawn = false
+                
+                PiggyGui.Enabled = true
+                gui.Enabled = true
             end
+        end)()
+    
+        local imageButton = Instance.new("ImageButton")
+        imageButton.Name = randomString()
+        imageButton.Size = UDim2.new(0.0325, 0, 0.076, 0)
+        imageButton.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+        imageButton.BackgroundTransparency = 0.1
+        imageButton.Image = "rbxassetid://18293640018"
+        imageButton.Position = UDim2.new(0.20, 0, 0, 0)
+        imageButton.Draggable = true
+        
+        local imageButtonBorder = Instance.new("UIStroke", imageButton)
+        imageButtonBorder.Color = Color3.fromRGB(71, 71, 71)
+        imageButtonBorder.Thickness = 1.5
+        imageButton.Parent = gui
+        
+        booletan = false
+        
+        imageButton.MouseButton1Click:Connect(function()
+            task.spawn(function()
+                local Sound = Instance.new("Sound", game:GetService("SoundService"))
+                Sound.SoundId = "rbxassetid://4601634016"
+                booletan = not booletan
+                imageButton.Image = booletan and "rbxassetid://18293634731" or "rbxassetid://18293640018"
+                Sound:Play()
+                
+                for i = 1, 5 do
+                    task.wait()
+                end 
+                
+                pasta = IsGame()
+                
+                if booletan then
+                    tw(ScrollingFrame, UDim2.new(0.08, 0, 1.1, 0), 0.58)
+                else
+                    tw(ScrollingFrame, UDim2.new(0.08, 0, 0.42, 0), 0.48)
+                end
+            end)
         end)
-    end)
-
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.2, 0.1)
-    corner.Parent = imageButton
-end)()
+        
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0.2, 0.1)
+        corner.Parent = imageButton
+    end)()
+end)
+up(10)
