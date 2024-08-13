@@ -183,13 +183,13 @@ end)
 
 --<>---<>---<>---<>---<>--
 
-task.wait(.7)
+task.wait(.1)
 up(0.25)
 task.wait(.1)
 up(0.25)
 task.wait(.2)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/Script-New-/main/print-test-script.txt"))()
-task.wait(.2)
+task.wait(.1)
 up(0.5)
 
 --<>---<>---<>---<>---<>--
@@ -498,25 +498,33 @@ end)()
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 up(10)
 
-local function encontrarPasta(scriptName)
-    for _, obj in ipairs(workspace:GetDescendants()) do
-        if obj.Name == scriptName then
-            local parent = obj.Parent
-            while parent and parent.Parent ~= workspace do
-                parent = parent.Parent
+local function findFolder(scriptName)
+    local scriptObject = nil
+    
+    while not scriptObject do
+        for _, obj in ipairs(workspace:GetDescendants()) do
+            if obj.Name == scriptName then
+                scriptObject = obj
+                break
             end
-            return parent --// Retorna a pasta que é parent da workspace //
         end
+        task.wait(0.5)
     end
+    
+    local parent = scriptObject.Parent
+    while parent and parent.Parent ~= workspace do
+        parent = parent.Parent
+    end
+    return parent
 end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 local function IsGame()
     if game.PlaceId == 4623386862 then
-        return encontrarPasta("ItemPickupScript")
+        return findFolder("ItemPickupScript")
     elseif game.PlaceId == 5661005779 or game.PlaceId == 5247067896 then
-        return encontrarPasta("NewItemPickupScript")
+        return findFolder("NewItemPickupScript")
     end
 end
 
@@ -530,10 +538,6 @@ local function randomString()
 	end
 	return table.concat(array)
 end
-
---<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
-
-pasta = IsGame()
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 --// Gui do Piggy //
@@ -574,72 +578,76 @@ end)()
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 coroutine.wrap(function()
-    while wait(1.5) do
+    while true do
         pasta = IsGame()
-        task.wait()
-        local a = pasta:getDescendants()
-        local items = {}
-        local itemframes = ScrollingFrame:getChildren()
-        for i = 1, #itemframes do
-            if itemframes[i].ClassName == "TextButton" then
-                itemframes[i]:remove()
+        if pasta then
+            task.wait()
+            local a = pasta:getDescendants()
+            local items = {}
+            local itemframes = ScrollingFrame:getChildren()
+            
+            for i = 1, #itemframes do
+                if itemframes[i].ClassName == "TextButton" then
+                    itemframes[i]:Destroy()
+                end
             end
-        end
-        for i = 1, #a do
-            if a[i].Name == "ItemPickupScript" or a[i].Name == "NewItemPickupScript" or a[i].Name == "Script" and a[i].Parent:findFirstChild("ClickDetector") then
-                table.insert(items, a[i].Parent)
+            
+            for i = 1, #a do
+                if a[i].Name == "ItemPickupScript" or a[i].Name == "NewItemPickupScript" or (a[i].Name == "Script" and a[i].Parent:FindFirstChild("ClickDetector")) then
+                    table.insert(items, a[i].Parent)
+                end
             end
-        end
-        
-        for i = 1, #items do
-            local U_i = Instance.new("UICorner")
-            U_i.CornerRadius = UDim.new(0.15, 0)
             
-            local ItemFrame = Instance.new("TextButton", ScrollingFrame)
-            ItemFrame.Name = "ItemFrame"
-            ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
-            ItemFrame.BackgroundTransparency = 1
-            ItemFrame.Size = UDim2.new(0, 100, 0, 100)
-            ItemFrame.Text = "★"
-            U_i.Parent = ItemFrame
-            
-            local View = Instance.new("ViewportFrame", ItemFrame)
-            View.Name = "View"
-            View.Size = UDim2.new(1, 0, 1, 0)
-            View.BackgroundTransparency = 0.9
-            View.BorderSizePixel = 0.3
-            U_i.Parent = View
-            
-            local object = items[i]
-            local viewportclone = object:Clone()
-            viewportclone.Parent = View
-            
-            local cam = Instance.new("Camera", viewportclone)
-            cam.CameraType = Enum.CameraType.Fixed
-            
-            local objectPosition = object.Position
-            local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
-            cam.CoordinateFrame = CFrame.new(cameraPosition, objectPosition)
-            View.CurrentCamera = cam
+            -- Criação dos botões para cada item
+            for i = 1, #items do
+                local U_i = Instance.new("UICorner")
+                U_i.CornerRadius = UDim.new(0.15, 0)
+                
+                local ItemFrame = Instance.new("TextButton", ScrollingFrame)
+                ItemFrame.Name = "ItemFrame"
+                ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
+                ItemFrame.BackgroundTransparency = 1
+                ItemFrame.Size = UDim2.new(0, 100, 0, 100)
+                ItemFrame.Text = "★"
+                U_i.Parent = ItemFrame
+                
+                local View = Instance.new("ViewportFrame", ItemFrame)
+                View.Name = "View"
+                View.Size = UDim2.new(1, 0, 1, 0)
+                View.BackgroundTransparency = 0.9
+                View.BorderSizePixel = 0.3
+                U_i.Parent = View
+                
+                local object = items[i]
+                local viewportclone = object:Clone()
+                viewportclone.Parent = View
+                
+                local cam = Instance.new("Camera", viewportclone)
+                cam.CameraType = Enum.CameraType.Fixed
+                
+                local objectPosition = object.Position
+                local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
+                cam.CoordinateFrame = CFrame.new(cameraPosition, objectPosition)
+                View.CurrentCamera = cam
 
-            ItemFrame.MouseButton1Down:connect(function()
-                if items[i]:findFirstChild("ClickDetector") then
-                    local cpos = game:GetService("Players").LocalPlayer.Character:GetPrimaryPartCFrame()
-                    game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(items[i].CFrame)
+                ItemFrame.MouseButton1Down:Connect(function()
+                    if items[i]:FindFirstChild("ClickDetector") then
+                        local cpos = game:GetService("Players").LocalPlayer.Character:GetPrimaryPartCFrame()
+                        game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(items[i].CFrame)
 
-                    task.wait(0.185)
-                    for up = 1, 4 do
-                        pcall(function()
-                            fireclickdetector(items[i].ClickDetector)
-                        end)
-                    end
-                    task.wait(0.15)
-                    for i = 1, 2 do
+                        task.wait(0.185)
+                        for up = 1, 4 do
+                            pcall(function()
+                                fireclickdetector(items[i].ClickDetector)
+                            end)
+                        end
+                        task.wait(0.15)
                         game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(cpos)
                     end
-                end
-            end)
+                end)
+            end
         end
+        task.wait(1.5)
     end
 end)()
 up(60)
@@ -691,8 +699,6 @@ task.spawn(function()
                 for i = 1, 5 do
                     task.wait()
                 end 
-                
-                pasta = IsGame()
                 
                 if booletan then
                     tw(ScrollingFrame, UDim2.new(0.08, 0, 1.1, 0), 0.58)
