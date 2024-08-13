@@ -575,6 +575,8 @@ end)()
 
 coroutine.wrap(function()
     while wait(1.5) do
+        pasta = IsGame()
+        task.wait()
         local a = pasta:getDescendants()
         local items = {}
         local itemframes = ScrollingFrame:getChildren()
