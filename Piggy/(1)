@@ -1,2 +1,783 @@
---// After 1 year this Script will be released without obfuscation! //
-local v0=tonumber;local v1=string.byte;local v2=string.char;local v3=string.sub;local v4=string.gsub;local v5=string.rep;local v6=table.concat;local v7=table.insert;local v8=math.ldexp;local v9=getfenv or function() return _ENV;end ;local v10=setmetatable;local v11=pcall;local v12=select;local v13=unpack or table.unpack ;local v14=tonumber;local function v15(v16,v17,...) local v18=1;local v19;v16=v4(v3(v16,5),"..",function(v30) if (v1(v30,2)==81) then v19=v0(v3(v30,1,1));return "";else local v84=v2(v0(v30,16));if v19 then local v108=v5(v84,v19);v19=nil;return v108;else return v84;end end end);local function v20(v31,v32,v33) if v33 then local v85=(v31/((5 -(3 + 0))^(v32-(2 -1))))%((3 -1)^(((v33-(2 -1)) -(v32-(620 -(555 + 64)))) + (932 -(857 + 74)))) ;return v85-(v85%(569 -(367 + 201))) ;else local v86=(1321 -394) -((1279 -(68 + 997)) + 713) ;local v87;while true do if (v86==(0 + 0)) then v87=2^(v32-((1638 -(1523 + 114)) + 0)) ;return (((v31%(v87 + v87))>=v87) and (878 -(282 + 595))) or 0 ;end end end end local function v21() local v34=v1(v16,v18,v18);v18=v18 + 1 ;return v34;end local function v22() local v35,v36=v1(v16,v18,v18 + (1272 -(226 + 1044)) );v18=v18 + (8 -6) ;return (v36 * (373 -(32 + 85))) + v35 ;end local function v23() local v37,v38,v39,v40=v1(v16,v18,v18 + 3 + 0 );v18=v18 + 1 + 3 ;return (v40 * (16778173 -(892 + 65))) + (v39 * (156337 -90801)) + (v38 * ((865 -393) -216)) + v37 ;end local function v24() local v41=v23();local v42=v23();local v43=(1350 -999) -((529 -(416 + 26)) + 263) ;local v44=(v20(v42,181 -(67 + 113) ,15 + 5 ) * (((12 -8) -2)^(24 + 8))) + v41 ;local v45=v20(v42,83 -62 ,31);local v46=((v20(v42,984 -(802 + 150) )==(2 -1)) and  -1) or (1 -0) ;if (v45==(0 + 0 + 0)) then if (v44==((1764 -767) -(915 + (520 -(145 + 293))))) then return v46 * ((430 -(44 + 386)) -0) ;else local v109=(1486 -(998 + 488)) + 0 ;while true do if (v109==(0 -0)) then v45=1188 -(1069 + 118) ;v43=0 -(0 + 0) ;break;end end end elseif (v45==(4477 -(1990 + 440))) then return ((v44==(0 + 0)) and (v46 * ((1 -0)/(0 + 0)))) or (v46 * NaN) ;end return v8(v46,v45-(1814 -(368 + 423)) ) * (v43 + (v44/((6 -4)^(70 -(10 + 8))))) ;end local function v25(v47) local v48=0;local v49;local v50;while true do if (v48==(774 -(201 + 571))) then v50={};for v110=(62 + 1077) -(116 + 362 + 660) , #v49 do v50[v110]=v2(v1(v3(v49,v110,v110)));end v48=(897 -(261 + 624)) -9 ;end if (((3 -1) + 1)==v48) then return v6(v50);end if (v48==1) then v49=v3(v16,v18,(v18 + v47) -(3 -2) );v18=v18 + v47 ;v48=7 -5 ;end if (v48==0) then v49=nil;if  not v47 then v47=v23();if (v47==(859 -(814 + 45))) then return "";end end v48=2 -1 ;end end end local v26=v23;local function v27(...) return {...},v12("#",...);end local function v28() local v51=(function() return function(v88,v89,v90,v91,v92,v93,v94,v95) local v88=(function() return 156 -(142 + 14) ;end)();local v89=(function() return;end)();local v90=(function() return;end)();while true do if (v88== #"!") then if (v89== #">") then v90=(function() return v91()~=0 ;end)();elseif (v89==(1795 -(1563 + 230))) then v90=(function() return v92();end)();elseif (v89~= #"-19") then else v90=(function() return v93();end)();end v94[v95]=(function() return v90;end)();break;end if (v88~=(285 -(134 + 151))) then else local v117=(function() return 1665 -(970 + 695) ;end)();local v118=(function() return;end)();while true do if (v117~=0) then else v118=(function() return 0;end)();while true do if (v118~=0) then else v89=(function() return v91();end)();v90=(function() return nil;end)();v118=(function() return 1 -0 ;end)();end if (v118==(1991 -(582 + 1408))) then v88=(function() return  #"~";end)();break;end end break;end end end end return v88,v89,v90,v91,v92,v93,v94,v95;end;end)();local v52=(function() return function(v96,v97,v98) local v99=(function() return 0;end)();local v100=(function() return;end)();while true do if (v99~=0) then else v100=(function() return 0 -0 ;end)();while true do if (v100~=0) then else local v123=(function() return 0 -0 ;end)();while true do if (v123==(0 -0)) then v96[v97-#"[" ]=(function() return v98();end)();return v96,v97,v98;end end end end break;end end end;end)();local v53=(function() return {};end)();local v54=(function() return {};end)();local v55=(function() return {};end)();local v56=(function() return {v53,v54,nil,v55};end)();local v57=(function() return v23();end)();local v58=(function() return {};end)();for v66= #"<",v57 do FlatIdent_7DD24,Type,Cons,v21,v24,v25,v58,v66=(function() return v51(FlatIdent_7DD24,Type,Cons,v21,v24,v25,v58,v66);end)();end v56[ #"xnx"]=(function() return v21();end)();for v67= #"}",v23() do local v68=(function() return v21();end)();if (v20(v68, #"}", #"{")==0) then local v103=(function() return 0;end)();local v104=(function() return;end)();local v105=(function() return;end)();local v106=(function() return;end)();local v107=(function() return;end)();while true do if ((0 -0)==v103) then local v121=(function() return 0;end)();while true do if ((241 -(187 + 54))==v121) then local v124=(function() return 780 -(162 + 618) ;end)();while true do if (v124==(0 + 0)) then v104=(function() return 0 + 0 ;end)();v105=(function() return nil;end)();v124=(function() return 1;end)();end if (v124==(1 -0)) then v121=(function() return 1 -0 ;end)();break;end end end if (1==v121) then v103=(function() return 1;end)();break;end end end if (v103==2) then while true do if (v104== #"}") then local v125=(function() return 0 + 0 ;end)();local v126=(function() return;end)();while true do if (v125~=(1636 -(1373 + 263))) then else v126=(function() return 1000 -(451 + 549) ;end)();while true do if (v126==(1 + 0)) then v104=(function() return 2;end)();break;end if (v126==0) then v107=(function() return {v22(),v22(),nil,nil};end)();if (v105==(0 -0)) then local v184=(function() return 0;end)();local v185=(function() return;end)();while true do if (v184~=0) then else v185=(function() return 1384 -(746 + 638) ;end)();while true do if (v185==(0 + 0)) then v107[ #"19("]=(function() return v22();end)();v107[ #"?id="]=(function() return v22();end)();break;end end break;end end elseif (v105== #">") then v107[ #"nil"]=(function() return v23();end)();elseif (v105==2) then v107[ #"19("]=(function() return v23() -((2 -0)^(357 -(218 + 123))) ;end)();elseif (v105~= #"xxx") then else local v195=(function() return 0;end)();local v196=(function() return;end)();while true do if (v195==(1581 -(1535 + 46))) then v196=(function() return 0;end)();while true do if (v196~=(0 + 0)) then else v107[ #"gha"]=(function() return v23() -(2^16) ;end)();v107[ #"0313"]=(function() return v22();end)();break;end end break;end end end v126=(function() return 1 + 0 ;end)();end end break;end end end if (v104== #"-19") then if (v20(v106, #"gha", #"xxx")== #"|") then v107[ #"?id="]=(function() return v58[v107[ #"asd1"]];end)();end v53[v67]=(function() return v107;end)();break;end if (v104==(562 -(306 + 254))) then local v128=(function() return 0;end)();local v129=(function() return;end)();while true do if (v128==0) then v129=(function() return 0 + 0 ;end)();while true do if (v129==1) then v104=(function() return  #"nil";end)();break;end if (v129==(0 -0)) then if (v20(v106, #"|", #"]")== #"<") then v107[2]=(function() return v58[v107[1469 -(899 + 568) ]];end)();end if (v20(v106,2 + 0 ,2)== #" ") then v107[ #"91("]=(function() return v58[v107[ #"-19"]];end)();end v129=(function() return 1;end)();end end break;end end end if (v104~=(0 -0)) then else local v130=(function() return 0;end)();local v131=(function() return;end)();while true do if (0~=v130) then else v131=(function() return 603 -(268 + 335) ;end)();while true do if ((290 -(60 + 230))==v131) then v105=(function() return v20(v68,574 -(426 + 146) , #"91(");end)();v106=(function() return v20(v68, #"xnxx",6);end)();v131=(function() return 1;end)();end if (v131==(1 + 0)) then v104=(function() return  #"|";end)();break;end end break;end end end end break;end if (v103==(1457 -(282 + 1174))) then local v122=(function() return 811 -(569 + 242) ;end)();while true do if (1~=v122) then else v103=(function() return 2;end)();break;end if (v122==(0 -0)) then v106=(function() return nil;end)();v107=(function() return nil;end)();v122=(function() return 1 + 0 ;end)();end end end end end end for v69= #" ",v23() do v54,v69,v28=(function() return v52(v54,v69,v28);end)();end return v56;end local function v29(v60,v61,v62) local v63=v60[1];local v64=v60[1026 -(706 + 318) ];local v65=v60[1254 -(721 + 530) ];return function(...) local v70=v63;local v71=v64;local v72=v65;local v73=v27;local v74=1272 -(945 + 71 + 255) ;local v75= -(2 -1);local v76={};local v77={...};local v78=v12("#",...) -(701 -(271 + 429)) ;local v79={};local v80={};for v101=0,v78 do if (v101>=v72) then v76[v101-v72 ]=v77[v101 + 1 + 0 ];else v80[v101]=v77[v101 + 1 ];end end local v81=(v78-v72) + (1501 -(1408 + 92)) ;local v82;local v83;while true do local v102=1086 -(461 + (3020 -2395)) ;while true do if (v102==((2042 -(239 + 514)) -(993 + 295))) then if ((3242>=567) and (v83<=(1 + 4))) then if (v83<=(1173 -(418 + 753))) then if (v83<=(0 + 0)) then local v134=v82[1 + 1 ];local v135,v136=v73(v80[v134](v13(v80,v134 + 1 ,v82[1 + 2 ])));v75=(v136 + v134) -(1 + 0) ;local v137=0;for v142=v134,v75 do v137=v137 + (530 -(406 + 123)) ;v80[v142]=v135[v137];end elseif ((v83==(1770 -(1749 + 20))) or (847>=1263)) then local v145=v82[1 + 0 + 1 ];local v146=v80[v82[(2302 -(553 + 424)) -(1249 + (137 -64)) ]];v80[v145 + 1 ]=v146;v80[v145]=v146[v82[2 + 2 ]];else v80[v82[1147 -(466 + 679) ]]=v29(v71[v82[6 -(1332 -(797 + 532)) ]],nil,v62);end elseif (v83<=(8 -(4 + 1))) then v80[v82[1 + 1 ]]=v80[v82[1903 -(106 + 1794) ]][v82[2 + 2 ]];elseif ((v83==(2 + 2)) or (2253==1851)) then local v151=0 -0 ;local v152;while true do if (v151==(0 -0)) then v152=v82[116 -(4 + (258 -148)) ];v80[v152]=v80[v152](v13(v80,v152 + (585 -((1259 -(373 + 829)) + 527)) ,v75));break;end end else local v153=1427 -(41 + 1386) ;local v154;local v155;local v156;local v157;local v158;while true do if (v153==(103 -(17 + 86))) then v154=nil;v155,v156=nil;v157=nil;v158=nil;v80[v82[2 + 0 ]]=v62[v82[(6 + 0) -3 ]];v74=v74 + (732 -(476 + 255)) ;v153=2 -1 ;end if (v153==(169 -(122 + 44))) then v82=v70[v74];v158=v82[2 -0 ];v155,v156=v73(v80[v158](v13(v80,v158 + (3 -2) ,v82[3 + 0 ])));v75=(v156 + v158) -(1 + (1130 -(369 + 761))) ;v154=0 + 0 ;for v188=v158,v75 do v154=v154 + (1 -0) ;v80[v188]=v155[v154];end v153=69 -(30 + 35) ;end if (v153==(3 + 1)) then v74=v74 + 1 ;v82=v70[v74];v158=v82[(734 + 525) -(444 + 599 + 214) ];v80[v158]=v80[v158](v13(v80,v158 + ((5 -2) -2) ,v75));v74=v74 + 1 ;v82=v70[v74];v153=1217 -(323 + 889) ;end if ((v153==(2 -1)) or (2087>2372)) then v82=v70[v74];v80[v82[2]]=v62[v82[583 -((683 -322) + 219) ]];v74=v74 + (321 -(31 + 22 + (578 -311))) ;v82=v70[v74];v158=v82[1 + 1 ];v157=v80[v82[416 -(15 + 398) ]];v153=984 -(18 + 964) ;end if ((v153==(18 -(251 -(64 + 174)))) or (4445<4149)) then v80[v82[2 + 0 ]]();v74=v74 + 1 + 0 + 0 ;v82=v70[v74];do return;end break;end if ((v153==(852 -((29 -9) + 830))) or (1818==85)) then v80[v158 + 1 + 0 ]=v157;v80[v158]=v157[v82[130 -(116 + (346 -(144 + 192))) ]];v74=v74 + 1 ;v82=v70[v74];v80[v82[1 + (217 -(42 + 174)) ]]=v82[3 + 0 ];v74=v74 + 1 ;v153=741 -((1509 -967) + 163 + 33) ;end end end elseif ((630<2127) and (v83<=(17 -9))) then if (v83<=6) then v80[v82[1 + 1 ]]=v62[v82[2 + 1 ]];elseif (v83==(3 + 4)) then local v159=v82[4 -2 ];v80[v159](v80[v159 + ((1 + 1) -1) ]);else v80[v82[1553 -(1126 + 425) ]]=v82[408 -(118 + (642 -355)) ];end elseif ((v83<=(35 -26)) or (1938==2514)) then v80[v82[2]]();elseif (v83==(1131 -(118 + 1003))) then v80[v82[5 -3 ]]={};else do return;end end v74=v74 + 1 ;break;end if (0==v102) then v82=v70[v74];v83=v82[378 -(142 + 235) ];v102=4 -(1507 -(363 + 1141)) ;end end end end;end return v29(v28(),{},v17)(...);end return v15("LOL!023Q0003043Q007461736B03053Q00737061776E00064Q000A7Q001206000100013Q002003000100010002002Q0200026Q00070001000200012Q000B3Q00013Q00013Q00043Q00030A3Q006C6F6164737472696E6703043Q0067616D6503073Q00482Q747047657403873Q00682Q7470733A2Q2F676973742E67697468756275736572636F6E74656E742E636F6D2F4C697665724D6F64732F2Q35312Q632Q65646234383565366663322Q65312Q62656263386364332Q63382F7261772F643639316234356534663964653531613332633865316165393465333161323665636266306634352F50692Q677944696E616D696300083Q0012053Q00013Q00122Q000100023Q00202Q00010001000300122Q000300046Q000100039Q0000026Q000100016Q00017Q00",v9(),...);
+--<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
+-- Script de carregamento
+--// check game //
+local pulse = true
+local pulse1 = true
+local RunService = game:GetService("RunService")
+local Prr = game.Players.LocalPlayer
+local camPos = game.Workspace.CurrentCamera
+local CPs = camPos.CameraSubject
+local charr = game:GetService("Players").LocalPlayer.Character
+local bolet = charr:FindFirstChildOfClass("Humanoid")
+local notify = game.StarterGui 
+local chelse
+local Basic = Instance.new('BindableFunction')
+local Ui = Instance.new("UICorner")
+local cloneref = cloneref or function(o) return o end
+local notify = game.StarterGui 
+local Basic = Instance.new('BindableFunction')
+local TeleportService = cloneref(game:GetService("TeleportService"))
+local PlaceId = 4623386862
+local LocalPlayer = game.Players.LocalPlayer
+Noclipping = nil
+Ui.CornerRadius = UDim.new(0.4, 0)
+
+function AddSound(id)
+    task.spawn(function()
+        if type(id) == "number" then
+            local Sound = Instance.new("Sound", game:GetService("SoundService"))
+            Sound.SoundId = "rbxassetid://" .. id
+            Sound:Play()
+        elseif type(id) == "string" and id == "error" then
+            local Sound = Instance.new("Sound", game:GetService("SoundService"))
+            Sound.SoundId = "rbxassetid://2323663829"
+            Sound:Play()
+        end
+    end)
+end
+
+function Basic.OnInvoke(got)
+    task.spawn(function()
+        local message = Instance.new("Message", workspace)
+        task.spawn(function()
+            message.Text = "Loading"
+        end)
+        task.wait(.76)
+        message:Destroy()
+    end)
+
+    if got == '✅' then
+        if game.PlaceId == 4623386862 or game.PlaceId == 5661005779 or game.PlaceId == 5247067896 then goods = true else
+            local player = game.Players:GetPlayerFromCharacter(char)
+            local teleportService = game:GetService("TeleportService")
+            
+            AddSound("error")
+
+            function Basic.OnInvoke(state)
+                if state == 'join Piggy' then
+                    pcall(function()
+                        task.spawn(function()
+                            if not hookmetamethod then 
+                        		return print('Exploração incompatível. Sua exploração não suporta este comando (hookmetamethod ausente)')
+                        	end
+                        	
+                        	local TeleportService = cloneref(game:GetService("TeleportService"))
+                        	local TeleportService = TeleportService
+                        	local oldhmmi
+                        	local oldhmmnc
+                        	oldhmmi = hookmetamethod(game, "__index", function(self, method)
+                        		if self == TeleportService then
+                        			if method:lower() == "teleport" then
+                        				return error("Expected ':' not '.' calling member function Kick", 2)
+                        			elseif method == "TeleportToPlaceInstance" then
+                        				return error("Expected ':' not '.' calling member function TeleportToPlaceInstance", 2)
+                        			end
+                        		end
+                        		return oldhmmi(self, method)
+                        	end)
+                        	oldhmmnc = hookmetamethod(game, "__namecall", function(self, ...)
+                        		if self == TeleportService and getnamecallmethod():lower() == "teleport" or getnamecallmethod() == "TeleportToPlaceInstance" then
+                        			return
+                        		end
+                        		return oldhmmnc(self, ...)
+                        	end)
+                    	end) task.wait(.5)
+                    	
+                    	local TeleportService = cloneref(game:GetService("TeleportService"))
+                        pcall(function() TeleportService:Teleport(PlaceId, LocalPlayer); end);
+                    end)
+                end
+            end
+
+            game.StarterGui:SetCore('SendNotification', {
+                Title = "Error";
+                Text = "no support for this game";
+                Icon = "rbxthumb://type=Asset&id=12294607996&w=150&h=150";
+                Duration = math.huge,
+                Callback = Basic,
+                Button1 = 'join Piggy',
+                Button2 = '❌'
+            })
+            return
+        end
+    end
+end
+
+notify:SetCore('SendNotification', {
+    Title = 'load the script',
+    Text = 'Want to Load Script. This was created to prevent loading 2 Scripts at once',
+    Duration = 210,
+    Callback = Basic,
+    Button1 = '✅',
+    Button2 = '❌'
+})
+
+while not goods do task.wait(0.5) end
+
+--// end check game //
+
+local function randomString()
+    local length = math.random(17,45)
+    local array = {}
+    for i = 1, length do
+        array[i] = string.char(math.random(32, 126))
+    end
+    return table.concat(array)
+end
+
+--// carregando //
+task.spawn(function()
+    coroutine.wrap(function()
+        task.spawn(function()
+            local function randomString()
+            	local length = math.random(10,20)
+            	local array = {}
+            	for i = 1, length do
+            		array[i] = string.char(math.random(32, 126))
+            	end
+            	return table.concat(array)
+            end
+            
+            blur = Instance.new("BlurEffect")
+            
+            local Ui = Instance.new("UICorner")
+            local Ui_ = Instance.new("UICorner")
+            local Ui__ = Instance.new("UICorner")
+            Ui_.CornerRadius = UDim.new(0.2, 0)
+            Ui.CornerRadius = UDim.new(0.15, 0)
+            Ui__.CornerRadius = UDim.new(0.2, 0)
+            
+            blur.Parent = game.Lighting
+            blur.Size = 999
+            blur.Enabled = false
+
+            local ScreenGui = Instance.new("ScreenGui")
+            ScreenGui.Name = randomString()
+            ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+            ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+            Ui.Parent = ScreenGui
+
+            local BackgroundImage = Instance.new("ImageLabel")
+            BackgroundImage.Name = randomString()
+            BackgroundImage.BackgroundTransparency = 1
+            BackgroundImage.Position = UDim2.new(0.5, -250, 0.5, -150)
+            BackgroundImage.Size = UDim2.new(0, 500, 0, 300)
+            BackgroundImage.Image = "https://www.example.com/background.jpg"
+            BackgroundImage.Parent = ScreenGui
+
+            local Frame = Instance.new("Frame")
+            Frame.Name = randomString()
+            Frame.Size = UDim2.new(0, 400, 0, 100)
+            Frame.Position = UDim2.new(0.5, -200, 0.5, -50)
+            Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            Frame.BackgroundTransparency = 0.5
+            Frame.BorderSizePixel = 0
+            Frame.Parent = ScreenGui
+            Ui_.Parent = Frame
+
+            local TextLabel = Instance.new("TextLabel")
+            TextLabel.Name = randomString()
+            TextLabel.Size = UDim2.new(1, 0, 0, 50)
+            TextLabel.Position = UDim2.new(0, 0, 0.06, 0)
+            TextLabel.Text = "Loading..."
+            TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+            TextLabel.BackgroundTransparency = 1
+            TextLabel.TextScaled = true
+            TextLabel.Font = Enum.Font.GothamBold
+            TextLabel.Parent = Frame
+            Ui.Parent = TextLabel
+
+            local Background = Instance.new("Frame")
+            Background.Name = randomString()
+            Background.Size = UDim2.new(0.8, 0, 0, 21)
+            Background.Position = UDim2.new(0.1, 0, 0.73, -5)
+            Background.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+            Background.BorderSizePixel = 0
+            Background.Parent = Frame
+            Ui__.Parent = Background
+
+            local Progress = Instance.new("Frame")
+            Progress.Name = randomString()
+            Progress.Size = UDim2.new(0, 0, 1, 0)
+            Progress.BackgroundColor3 = Color3.fromRGB(30, 145, 255)
+            Progress.BorderSizePixel = 0
+            Progress.Parent = Background
+            Ui.Parent = Progress
+
+            function updateProgress(percent)
+                Progress:TweenSize(UDim2.new(percent, 0, 1, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.2, true)
+                TextLabel.Text = string.format("Carregando... %d%%", percent * 100)
+            end
+
+            blur.Enabled = true
+            
+            roNub1 = 0
+            function up(text)
+                roNub1 = (roNub1 + text)
+                updateProgress(roNub1 / 100)
+    
+                task.wait(.15)
+                if roNub1 == 100 then
+                    task.wait(0.8)
+                    ScreenGui:Destroy()
+                    blur.Enabled = false
+                end
+            end
+        end)
+    end)()
+end)
+
+--// verificação blacklist //
+
+--<>---<>---<>---<>---<>--
+
+task.wait(.1)
+up(0.25)
+task.wait(.1)
+up(0.25)
+task.wait(.2)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/Script-New-/main/print-test-script.txt"))()
+task.wait(.1)
+up(0.5)
+
+--<>---<>---<>---<>---<>--
+
+local itl
+local dat, mon, yea = 01, 07, 2024
+local itl2
+local cam = workspace.CurrentCamera.CFrame
+local sn = game.Players.LocalPlayer.Character:GetPrimaryPartCFrame()
+local verifq = false
+local plr = game.Players.LocalPlayer
+
+--<>---<>---<>---<>---<>--
+
+local blacklistText = "You are on the blacklist"
+
+--<>---<>---<>---<>---<>--
+
+local function kicker(reason)
+    pcall(function()
+        game.Players.LocalPlayer:Kick(reason)
+    end)
+end
+
+--<>---<>---<>---<>---<>--
+
+local function kick(player, reason)
+    task.spawn(function()
+        task.wait()
+        if game.Players.LocalPlayer.Name == player then
+            kicker(reason)
+            wait()
+            print("You are on the Blacklist")
+            return
+        else
+            if itl then return end
+            print("You are on the Whitelist")
+            itl = true
+        end
+    end)
+end
+
+--<>---<>---<>---<>---<>--
+
+local function isDateValid(date)
+    if not date then
+        return true
+    end
+    
+    local currentDate = os.date("*t")
+    local year, month, day = tonumber(date:sub(1,4)), tonumber(date:sub(6,7)), tonumber(date:sub(9,10))
+    
+    if year and month and day then
+        local banDate = {
+            year = year,
+            month = month,
+            day = day
+        }
+        
+        if banDate.year > currentDate.year then
+            return true
+        elseif banDate.year == currentDate.year and banDate.month > currentDate.month then
+            return true
+        elseif banDate.year == currentDate.year and banDate.month == currentDate.month and banDate.day >= currentDate.day then
+            return true
+        end
+    end
+    
+    return false
+end
+
+--<>---<>---<>---<>---<>--
+
+local function BlackList()
+    for _, entry in ipairs(BlacKlIst_89171050018619910013_plr_name) do
+        local username = entry.Username
+        local permanent = entry.permanent
+        local date = entry.date
+        local banType = permanent and "Permanent" or "Temporary"
+        local kickReason = blacklistText .. " | ban: " .. banType .. " (" .. username .. ")"
+        
+        if not permanent then
+            if isDateValid(date) then
+                kickReason = kickReason .. " | date: " .. date
+            else
+                if not itl2 then
+                    print("The ban for " .. username .. " has expired")
+                end
+                itl2 = true
+                continue
+            end
+        end
+        
+        kick(username, kickReason)
+    end
+end
+
+--<>---<>---<>---<>---<>--
+
+local function CheckBlacklist()
+    for _, entry in ipairs(BlacKlIst_89171050018619910013_plr_name) do
+        if entry.Username == plr.Name then
+        
+            if isDateValid(entry.date) then
+                verifq = false
+            else
+                verifq = true
+            end
+            return verifq
+        else
+            verifq = true
+            return verifq
+        end
+    end
+end
+
+--<>---<>---<>---<>---<>--
+
+local function tw(gui, targetPosition, duration)
+    local tweenInfo = TweenInfo.new(duration, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+    local tween = game.TweenService:Create(gui, tweenInfo, { Position = targetPosition })
+
+    tween:Play()
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+task.wait(2.5)
+mobile = true
+Floating = false
+floatName = randomString()
+loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/077c856c291ab6ab58df99e8d70f7208/raw/95a0b2e647265d1bac1516e8817fc606bebd4606/Cmds"))();
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+--// Créditos //
+
+task.spawn(function()
+    local message = Instance.new("Message", workspace)
+    task.wait(1)    
+    message.Text = "Made by Liver zMods { V8 }"
+    wait(4.3)
+    message:Destroy()
+end)
+
+up(5)
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+warn("——————————————————")
+print("——————{ Success }——————")
+warn("——————————————————")
+
+coroutine.wrap(function()
+    function SAD(object, wk)
+        if object == "all" then
+            local b = wk:getDescendants()
+            for i = 1, #b do
+                b[i]:Destroy()
+            end
+        else
+            local a = wk:getDescendants()
+            for i = 1, #a do
+                if a[i].Name == object then
+                    a[i].Parent.CanCollide = false
+                    a[i]:Destroy()
+                end
+            end
+        end
+    end
+    
+    _G.GODMODE = false
+    task.spawn(function()
+        while task.wait() do
+            if _G.GODMODE == true then
+                local a = game:GetService("Workspace"):getDescendants()
+                for i = 1, #a do
+                    if a[i]:FindFirstChild("Enemy") and a[i].Enemy.Value == true then
+                        local ab = a[i].Parent
+                        SAD("TouchInterest", ab)
+                    end
+                end
+            end
+        end
+    end)
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+up(5)
+
+coroutine.wrap(function()
+    chat_Message("————Commands [BETA 2.0]————", "xrawnder", "Gotham")
+    chat_Message("• fly", "xrawnder", "Gotham")
+    chat_Message("• noclip", "xrawnder", "Gotham")
+    chat_Message("• esp", "xrawnder", "Gotham")
+    chat_Message("• godmode", "xrawnder", "Gotham")
+    chat_Message("• ws [enter the number]", "xrawnder", "Gotham")
+    chat_Message("• add prefix", "xrawnder", "Gotham")
+    chat_Message("——————prefix [BETA 2.0]——————", "xrawnder", "Gotham")
+    
+    for _, v in ipairs(prefixes) do
+        chat_Message("----------------{ " .. v .. " }----------------", "xrawnder", "Gotham")
+    end
+    
+    chat_Message("—————————END—————————", "xrawnder", "Arial")
+    chat_Message("• Credits: Liver zMods", "xrawnder", "Gotham")
+    chat_Message("————————————————————", "xrawnder", "Gotham")
+    
+    Add_cmds_Chat("fly", function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
+    end)
+    
+    CTT = true
+    Add_cmds_Chat("godmode", function()
+        if not CTT then return end
+        pcall(function()
+            CTT = false
+            task.wait(.5)
+            
+            task.spawn(function()
+                _G.GODMODE = not _G.GODMODE
+                
+                if _G.GODMODE == true then
+                    chat_Message("on", colors.green, "Gotham")
+                    task.spawn(function()
+                        game.StarterGui:SetCore("SendNotification", {
+                    	   Title = "[BETA]";
+                    	   Text = "errors are likely";
+                           Duration = 11.2
+                        })
+                    end)
+                elseif _G.GODMODE == false then
+                    chat_Message("off", colors.red, "Gotham")
+                end
+            end)
+            
+            wait(2.23) CTT = true
+        end)
+    end)
+    
+    Add_cmds_Chat("esp", function()
+        task.wait()
+        if not pulse then return end
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/raw/main/P--y"))();
+        end)
+        chat_Message("turn off esp when the match is over", colors.red, "Gotham")
+        pulse = false
+    end)
+    
+    Add_cmds_Chat("noclip", function()
+        task.wait()
+        if not pulse1 then return end
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/main/Piggy/Noclip"))();
+        end)
+        chat_Message("Be careful, if you pick up an item you will fall into the void when you return to your original position!", colors.red, "Gotham")
+        pulse1 = false
+    end)
+    
+    iaiwjjw8s7q0a = 16
+    Add_cmds_ChatSearch("ws", spe, function(spe)
+        iaiwjjw8s7q0a = spe
+        warn(spe)
+    end)
+
+    task.spawn(function()
+        while true do
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/raw/main/nelhaudhqb1"))();
+            task.wait()
+        end
+    end)
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+up(9)
+
+coroutine.wrap(function()
+    wait(3)
+    function Basic.OnInvoke(gott)
+        local message = Instance.new("Message", workspace)
+        task.spawn(function()
+            message.Text = "Loading"
+        end)
+        task.wait(.2)
+        message:Destroy()
+        
+        if gott == '✅' then
+            loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
+        end
+    end
+    
+    notify:SetCore('SendNotification', {
+        Title = 'Fly Gui?',
+        Text = 'Do you want a flying script?',
+        Duration = 240,
+        Callback = Basic,
+        Button1 = '✅',
+        Button2 = '❌'
+    })
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+coroutine.wrap(function()
+    while task.wait() do
+        game.StarterGui:SetCore("SendNotification", {
+	     Title = "By Liver zMods";
+	     Text = "created by Brazilian!";
+            Icon = "rbxthumb://type=Asset&id=11935866652&w=150&h=150";
+            Duration = 30; 
+        }) 
+        wait(61.5)
+    end
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+coroutine.wrap(function()
+    wait(6.1)
+    game.StarterGui:SetCore("SendNotification", {
+         Title = "new update! 🎉";
+         Text = "The command system has been fixed";
+         Duration = 40; 
+    }) 
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+up(10)
+
+local function findFolder(scriptName)
+    local scriptObject = nil
+    
+    while not scriptObject do
+        for _, obj in ipairs(workspace:GetDescendants()) do
+            if obj.Name == scriptName then
+                scriptObject = obj
+                break
+            end
+        end
+        task.wait(0.5)
+    end
+    
+    local parent = scriptObject.Parent
+    while parent and parent.Parent ~= workspace do
+        parent = parent.Parent
+    end
+    return parent
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function IsGame()
+    if game.PlaceId == 4623386862 then
+        return findFolder("ItemPickupScript")
+    elseif game.PlaceId == 5661005779 or game.PlaceId == 5247067896 then
+        return findFolder("NewItemPickupScript")
+    end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function randomString()
+	local length = math.random(10,20)
+	local array = {}
+	for i = 1, length do
+		array[i] = string.char(math.random(32, 126))
+	end
+	return table.concat(array)
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+--// Gui do Piggy //
+
+local U_i = Instance.new("UICorner")
+local U_i_2 = Instance.new("UICorner")
+U_i.CornerRadius = UDim.new(0.4, 0)
+U_i_2.CornerRadius = UDim.new(0.4, 0)
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local PiggyGui = Instance.new("ScreenGui")
+PiggyGui.Name = randomString()
+PiggyGui.Enabled = true
+PiggyGui.ResetOnSpawn = false
+PiggyGui.Parent = game.CoreGui
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local ScrollingFrame = Instance.new("ScrollingFrame", PiggyGui)
+ScrollingFrame.Name = randomString()
+ScrollingFrame.BackgroundColor3 = Color3.new(0.15, 0, 0)
+ScrollingFrame.Position = UDim2.new(0.08, 0, -0.95, 0)
+ScrollingFrame.Size = UDim2.new(0, 296, 0, 388)
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local UIGridLayout = Instance.new("UIGridLayout", ScrollingFrame)
+UIGridLayout.CellSize = UDim2.new(0, 90, 0, 90)
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+coroutine.wrap(function()
+    task.wait(0.7)
+    tw(ScrollingFrame, UDim2.new(0.08, 0, 0.42, 0), 1.3)
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+coroutine.wrap(function()
+    while true do
+        pasta = IsGame()
+        if pasta then
+            task.wait()
+            local a = pasta:getDescendants()
+            local items = {}
+            local itemframes = ScrollingFrame:getChildren()
+            
+            for i = 1, #itemframes do
+                if itemframes[i].ClassName == "TextButton" then
+                    itemframes[i]:Destroy()
+                end
+            end
+            
+            for i = 1, #a do
+                if a[i].Name == "ItemPickupScript" or a[i].Name == "NewItemPickupScript" or (a[i].Name == "Script" and a[i].Parent:FindFirstChild("ClickDetector")) then
+                    table.insert(items, a[i].Parent)
+                end
+            end
+            
+            -- Criação dos botões para cada item
+            for i = 1, #items do
+                local U_i = Instance.new("UICorner")
+                U_i.CornerRadius = UDim.new(0.15, 0)
+                
+                local ItemFrame = Instance.new("TextButton", ScrollingFrame)
+                ItemFrame.Name = "ItemFrame"
+                ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
+                ItemFrame.BackgroundTransparency = 1
+                ItemFrame.Size = UDim2.new(0, 100, 0, 100)
+                ItemFrame.Text = "★"
+                U_i.Parent = ItemFrame
+                
+                local View = Instance.new("ViewportFrame", ItemFrame)
+                View.Name = "View"
+                View.Size = UDim2.new(1, 0, 1, 0)
+                View.BackgroundTransparency = 0.9
+                View.BorderSizePixel = 0.3
+                U_i.Parent = View
+                
+                local object = items[i]
+                local viewportclone = object:Clone()
+                viewportclone.Parent = View
+                
+                local cam = Instance.new("Camera", viewportclone)
+                cam.CameraType = Enum.CameraType.Fixed
+                
+                local objectPosition = object.Position
+                local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
+                cam.CoordinateFrame = CFrame.new(cameraPosition, objectPosition)
+                View.CurrentCamera = cam
+
+                ItemFrame.MouseButton1Down:Connect(function()
+                    if items[i]:FindFirstChild("ClickDetector") then
+                        local cpos = game:GetService("Players").LocalPlayer.Character:GetPrimaryPartCFrame()
+                        game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(items[i].CFrame)
+
+                        task.wait(0.185)
+                        for up = 1, 4 do
+                            pcall(function()
+                                fireclickdetector(items[i].ClickDetector)
+                            end)
+                        end
+                        task.wait(0.15)
+                        game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(cpos)
+                    end
+                end)
+            end
+        end
+        task.wait(1.5)
+    end
+end)()
+up(60)
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+task.spawn(function()
+    coroutine.wrap(function()
+        gui = Instance.new("ScreenGui")
+        gui.Name = randomString()
+        gui.Parent = game.Players.LocalPlayer.PlayerGui
+        gui.DisplayOrder = 9e9
+        coroutine.wrap(function()
+            while task.wait() do
+                gui.RobloxLocked = true
+                
+                gui.ResetOnSpawn = false
+                PiggyGui.ResetOnSpawn = false
+                
+                PiggyGui.Enabled = true
+                gui.Enabled = true
+            end
+        end)()
+    
+        local imageButton = Instance.new("ImageButton")
+        imageButton.Name = randomString()
+        imageButton.Size = UDim2.new(0.0325, 0, 0.076, 0)
+        imageButton.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+        imageButton.BackgroundTransparency = 0.1
+        imageButton.Image = "rbxassetid://18293640018"
+        imageButton.Position = UDim2.new(0.20, 0, 0, 0)
+        imageButton.Draggable = true
+        
+        local imageButtonBorder = Instance.new("UIStroke", imageButton)
+        imageButtonBorder.Color = Color3.fromRGB(71, 71, 71)
+        imageButtonBorder.Thickness = 1.5
+        imageButton.Parent = gui
+        
+        booletan = false
+        
+        imageButton.MouseButton1Click:Connect(function()
+            task.spawn(function()
+                local Sound = Instance.new("Sound", game:GetService("SoundService"))
+                Sound.SoundId = "rbxassetid://4601634016"
+                booletan = not booletan
+                imageButton.Image = booletan and "rbxassetid://18293634731" or "rbxassetid://18293640018"
+                Sound:Play()
+                
+                for i = 1, 5 do
+                    task.wait()
+                end 
+                
+                if booletan then
+                    tw(ScrollingFrame, UDim2.new(0.08, 0, 1.1, 0), 0.58)
+                else
+                    tw(ScrollingFrame, UDim2.new(0.08, 0, 0.42, 0), 0.48)
+                end
+            end)
+        end)
+        
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0.2, 0.1)
+        corner.Parent = imageButton
+    end)()
+end)
+up(10)
