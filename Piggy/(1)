@@ -377,7 +377,7 @@ loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/077c856c29
 task.spawn(function()
     local message = Instance.new("Message", workspace)
     task.wait(1)    
-    message.Text = "Made by Liver zMods { V8 }"
+    message.Text = "Made by Liver zMods { V10 }"
     wait(4.3)
     message:Destroy()
 end)
@@ -587,6 +587,76 @@ end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
+local function GetPart(Target)
+    if Target and Target.Character then
+        return Target.Character:FindFirstChild("HumanoidRootPart") or Target.Character:FindFirstChild("Head")
+    end
+    return nil
+end
+
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+function GetPosition(Player)
+    plr.Character:WaitForChild("HumanoidRootPart")
+    if Player then
+        return GetPart(Player).CFrame
+    else
+        return GetPart(plr).CFrame
+    end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function swait()
+    game:GetService("RunService").Stepped:Wait()
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function GetCameraPosition()
+    return workspace.CurrentCamera.CFrame
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function Loop(Times, calling)
+    for i = 1, tonumber(Times) do
+        calling()
+    end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function ConvertPosition(Position)
+    if typeof(Position):lower() == "vector3" then
+        return CFrame.new(Position)
+    else
+        return Position
+    end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function UnSit()
+    plr.Character:WaitForChild("Humanoid").Sit = false
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+function MoveTo(Cframe)
+    Cframe = ConvertPosition(Cframe)
+    local Amount = 5
+
+    for i = 1, Amount do
+        UnSit()
+        plr.Character:PivotTo(Cframe)
+        swait()
+    end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
 local function IsGame()
     if game.PlaceId == 4623386862 then
         return findFolder("ItemPickupScript")
@@ -700,16 +770,23 @@ coroutine.wrap(function()
                 ItemFrame.MouseButton1Down:Connect(function()
                     if items[i]:FindFirstChild("ClickDetector") then
                         local cpos = game:GetService("Players").LocalPlayer.Character:GetPrimaryPartCFrame()
-                        game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(items[i].CFrame)
+                        MoveTo(items[i].CFrame)
 
-                        task.wait(0.185)
-                        for up = 1, 4 do
+                        task.wait(0.2)
+                        
+                        for e = 1, 20 do
                             pcall(function()
-                                fireclickdetector(items[i].ClickDetector)
+                                for t = 1, 2 do
+                                    fireclickdetector(items[i].ClickDetector)
+                                end
                             end)
                         end
-                        task.wait(0.15)
-                        game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(cpos)
+                        
+                        task.wait(0.2)
+                        
+                        for k = 1, 5 do
+                            MoveTo(cpos)
+                        end
                     end
                 end)
             end
