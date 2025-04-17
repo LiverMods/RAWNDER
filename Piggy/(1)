@@ -235,8 +235,9 @@ task.wait(.1)
 up(0.25)
 task.wait(.1)
 up(0.25)
-task.wait(.2)
+task.wait(.1)
 loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/Script-New-/main/print-test-script.txt"))()
+local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))();
 task.wait(.1)
 up(0.5)
 
@@ -365,7 +366,7 @@ end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
-task.wait(2.5)
+task.wait(1.5)
 mobile = true
 Floating = false
 floatName = randomString()
@@ -597,6 +598,27 @@ end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
+local function AkaliNotif_(Title, Description, time)
+    local Notify = AkaliNotif.Notify;
+    Notify({
+        Description = Description,
+        Title = Title,
+        Duration = time
+    });
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+function random(min, max)
+    if min and max then
+        return math.random(min, max)
+    elseif min then
+        return math.random(0.1, min)
+    end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
 function GetPosition(Player)
     plr.Character:WaitForChild("HumanoidRootPart")
     if Player then
@@ -677,12 +699,22 @@ local function randomString()
 end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function songIntro()
+    task.spawn(function()
+        task.wait() local Sound = Instance.new("Sound",game:GetService("SoundService")) Sound.SoundId = "rbxassetid://488265234" Sound.Volume = 2.6 Sound:Play()
+    end)
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 --// Gui do Piggy //
 
 local U_i = Instance.new("UICorner")
 local U_i_2 = Instance.new("UICorner")
 U_i.CornerRadius = UDim.new(0.4, 0)
 U_i_2.CornerRadius = UDim.new(0.4, 0)
+U_i.Name = randomString()
+U_i_2.Name = randomString()
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
@@ -691,6 +723,7 @@ PiggyGui.Name = randomString()
 PiggyGui.Enabled = true
 PiggyGui.ResetOnSpawn = false
 PiggyGui.Parent = game.CoreGui
+PiggyGui.DisplayOrder = 9e9
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
@@ -704,6 +737,7 @@ ScrollingFrame.Size = UDim2.new(0, 296, 0, 388)
 
 local UIGridLayout = Instance.new("UIGridLayout", ScrollingFrame)
 UIGridLayout.CellSize = UDim2.new(0, 90, 0, 90)
+UIGridLayout.Name = randomString()
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
@@ -739,9 +773,10 @@ coroutine.wrap(function()
             for i = 1, #items do
                 local U_i = Instance.new("UICorner")
                 U_i.CornerRadius = UDim.new(0.15, 0)
+                U_i.Name = randomString()
                 
                 local ItemFrame = Instance.new("TextButton", ScrollingFrame)
-                ItemFrame.Name = "ItemFrame"
+                ItemFrame.Name = randomString()
                 ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
                 ItemFrame.BackgroundTransparency = 1
                 ItemFrame.Size = UDim2.new(0, 100, 0, 100)
@@ -749,7 +784,7 @@ coroutine.wrap(function()
                 U_i.Parent = ItemFrame
                 
                 local View = Instance.new("ViewportFrame", ItemFrame)
-                View.Name = "View"
+                View.Name = randomString()
                 View.Size = UDim2.new(1, 0, 1, 0)
                 View.BackgroundTransparency = 0.9
                 View.BorderSizePixel = 0.3
@@ -758,6 +793,7 @@ coroutine.wrap(function()
                 local object = items[i]
                 local viewportclone = object:Clone()
                 viewportclone.Parent = View
+                viewportclone.Name = randomString()
                 
                 local cam = Instance.new("Camera", viewportclone)
                 cam.CameraType = Enum.CameraType.Fixed
@@ -804,17 +840,6 @@ task.spawn(function()
         gui.Name = randomString()
         gui.Parent = game.Players.LocalPlayer.PlayerGui
         gui.DisplayOrder = 9e9
-        coroutine.wrap(function()
-            while task.wait() do
-                gui.RobloxLocked = true
-                
-                gui.ResetOnSpawn = false
-                PiggyGui.ResetOnSpawn = false
-                
-                PiggyGui.Enabled = true
-                gui.Enabled = true
-            end
-        end)()
     
         local imageButton = Instance.new("ImageButton")
         imageButton.Name = randomString()
@@ -827,6 +852,8 @@ task.spawn(function()
         
         local imageButtonBorder = Instance.new("UIStroke", imageButton)
         imageButtonBorder.Color = Color3.fromRGB(71, 71, 71)
+        imageButtonBorder.Name = randomString()
+        imageButton.Name = randomString()
         imageButtonBorder.Thickness = 1.5
         imageButton.Parent = gui
         
@@ -855,6 +882,41 @@ task.spawn(function()
         local corner = Instance.new("UICorner")
         corner.CornerRadius = UDim.new(0.2, 0.1)
         corner.Parent = imageButton
+        corner.Name = randomString()
+        
+        coroutine.wrap(function()
+            while task.wait() do
+                gui.RobloxLocked = true
+                
+                gui.ResetOnSpawn = false
+                PiggyGui.ResetOnSpawn = false
+                
+                PiggyGui.Enabled = true
+                gui.Enabled = true
+                
+                ScrollingFrame.Active = true
+                ScrollingFrame.Visible = true
+                ScrollingFrame.ScrollingEnabled = true
+                
+                imageButton.Visible = true
+            end
+        end)()
     end)()
 end)
-up(10)
+
+task.spawn(function()
+    task.wait()
+    AkaliNotif_("Script loaded", "all script has been loaded", random(15, 30))
+    
+    up(10)
+    task.wait()
+    songIntro()
+    
+    task.spawn(function()
+        wait(random(15, 30))
+        AkaliNotif_("New version V10", "Adjusted teleportation, and improved encryption.", 7.8)
+    end)
+end)
+
+--// Please don't edit or steal my credits! //
+--<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
