@@ -192,7 +192,6 @@ end
 local kavo
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = (game:GetService("CoreGui") or gethui())
-ScreenGui.Name = LibName
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Name = "arquiv"
