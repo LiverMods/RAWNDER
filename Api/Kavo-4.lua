@@ -171,6 +171,7 @@ end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
+local avnt = randomString()
 local function encryptNames(target)
 	if typeof(target) ~= "Instance" then
 		warn("Invalid target: must be a valid instance!")
@@ -182,26 +183,35 @@ local function encryptNames(target)
 			descendant.Name = randomString()
 		end
 	end
-
-	target.Name = randomString()
+	
+	target.Name = avnt
 end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
-local LibName = "arquiv"
+local kavo
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = (game:GetService("CoreGui") or gethui())
+ScreenGui.Name = LibName
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Name = "arquiv"
 
-function Kavo:ToggleUI()
-    if game.CoreGui[LibName].Enabled then
-        game.CoreGui[LibName].Enabled = false
-    else
-        game.CoreGui[LibName].Enabled = true
+function Kavo:IsFinalizing()
+    kavo = game:GetService("CoreGui"):FindFirstChild("arquiv")
+    if kavo then
+        pcall(function()
+            encryptNames(kavo)
+        end)
     end
 end
 
-function Kavo:IsFinalizing()
-    pcall(function()
-        encryptNames(game:GetService("CoreGui").arquiv)
-    end)
+function Kavo:ToggleUI()
+    if game.CoreGui[ScreenGui.Name].Enabled then
+        game.CoreGui[ScreenGui.Name].Enabled = false
+    else
+        game.CoreGui[ScreenGui.Name].Enabled = true
+    end
 end
 
 function Kavo.CreateLib(kavName, themeList)
@@ -253,7 +263,6 @@ function Kavo.CreateLib(kavName, themeList)
             v:Destroy()
         end
     end
-    local ScreenGui = Instance.new("ScreenGui")
     local Main = Instance.new("Frame")
     local MainCorner = Instance.new("UICorner")
     local MainHeader = Instance.new("Frame")
@@ -282,18 +291,6 @@ function Kavo.CreateLib(kavName, themeList)
     blurFrame.Position = UDim2.new(-0.0222222228, 0, -0.0371747203, 0)
     blurFrame.Size = UDim2.new(0, 376, 0, 289)
     blurFrame.ZIndex = 999
-
-    ScreenGui.Parent = game.CoreGui
-    ScreenGui.Name = LibName
-    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-    ScreenGui.ResetOnSpawn = false
-
-    Main.Name = "Main"
-    Main.Parent = ScreenGui
-    Main.BackgroundColor3 = themeList.Background
-    Main.ClipsDescendants = true
-    Main.Position = UDim2.new(0.336503863, 0, 0.275485456, 0)
-    Main.Size = UDim2.new(0, 525, 0, 318)
 
     MainCorner.CornerRadius = UDim.new(0, 4)
     MainCorner.Name = "MainCorner"
