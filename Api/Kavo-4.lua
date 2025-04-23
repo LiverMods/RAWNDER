@@ -189,30 +189,6 @@ end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
-local kavo
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = (game:GetService("CoreGui") or gethui())
-ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-ScreenGui.ResetOnSpawn = false
-ScreenGui.Name = "arquiv"
-
-function Kavo:IsFinalizing()
-    kavo = game:GetService("CoreGui"):FindFirstChild("arquiv")
-    if kavo then
-        pcall(function()
-            encryptNames(kavo)
-        end)
-    end
-end
-
-function Kavo:ToggleUI()
-    if game.CoreGui[ScreenGui.Name].Enabled then
-        game.CoreGui[ScreenGui.Name].Enabled = false
-    else
-        game.CoreGui[ScreenGui.Name].Enabled = true
-    end
-end
-
 function Kavo.CreateLib(kavName, themeList)
     if not themeList then
         themeList = themes
@@ -279,7 +255,13 @@ function Kavo.CreateLib(kavName, themeList)
     local infoContainer = Instance.new("Frame")
 
     local blurFrame = Instance.new("Frame")
-
+    
+    ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Parent = (game:GetService("CoreGui") or gethui())
+    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    ScreenGui.ResetOnSpawn = false
+    ScreenGui.Name = "arquiv"
+    
     Kavo:DraggingEnabled(MainHeader, Main)
 
     blurFrame.Name = "blurFrame"
@@ -386,6 +368,23 @@ function Kavo.CreateLib(kavName, themeList)
             coverup.BackgroundColor3 = themeList.Header
         end
     end)()
+    
+    function Kavo:IsFinalizing()
+        local kavo = game:GetService("CoreGui"):FindFirstChild("arquiv")
+        if kavo then
+            pcall(function()
+                encryptNames(kavo)
+            end)
+        end
+    end
+    
+    function Kavo:ToggleUI()
+        if game.CoreGui[ScreenGui.Name].Enabled then
+            game.CoreGui[ScreenGui.Name].Enabled = false
+        else
+            game.CoreGui[ScreenGui.Name].Enabled = true
+        end
+    end
 
     function Kavo:ChangeColor(prope,color)
         if prope == "Background" then
