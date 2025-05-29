@@ -975,118 +975,153 @@ end)()
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 local itemButtons = {}
+local textoAnterior = nil
+local tempoCongelado = 0
+local tempoLimite = 3
 
 coroutine.wrap(function()
-    while true do
-        local pasta = IsGame()
-        if pasta then
-            task.wait()
-            local descendants = pasta:getDescendants()
-            local currentItems = {}
+	while true do
+		local player = game:GetService("Players").LocalPlayer
+		local gui = player:FindFirstChild("PlayerGui")
+		local menu = gui and gui:FindFirstChild("MainMenu")
+		local timerLabel = menu and menu:FindFirstChild("Timer")
+		local timerVisivel = timerLabel and timerLabel:IsA("TextLabel") and timerLabel.Visible
 
-            for i = 1, #descendants do
-                local obj = descendants[i]
-                if obj.Name == "ItemPickupScript" or obj.Name == "NewItemPickupScript" or (obj.Name == "Script" and obj.Parent:FindFirstChild("ClickDetector")) then
-                    table.insert(currentItems, obj.Parent)
-                end
-            end
+		local deveResetar = false
 
-            table.sort(currentItems, function(a, b)
-                return a.Name < b.Name
-            end)
+		if not menu or not timerLabel or not timerVisivel then
+			deveResetar = true
+		else
+			local tempoAtual = timerLabel.Text
+			if tempoAtual == textoAnterior then
+				tempoCongelado += task.wait()
+				if tempoCongelado >= tempoLimite then
+					deveResetar = true
+				end
+			else
+				textoAnterior = tempoAtual
+				tempoCongelado = 0
+			end
+		end
 
-            local currentNames = {}
-            for _, item in ipairs(currentItems) do
-                currentNames[item.Name] = true
-            end
+		if deveResetar then
+			for _, button in pairs(itemButtons) do
+				button:Destroy()
+			end
+			itemButtons = {}
+			textoAnterior = nil
+			tempoCongelado = 0
+			task.wait(1)
+			continue
+		end
 
-            for name, button in pairs(itemButtons) do
-                if not currentNames[name] then
-                    button:Destroy()
-                    itemButtons[name] = nil
-                end
-            end
-            
-            for _, item in ipairs(currentItems) do
-                if not itemButtons[item.Name] then
-                    local U_i = Instance.new("UICorner")
-                    U_i.CornerRadius = UDim.new(0.15, 0)
-                    U_i.Name = randomString()
-                    
-                    local ItemFrame = Instance.new("TextButton", ScrollingFrame)
-                    ItemFrame.Name = randomString()
-                    ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
-                    ItemFrame.BackgroundTransparency = 1
-                    ItemFrame.Size = UDim2.new(0, 100, 0, 100)
-                    ItemFrame.Text = "★"
-                    U_i.Parent = ItemFrame
-                    
-                    local View = Instance.new("ViewportFrame", ItemFrame)
-                    View.Name = randomString()
-                    View.Size = UDim2.new(1, 0, 1, 0)
-                    View.BackgroundTransparency = 0.9
-                    View.BorderSizePixel = 0.3
-                    U_i.Parent = View
-                    
-                    local viewportclone = item:Clone()
-                    viewportclone.Parent = View
-                    viewportclone.Name = randomString()
-                    
-                    local cam = Instance.new("Camera", viewportclone)
-                    cam.CameraType = Enum.CameraType.Fixed
-                    
-                    local objectPosition = item.Position
-                    local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
-                    cam.CoordinateFrame = CFrame.new(cameraPosition, objectPosition)
-                    View.CurrentCamera = cam
+		local pasta = IsGame()
+		if not pasta then
+			task.wait()
+			continue
+		end
 
-                    local debounce = false
-                    ItemFrame.MouseButton1Down:Connect(function()
-                        if debounce then return end
-                        debounce = true
-                        
-                        if item:FindFirstChild("ClickDetector") then
-                            local player = game:GetService("Players").LocalPlayer
-                            if player and player.Character and player.Character.PrimaryPart then
-                                local cpos = player.Character:GetPrimaryPartCFrame()
-                                MoveTo(item.CFrame)
-                                
-                                task.wait(0.2)
-                                
-                                for e = 1, 20 do
-                                    pcall(function()
-                                        for t = 1, 2 do
-                                            fireclickdetector(item.ClickDetector)
-                                        end
-                                    end)
-                                end
-                                
-                                task.wait(0.2)
-                                
-                                for k = 1, 5 do
-                                    MoveTo(cpos)
-                                end
-                            end
-                        end
-                        
-                        debounce = false
-                    end)
+		local descendants = pasta:GetDescendants()
+		local currentItems = {}
 
-                    itemButtons[item.Name] = ItemFrame
-                end
-            end
-        end
-        
-        local index = 0
-        for _, item in ipairs(currentItems) do
-            local button = itemButtons[item.Name]
-            if button then
-                button.Position = UDim2.new(0, 0, 0, index * 110)
-                index = index + 1
-            end
-        end
-        task.wait()
-    end
+		for _, obj in ipairs(descendants) do
+			if obj.Name == "ItemPickupScript" or obj.Name == "NewItemPickupScript" or (obj.Name == "Script" and obj.Parent:FindFirstChild("ClickDetector")) then
+				table.insert(currentItems, obj.Parent)
+			end
+		end
+
+		table.sort(currentItems, function(a, b)
+			return a.Name < b.Name
+		end)
+
+		local currentNames = {}
+		for _, item in ipairs(currentItems) do
+			currentNames[item.Name] = true
+		end
+
+		for name, button in pairs(itemButtons) do
+			if not currentNames[name] then
+				button:Destroy()
+				itemButtons[name] = nil
+			end
+		end
+
+		for _, item in ipairs(currentItems) do
+			if not itemButtons[item.Name] then
+				local U_i = Instance.new("UICorner")
+				U_i.CornerRadius = UDim.new(0.15, 0)
+				U_i.Name = randomString()
+
+				local ItemFrame = Instance.new("TextButton", ScrollingFrame)
+				ItemFrame.Name = randomString()
+				ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
+				ItemFrame.BackgroundTransparency = 1
+				ItemFrame.Size = UDim2.new(0, 100, 0, 100)
+				ItemFrame.Text = "★"
+				U_i.Parent = ItemFrame
+
+				local View = Instance.new("ViewportFrame", ItemFrame)
+				View.Name = randomString()
+				View.Size = UDim2.new(1, 0, 1, 0)
+				View.BackgroundTransparency = 0.9
+				View.BorderSizePixel = 0.3
+				U_i.Parent = View
+
+				local viewportclone = item:Clone()
+				viewportclone.Parent = View
+				viewportclone.Name = randomString()
+
+				local cam = Instance.new("Camera", viewportclone)
+				cam.CameraType = Enum.CameraType.Fixed
+
+				local objectPosition = item.Position
+				local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
+				cam.CoordinateFrame = CFrame.new(cameraPosition, objectPosition)
+				View.CurrentCamera = cam
+
+				local debounce = false
+				ItemFrame.MouseButton1Down:Connect(function()
+					if debounce then return end
+					debounce = true
+
+					if item:FindFirstChild("ClickDetector") then
+						local character = player.Character
+						if character and character.PrimaryPart then
+							local cpos = character:GetPrimaryPartCFrame()
+							MoveTo(item.CFrame)
+							task.wait(0.2)
+							for _ = 1, 20 do
+								pcall(function()
+									for _ = 1, 2 do
+										fireclickdetector(item.ClickDetector)
+									end
+								end)
+							end
+							task.wait(0.2)
+							for _ = 1, 5 do
+								MoveTo(cpos)
+							end
+						end
+					end
+
+					debounce = false
+				end)
+
+				itemButtons[item.Name] = ItemFrame
+			end
+		end
+
+		local index = 0
+		for _, item in ipairs(currentItems) do
+			local button = itemButtons[item.Name]
+			if button then
+				button.Position = UDim2.new(0, 0, 0, index * 110)
+				index += 1
+			end
+		end
+
+		task.wait()
+	end
 end)()
 up(60)
 
