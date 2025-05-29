@@ -236,15 +236,14 @@ up(0.25)
 task.wait(.1)
 up(0.25)
 task.wait(.1)
-loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/Script-New-/main/print-test-script.txt"))()
-local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))();
-task.wait(.1)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/Script-New-/refs/heads/main/print-test-script.txt"))();
+task.wait()
 up(0.5)
 
 --<>---<>---<>---<>---<>--
 
 local itl
-local dat, mon, yea = 01, 07, 2024
+local dat, mon, yea = 17, 4, 2025
 local itl2
 local cam = workspace.CurrentCamera.CFrame
 local sn = game.Players.LocalPlayer.Character:GetPrimaryPartCFrame()
@@ -253,7 +252,7 @@ local plr = game.Players.LocalPlayer
 
 --<>---<>---<>---<>---<>--
 
-local blacklistText = "You are on the blacklist"
+local blacklistText = "Você está na lista negra"
 
 --<>---<>---<>---<>---<>--
 
@@ -270,7 +269,7 @@ local function kick(player, reason)
         task.wait()
         if game.Players.LocalPlayer.Name == player then
             kicker(reason)
-            wait()
+            task.wait()
             print("You are on the Blacklist")
             return
         else
@@ -313,19 +312,19 @@ end
 --<>---<>---<>---<>---<>--
 
 local function BlackList()
-    for _, entry in ipairs(BlacKlIst_89171050018619910013_plr_name) do
+    for _, entry in pairs(BlacKlIst_89171050018619910013_plr_name) do
         local username = entry.Username
         local permanent = entry.permanent
         local date = entry.date
-        local banType = permanent and "Permanent" or "Temporary"
-        local kickReason = blacklistText .. " | ban: " .. banType .. " (" .. username .. ")"
+        local banType = permanent and "PERMANENTE" or "Temporário"
+        local kickReason = blacklistText .. " \nban: " .. banType .. " \n( " .. username .. " )"
         
         if not permanent then
             if isDateValid(date) then
-                kickReason = kickReason .. " | date: " .. date
+                kickReason = kickReason .. " | data: " .. date
             else
                 if not itl2 then
-                    print("The ban for " .. username .. " has expired")
+                    print("A banimento de ''" .. username .. "'' expirou")
                 end
                 itl2 = true
                 continue
@@ -339,20 +338,41 @@ end
 --<>---<>---<>---<>---<>--
 
 local function CheckBlacklist()
-    for _, entry in ipairs(BlacKlIst_89171050018619910013_plr_name) do
+    for _, entry in pairs(BlacKlIst_89171050018619910013_plr_name) do
         if entry.Username == plr.Name then
-        
             if isDateValid(entry.date) then
-                verifq = false
+                return true
             else
-                verifq = true
+                return false
             end
-            return verifq
-        else
-            verifq = true
-            return verifq
         end
     end
+    return false
+end
+
+--<>---<>---<>---<>---<>--
+
+coroutine.wrap(function()
+    while true do
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/Script-New-/refs/heads/main/print-test-script.txt"))();
+        BlackList()
+        
+        task.wait(5)
+    end
+end)()
+
+--<>---<>---<>---<>---<>--
+
+task.wait(0.4)
+if CheckBlacklist() then
+    while CheckBlacklist() do
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 0
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 0
+        game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(sn)
+        workspace.CurrentCamera.CFrame = cam
+        task.wait()
+    end
+    return
 end
 
 --<>---<>---<>---<>---<>--
@@ -370,21 +390,210 @@ task.wait(1.5)
 mobile = true
 Floating = false
 floatName = randomString()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+--// loadstrings //
 loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/077c856c291ab6ab58df99e8d70f7208/raw/95a0b2e647265d1bac1516e8817fc606bebd4606/Cmds"))();
+local library2 = loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/refs/heads/main/BaseUI/TbaoHubEz.lua"))();
+local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))();
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+--// variáveis //
+local txt = {
+    pt = { -- Português (pt)
+        credito = "Feito por brasileiro",
+        credito2 = "Créditos",
+        speed = "digite o número",
+        esp = "desligue o ''ESP'' quando a partida acabar",
+        noclip = "Cuidado, quando ativado, se você pegar um item você cairá no vazio quando retornar à sua posição original!",
+        flytxt = "Você quer um script de voar (Fly)?",
+        ScriptLoaded = "Script carregado",
+        AllScriptsLoaded = "Todos os scripts foram carregados",
+        NewVersion = "Nova versão V11",
+        AdvancedFeatures = "Um contador avançado e detector de idioma foram adicionados.",
+        newUp = "nova atualização! 🎉",
+        hora = "hora",
+        by = "Feito por",
+        by2 = "Por",
+        prefix = "prefixo",
+        cmds = "comandos",
+        error = "erros são prováveis"
+    },
+    en = { -- Inglês (en)
+        credito = "Made by Brazilian",
+        credito2 = "Credits",
+        speed = "enter the number",
+        esp = "turn off ''ESP'' when the match is over",
+        noclip = "Be careful, when enabled, if you pick up an item you will fall into the void when you return to your original position!",
+        flytxt = "Do you want a Fly script?",
+        ScriptLoaded = "Script loaded",
+        AllScriptsLoaded = "All scripts have been loaded",
+        NewVersion = "New version V11",
+        AdvancedFeatures = "An advanced counter and language detector were added.",
+        newUp = "new update! 🎉",
+        hora = "time",
+        by = "Made by",
+        by2 = "By",
+        prefix = "prefix",
+        cmds = "commands",
+        error = "errors are likely"
+    },
+    es = { -- Espanhol (es)
+        credito = "Hecho por brasileño",
+        credito2 = "Créditos",
+        speed = "Ingrese el número",
+        esp = "Desactivar ''ESP'' cuando el partido haya terminado",
+        noclip = "¡Ten cuidado, cuando está activado, si recoges un objeto caerás al vacío cuando regreses a tu posición original!",
+        flytxt = "¿Quieres un script de Volar (Fly)?",
+        ScriptLoaded = "Script cargado",
+        AllScriptsLoaded = "Todos los scripts han sido cargados",
+        NewVersion = "Nueva versión V11",
+        AdvancedFeatures = "Se añadió un contador avanzado y un detector de idioma.",
+        newUp = "¡Nueva actualización! 🎉",
+        hora = "tiempo",
+        by = "Hecho por",
+        by2 = "Por",
+        prefix = "prefijo",
+        cmds = "comandos",
+        error = "Es probable que haya errores"
+    },
+    fr = { -- Francês (fr)
+        credito = "Fait par Brésilien",
+        credito2 = "Crédits",
+        speed = "entrez le nombre",
+        esp = "désactivez l'''ESP'' quand le match est fini",
+        noclip = "Attention, si vous activez et ramassez un objet, vous tomberez dans le vide en revenant à votre position d'origine !",
+        flytxt = "Voulez-vous un script de vol (Fly) ?",
+        ScriptLoaded = "Script chargé",
+        AllScriptsLoaded = "Tous les scripts ont été chargés",
+        NewVersion = "Nouvelle version V11",
+        AdvancedFeatures = "Un compteur avancé et un détecteur de langue ont été ajoutés.",
+        newUp = "nouvelle mise à jour ! 🎉",
+        hora = "heure",
+        by = "Fait par",
+        by2 = "Par",
+        prefix = "préfixe",
+        cmds = "commandes",
+        error = "des erreurs sont probables"
+    },
+    it = { -- Italiano (it)
+        credito = "Fatto da brasiliano",
+        credito2 = "Crediti",
+        speed = "inserisci il numero",
+        esp = "disattiva l'''ESP'' quando la partita è finita",
+        noclip = "Attenzione, se lo attivi e raccogli un oggetto, cadrai nel vuoto quando tornerai alla tua posizione originale!",
+        flytxt = "Vuoi uno script per volare (Fly)?",
+        ScriptLoaded = "Script caricato",
+        AllScriptsLoaded = "Tutti gli script sono stati caricati",
+        NewVersion = "Nuova versione V11",
+        AdvancedFeatures = "Un contatore avanzato e un rilevatore di lingua sono stati aggiunti.",
+        newUp = "nuovo aggiornamento! 🎉",
+        hora = "ora",
+        by = "Fatto da",
+        by2 = "Da",
+        prefix = "prefisso",
+        cmds = "comandi",
+        error = "gli errori sono probabili"
+    },
+    de = { -- Alemão (de)
+        credito = "Von Brasilianer gemacht",
+        credito2 = "Credits",
+        speed = "Nummer eingeben",
+        esp = "deaktiviere ''ESP'' wenn das Spiel vorbei ist",
+        noclip = "Achtung, wenn aktiviert und du einen Gegenstand aufhebst, fällst du ins Leere, wenn du zu deiner ursprünglichen Position zurückkehrst!",
+        flytxt = "Möchtest du ein Flug-Skript (Fly)?",
+        ScriptLoaded = "Skript geladen",
+        AllScriptsLoaded = "Alle Skripte wurden geladen",
+        NewVersion = "Neue Version V11",
+        AdvancedFeatures = "Ein fortschrittlicher Zähler und Spracherkennung wurden hinzugefügt.",
+        newUp = "neues Update! 🎉",
+        hora = "Uhrzeit",
+        by = "Gemacht von",
+        by2 = "Von",
+        prefix = "Präfix",
+        cmds = "Befehle",
+        error = "Fehler sind wahrscheinlich"
+    },
+    zh = { -- Chinês Simplificado (zh)
+        credito = "巴西人制作",
+        credito2 = "鸣谢",
+        speed = "输入数字",
+        esp = "比赛结束后请关闭“ESP”",
+        noclip = "小心，激活后，如果你捡起物品，返回原位时会掉入虚空！",
+        flytxt = "你想要飞行（Fly）脚本吗？",
+        ScriptLoaded = "脚本已加载",
+        AllScriptsLoaded = "所有脚本已加载",
+        NewVersion = "新版本V11",
+        AdvancedFeatures = "已添加高级计数器和语言检测器。",
+        newUp = "新更新！🎉",
+        hora = "时间",
+        by = "由",
+        by2 = "作者",
+        prefix = "前缀",
+        cmds = "命令",
+        error = "可能会出错"
+    },
+    ja = { -- Japonês (ja)
+        credito = "ブラジル人による制作",
+        credito2 = "クレジット",
+        speed = "数字を入力してください",
+        esp = "試合終了時に「ESP」をオフにしてください",
+        noclip = "注意：有効な状態でアイテムを拾うと、元の位置に戻ったときに虚空に落ちます！",
+        flytxt = "飛行（Fly）スクリプトが必要ですか？",
+        ScriptLoaded = "スクリプトがロードされました",
+        AllScriptsLoaded = "すべてのスクリプトがロードされました",
+        NewVersion = "新バージョンV11",
+        AdvancedFeatures = "高度なカウンターと言語検出機能が追加されました。",
+        newUp = "新しいアップデート！🎉",
+        hora = "時間",
+        by = "作成者：",
+        by2 = "by",
+        prefix = "プレフィックス",
+        cmds = "コマンド",
+        error = "エラーが発生する可能性があります"
+    },
+    ru = { -- Russo (ru)
+        credito = "Сделано бразильцем",
+        credito2 = "Кредиты",
+        speed = "введите число",
+        esp = "отключите ''ESP'' по окончании матча",
+        noclip = "Будьте осторожны, если вы активируете и подберете предмет, вы упадете в пустоту при возвращении в исходное положение!",
+        flytxt = "Вам нужен скрипт полёта (Fly)?",
+        ScriptLoaded = "Скрипт загружен",
+        AllScriptsLoaded = "Все скрипты загружены",
+        NewVersion = "Новая версия V11",
+        AdvancedFeatures = "Добавлен продвинутый счётчик и детектор языка.",
+        newUp = "новое обновление! 🎉",
+        hora = "время",
+        by = "Сделано",
+        by2 = "От",
+        prefix = "префикс",
+        cmds = "команды",
+        error = "возможны ошибки"
+    }
+}
+
+local __global = getfenv and getfenv(0) or _G
+local country = game:GetService("LocalizationService").RobloxLocaleId
+local Initials = country:sub(1,2)
+local Language = txt[Initials] or txt.en
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 --// Créditos //
 
 task.spawn(function()
     local message = Instance.new("Message", workspace)
-    task.wait(1)    
-    message.Text = "Made by Liver zMods { V10 }"
-    wait(4.3)
+    task.wait(1)
+    message.Text = Language.credito
+    task.wait(4.3)
     message:Destroy()
 end)
 
 up(5)
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
 warn("——————————————————")
 print("——————{ Success }——————")
 warn("——————————————————")
@@ -427,21 +636,21 @@ end)()
 up(5)
 
 coroutine.wrap(function()
-    chat_Message("————Commands [BETA 2.0]————", "xrawnder", "Gotham")
+    chat_Message("————".. Language.cmds .." [BETA 2.0]————", "xrawnder", "Gotham")
     chat_Message("• fly", "xrawnder", "Gotham")
     chat_Message("• noclip", "xrawnder", "Gotham")
     chat_Message("• esp", "xrawnder", "Gotham")
     chat_Message("• godmode", "xrawnder", "Gotham")
-    chat_Message("• ws [enter the number]", "xrawnder", "Gotham")
+    chat_Message("• ws [".. Language.speed .."]", "xrawnder", "Gotham")
     chat_Message("• add prefix", "xrawnder", "Gotham")
-    chat_Message("——————prefix [BETA 2.0]——————", "xrawnder", "Gotham")
+    chat_Message("——————".. Language.prefix .." [BETA 2.0]——————", "xrawnder", "Gotham")
     
     for _, v in ipairs(prefixes) do
         chat_Message("----------------{ " .. v .. " }----------------", "xrawnder", "Gotham")
     end
     
     chat_Message("—————————END—————————", "xrawnder", "Arial")
-    chat_Message("• Credits: Liver zMods", "xrawnder", "Gotham")
+    chat_Message("• ".. Language.credito2 ..": Liver zMods", "xrawnder", "Gotham")
     chat_Message("————————————————————", "xrawnder", "Gotham")
     
     Add_cmds_Chat("fly", function()
@@ -463,7 +672,7 @@ coroutine.wrap(function()
                     task.spawn(function()
                         game.StarterGui:SetCore("SendNotification", {
                     	   Title = "[BETA]";
-                    	   Text = "errors are likely";
+                    	   Text = Language.error;
                            Duration = 11.2
                         })
                     end)
@@ -472,7 +681,7 @@ coroutine.wrap(function()
                 end
             end)
             
-            wait(2.23) CTT = true
+            task.wait(2.23) CTT = true
         end)
     end)
     
@@ -482,7 +691,7 @@ coroutine.wrap(function()
         pcall(function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/raw/main/P--y"))();
         end)
-        chat_Message("turn off esp when the match is over", colors.red, "Gotham")
+        chat_Message(Language.esp, colors.red, "Gotham")
         pulse = false
     end)
     
@@ -492,7 +701,7 @@ coroutine.wrap(function()
         pcall(function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/main/Piggy/Noclip"))();
         end)
-        chat_Message("Be careful, if you pick up an item you will fall into the void when you return to your original position!", colors.red, "Gotham")
+        chat_Message(Language.noclip, colors.red, "Gotham")
         pulse1 = false
     end)
     
@@ -514,7 +723,7 @@ end)()
 up(9)
 
 coroutine.wrap(function()
-    wait(3)
+    task.wait(3)
     function Basic.OnInvoke(gott)
         local message = Instance.new("Message", workspace)
         task.spawn(function()
@@ -530,7 +739,7 @@ coroutine.wrap(function()
     
     notify:SetCore('SendNotification', {
         Title = 'Fly Gui?',
-        Text = 'Do you want a flying script?',
+        Text = Language.flytxt,
         Duration = 240,
         Callback = Basic,
         Button1 = '✅',
@@ -543,22 +752,22 @@ end)()
 coroutine.wrap(function()
     while task.wait() do
         game.StarterGui:SetCore("SendNotification", {
-	     Title = "By Liver zMods";
-	     Text = "created by Brazilian!";
+	     Title = Language.by2 .." Liver zMods";
+	     Text = Language.credito .. "!";
             Icon = "rbxthumb://type=Asset&id=11935866652&w=150&h=150";
             Duration = 30; 
         }) 
-        wait(61.5)
+        task.wait(61.5)
     end
 end)()
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 coroutine.wrap(function()
-    wait(6.1)
+    task.wait(6.1)
     game.StarterGui:SetCore("SendNotification", {
-         Title = "new update! 🎉";
-         Text = "The command system has been fixed";
+         Title = Language.newUp;
+         Text = Language.AdvancedFeatures;
          Duration = 40; 
     }) 
 end)()
@@ -700,6 +909,23 @@ end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
+local function encryptNames(target)
+	if typeof(target) ~= "Instance" then
+		warn("Invalid target: must be a valid instance!")
+		return
+	end
+
+	for _, descendant in ipairs(target:GetDescendants()) do
+		if descendant:IsA("Instance") then
+			descendant.Name = randomString()
+		end
+	end
+
+	target.Name = randomString()
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
 local function songIntro()
     task.spawn(function()
         task.wait() local Sound = Instance.new("Sound",game:GetService("SoundService")) Sound.SoundId = "rbxassetid://488265234" Sound.Volume = 2.6 Sound:Play()
@@ -707,8 +933,8 @@ local function songIntro()
 end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
---// Gui do Piggy //
 
+--// Gui do Piggy //
 local U_i = Instance.new("UICorner")
 local U_i_2 = Instance.new("UICorner")
 U_i.CornerRadius = UDim.new(0.4, 0)
@@ -748,86 +974,118 @@ end)()
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
+local itemButtons = {}
+
 coroutine.wrap(function()
     while true do
-        pasta = IsGame()
+        local pasta = IsGame()
         if pasta then
             task.wait()
-            local a = pasta:getDescendants()
-            local items = {}
-            local itemframes = ScrollingFrame:getChildren()
-            
-            for i = 1, #itemframes do
-                if itemframes[i].ClassName == "TextButton" then
-                    itemframes[i]:Destroy()
+            local descendants = pasta:getDescendants()
+            local currentItems = {}
+
+            for i = 1, #descendants do
+                local obj = descendants[i]
+                if obj.Name == "ItemPickupScript" or obj.Name == "NewItemPickupScript" or (obj.Name == "Script" and obj.Parent:FindFirstChild("ClickDetector")) then
+                    table.insert(currentItems, obj.Parent)
+                end
+            end
+
+            table.sort(currentItems, function(a, b)
+                return a.Name < b.Name
+            end)
+
+            local currentNames = {}
+            for _, item in ipairs(currentItems) do
+                currentNames[item.Name] = true
+            end
+
+            for name, button in pairs(itemButtons) do
+                if not currentNames[name] then
+                    button:Destroy()
+                    itemButtons[name] = nil
                 end
             end
             
-            for i = 1, #a do
-                if a[i].Name == "ItemPickupScript" or a[i].Name == "NewItemPickupScript" or (a[i].Name == "Script" and a[i].Parent:FindFirstChild("ClickDetector")) then
-                    table.insert(items, a[i].Parent)
-                end
-            end
-            
-            -- Criação dos botões para cada item
-            for i = 1, #items do
-                local U_i = Instance.new("UICorner")
-                U_i.CornerRadius = UDim.new(0.15, 0)
-                U_i.Name = randomString()
-                
-                local ItemFrame = Instance.new("TextButton", ScrollingFrame)
-                ItemFrame.Name = randomString()
-                ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
-                ItemFrame.BackgroundTransparency = 1
-                ItemFrame.Size = UDim2.new(0, 100, 0, 100)
-                ItemFrame.Text = "★"
-                U_i.Parent = ItemFrame
-                
-                local View = Instance.new("ViewportFrame", ItemFrame)
-                View.Name = randomString()
-                View.Size = UDim2.new(1, 0, 1, 0)
-                View.BackgroundTransparency = 0.9
-                View.BorderSizePixel = 0.3
-                U_i.Parent = View
-                
-                local object = items[i]
-                local viewportclone = object:Clone()
-                viewportclone.Parent = View
-                viewportclone.Name = randomString()
-                
-                local cam = Instance.new("Camera", viewportclone)
-                cam.CameraType = Enum.CameraType.Fixed
-                
-                local objectPosition = object.Position
-                local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
-                cam.CoordinateFrame = CFrame.new(cameraPosition, objectPosition)
-                View.CurrentCamera = cam
+            for _, item in ipairs(currentItems) do
+                if not itemButtons[item.Name] then
+                    local U_i = Instance.new("UICorner")
+                    U_i.CornerRadius = UDim.new(0.15, 0)
+                    U_i.Name = randomString()
+                    
+                    local ItemFrame = Instance.new("TextButton", ScrollingFrame)
+                    ItemFrame.Name = randomString()
+                    ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
+                    ItemFrame.BackgroundTransparency = 1
+                    ItemFrame.Size = UDim2.new(0, 100, 0, 100)
+                    ItemFrame.Text = "★"
+                    U_i.Parent = ItemFrame
+                    
+                    local View = Instance.new("ViewportFrame", ItemFrame)
+                    View.Name = randomString()
+                    View.Size = UDim2.new(1, 0, 1, 0)
+                    View.BackgroundTransparency = 0.9
+                    View.BorderSizePixel = 0.3
+                    U_i.Parent = View
+                    
+                    local viewportclone = item:Clone()
+                    viewportclone.Parent = View
+                    viewportclone.Name = randomString()
+                    
+                    local cam = Instance.new("Camera", viewportclone)
+                    cam.CameraType = Enum.CameraType.Fixed
+                    
+                    local objectPosition = item.Position
+                    local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
+                    cam.CoordinateFrame = CFrame.new(cameraPosition, objectPosition)
+                    View.CurrentCamera = cam
 
-                ItemFrame.MouseButton1Down:Connect(function()
-                    if items[i]:FindFirstChild("ClickDetector") then
-                        local cpos = game:GetService("Players").LocalPlayer.Character:GetPrimaryPartCFrame()
-                        MoveTo(items[i].CFrame)
-
-                        task.wait(0.2)
+                    local debounce = false
+                    ItemFrame.MouseButton1Down:Connect(function()
+                        if debounce then return end
+                        debounce = true
                         
-                        for e = 1, 20 do
-                            pcall(function()
-                                for t = 1, 2 do
-                                    fireclickdetector(items[i].ClickDetector)
+                        if item:FindFirstChild("ClickDetector") then
+                            local player = game:GetService("Players").LocalPlayer
+                            if player and player.Character and player.Character.PrimaryPart then
+                                local cpos = player.Character:GetPrimaryPartCFrame()
+                                MoveTo(item.CFrame)
+                                
+                                task.wait(0.2)
+                                
+                                for e = 1, 20 do
+                                    pcall(function()
+                                        for t = 1, 2 do
+                                            fireclickdetector(item.ClickDetector)
+                                        end
+                                    end)
                                 end
-                            end)
+                                
+                                task.wait(0.2)
+                                
+                                for k = 1, 5 do
+                                    MoveTo(cpos)
+                                end
+                            end
                         end
                         
-                        task.wait(0.2)
-                        
-                        for k = 1, 5 do
-                            MoveTo(cpos)
-                        end
-                    end
-                end)
+                        debounce = false
+                    end)
+
+                    itemButtons[item.Name] = ItemFrame
+                end
             end
         end
-        task.wait(1.5)
+        
+        local index = 0
+        for _, item in ipairs(currentItems) do
+            local button = itemButtons[item.Name]
+            if button then
+                button.Position = UDim2.new(0, 0, 0, index * 110)
+                index = index + 1
+            end
+        end
+        task.wait()
     end
 end)()
 up(60)
@@ -835,10 +1093,63 @@ up(60)
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 task.spawn(function()
+    repeat RunService.Heartbeat:Wait()
+    until roNub1 == 100
+    local startTime = os.time()
+    local Players = game:GetService("Players")
+    local plr = Players.LocalPlayer
+    
+    local Wm = library2:Watermark("Ping: ")
+    local FpsWm = Wm:AddWatermark("fps: " .. library2.fps)
+    local HoraWm = Wm:AddWatermark("hora: --:--:--")
+    local TempoWm = Wm:AddWatermark("online: 0s")
+    
     coroutine.wrap(function()
-        gui = Instance.new("ScreenGui")
+    	while true do
+    	    if roNub1 == 100 then
+        		pcall(function()
+        			FpsWm:Text("fps: " .. library2.fps)
+        			Wm:Text("Ping: " .. math.round(plr:GetNetworkPing() * 1000) .. "")
+        
+        			local agora = os.date("*t")
+        			local horaAtual = string.format("%02d:%02d:%02d", agora.hour, agora.min, agora.sec)
+        			HoraWm:Text(Language.hora .. ": " .. horaAtual)
+        
+        			local diff = os.time() - startTime
+        			local horas = math.floor(diff / 3600)
+        			local minutos = math.floor((diff % 3600) / 60)
+        			local segundos = diff % 60
+        
+        			local tempoStr = ""
+        			if horas > 0 then
+        				tempoStr = string.format("%dh %02dm %02ds", horas, minutos, segundos)
+        			elseif minutos > 0 then
+        				tempoStr = string.format("%dm %02ds", minutos, segundos)
+        			else
+        				tempoStr = string.format("%ds", segundos)
+        			end
+        
+        			TempoWm:Text("online: " .. tempoStr)
+        		end)
+    		end
+    		task.wait(.5)
+    	end
+    end)()
+    
+    
+    pcall(function()
+        encryptNames(game:GetService("CoreGui").watermark)
+    end)
+end)
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+task.spawn(function()
+    coroutine.wrap(function()
+        __global.gui = Instance.new("ScreenGui")
         gui.Name = randomString()
-        gui.Parent = game.Players.LocalPlayer.PlayerGui
+        gui.Parent = (game:GetService("CoreGui") or gethui())
+        gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
         gui.DisplayOrder = 9e9
     
         local imageButton = Instance.new("ImageButton")
@@ -869,6 +1180,8 @@ task.spawn(function()
                 
                 for i = 1, 5 do
                     task.wait()
+                    gui.DisplayOrder = 9e9
+                    PiggyGui.DisplayOrder = 9e9
                 end 
                 
                 if booletan then
@@ -904,19 +1217,33 @@ task.spawn(function()
     end)()
 end)
 
+coroutine.wrap(function()
+    local ui = __global.gui
+    while true do
+        if roNub1 == 100 then
+            pcall(function()
+                encryptNames(PiggyGui)
+                encryptNames(ui)
+            end) task.wait(10)
+        else
+            task.wait()
+        end
+    end
+end)()
+
 task.spawn(function()
     task.wait()
-    AkaliNotif_("Script loaded", "all script has been loaded", random(15, 30))
+    AkaliNotif_(Language.ScriptLoaded, Language.AllScriptsLoaded, random(15, 30))
     
     up(10)
     task.wait()
     songIntro()
     
     task.spawn(function()
-        wait(random(15, 30))
-        AkaliNotif_("New version V10", "Adjusted teleportation, and improved encryption.", 7.8)
+        task.wait(random(15, 30))
+        AkaliNotif_(Language.NewVersion, Language.AdvancedFeatures, 7.8)
     end)
 end)
 
---// Please don't edit or steal my credits! //
+--// Please don't edit or steal my credits!! //
 --<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
