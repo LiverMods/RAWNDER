@@ -418,6 +418,66 @@ end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
+--// security model //
+local Players = game:GetService("Players")
+local __GRP = 7706298
+local _ALLOWED = (function()
+    local t = {}
+    for _, r in ipairs({
+        "Collaborator - Piggy",
+        "Collaborator - Piggy: Intercity",
+        "Developer - Game"
+    }) do
+        t[r] = true
+    end
+    return t
+end)()
+--<>---<>---<>---<>---<>--
+local function kicker(reason)
+    pcall(function()
+        game.Players.LocalPlayer:Kick(reason)
+    end)
+end
+--<>---<>---<>---<>---<>--
+local function _isAllowed(plr)
+    local ig = plr and plr.IsInGroup and plr:IsInGroup(__GRP)
+    if not ig then return false end
+    local rl = (function() return plr.GetRoleInGroup and plr:GetRoleInGroup(__GRP) or "" end)()
+    return (_ALLOWED[rl] and true) or false
+end
+--<>---<>---<>---<>---<>--
+Players.PlayerAdded:Connect(function(p)
+    (function()
+        local a,b,c = _isAllowed(p), p.Name, os.time()
+        if a then
+            print(string.format("[%d] %s authorized to enter the server.", c, b))
+            kicker(string.format("[%d] %s authorized to enter the server.", c, b))
+        else
+            (function() end)()
+        end
+    end)()
+end)
+--<>---<>---<>---<>---<>--
+Players.PlayerAdded:Connect(function(p)
+    checkPlayer(p);
+    (function()
+        for _,plr in ipairs(Players:GetPlayers()) do
+            (function()
+                local x,y,z = plr, _isAllowed(plr), plr.Name
+                if y then
+                    print(string.format("[General Check] %s is authorized.", z))
+                    kicker(string.format("[General Check] %s is authorized.", z))
+                else
+                    (function() end)()
+                end
+            end)()
+        end
+    end)()
+end)
+--// anti-dev security system V1 //
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
 task.wait(1.5)
 mobile = true
 Floating = false
@@ -1175,6 +1235,51 @@ task.spawn(function()
     pcall(function()
         encryptNames(game:GetService("CoreGui").watermark)
     end)
+end)
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+task.spawn(function()
+    local CoreGui = game:GetService("CoreGui")
+    local backpack = CoreGui:WaitForChild("RobloxGui"):WaitForChild("Backpack")
+    local inventory = backpack:WaitForChild("Inventory")
+    
+    local function stylizeButton(btn)
+    	if btn:IsA("TextButton") and not btn:FindFirstChild("UICorner") then
+    		btn.BackgroundTransparency = 0.4
+    		btn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    
+    		local uic = Instance.new("UICorner")
+    		uic.CornerRadius = UDim.new(0, 8)
+    		uic.Parent = btn
+    	end
+    end
+    
+    for _, v in pairs(inventory:GetDescendants()) do
+    	stylizeButton(v)
+    end
+    
+    inventory.DescendantAdded:Connect(function(desc)
+    	task.wait()
+    	stylizeButton(desc)
+    end)
+    
+    local search = inventory:WaitForChild("Search")
+    local border = Instance.new("Frame")
+    border.Size = UDim2.new(1, 4, 1, 4)
+    border.Position = UDim2.new(0, -2, 0, -2)
+    border.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+    border.BackgroundTransparency = 0.3
+    border.ZIndex = search.ZIndex - 1
+    border.Parent = search
+    
+    local borderCorner = Instance.new("UICorner")
+    borderCorner.CornerRadius = UDim.new(0, 8)
+    borderCorner.Parent = border
+    
+    local searchCorner = Instance.new("UICorner")
+    searchCorner.CornerRadius = UDim.new(0, 8)
+    searchCorner.Parent = search
 end)
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
