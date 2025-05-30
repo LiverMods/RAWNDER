@@ -69,11 +69,8 @@ local function createOrUpdateESP(model)
 	if model == LocalPlayer.Character and not uselocalplayer then return end
 
 	local folder = game.CoreGui:FindFirstChild("ESPFolder")
-	if not folder then
-		folder = Instance.new("Folder", game.CoreGui)
-		folder.Name = "ESPFolder"
-	end
-
+	if not folder then return end
+    
 	local esp = folder:FindFirstChild(model.Name)
 	if not esp then
 		esp = Instance.new("Highlight", folder)
@@ -133,17 +130,20 @@ toggle.MouseButton1Click:Connect(function()
 	enabled = not enabled
 	toggle.Text = enabled and "ON" or "OFF"
 
-	local folder = game.CoreGui:FindFirstChildWhichIsA("Folder")
-	if not enabled and folder then
-		folder:Destroy()
-	end
+	if not enabled then
+        local folder = game.CoreGui:FindFirstChild("ESPFolder")
+        if folder then folder:Destroy() end
+        if updateConnection then updateConnection:Disconnect() end
+	else
+		local folder = game.CoreGui:FindFirstChild("ESPFolder")
+		if not folder then
+			folder = Instance.new("Folder", game.CoreGui)
+			folder.Name = "ESPFolder"
+		end
 
-	if enabled then
 		refreshAll()
 		if updateConnection then updateConnection:Disconnect() end
 		updateConnection = RunService.RenderStepped:Connect(refreshAll)
-	else
-		if updateConnection then updateConnection:Disconnect() end
 	end
 end)
 
