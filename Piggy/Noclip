@@ -1,85 +1,114 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+local charr = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local jp = charr.Humanoid.JumpPower
+
 local function randomString()
-    local length = math.random(17,45)
-    local array = {}
-    for i = 1, length do
-        array[i] = string.char(math.random(32, 126))
-    end
-    return table.concat(array)
+	local length = math.random(17, 45)
+	local array = {}
+	for i = 1, length do
+		array[i] = string.char(math.random(32, 126))
+	end
+	return table.concat(array)
 end
 
---// others + gui //
-good = true
-Noclipping = nil
-boolean2 = false
-local charr = game:GetService("Players").LocalPlayer.Character
-local RunService = game:GetService("RunService")
-local bolet = charr:FindFirstChildOfClass("Humanoid")
-local Prr = game:GetService("Players").LocalPlayer
-local ScreenGui = Instance.new("ScreenGui")
-local main = Instance.new("Frame")
-local label = Instance.new("TextLabel")
-local Rawnder = Instance.new("TextButton")
+local function encryptNames(target)
+	if typeof(target) ~= "Instance" then
+		warn("Invalid target: must be a valid instance!")
+		return
+	end
 
-ScreenGui.Parent = game.CoreGui
-main.Name = "main"
-main.Parent = ScreenGui
-main.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-main.Position = UDim2.new(0.40427351, 0, 0.34591195, 0)
-main.Size = UDim2.new(0, 90, 0, 65)
-main.Active = true
-main.Draggable = true
+	for _, descendant in ipairs(target:GetDescendants()) do
+		if descendant:IsA("Instance") then
+			descendant.Name = randomString()
+		end
+	end
 
-label.Name = "label"
-label.Parent = main
+	target.Name = randomString()
+end
+
+local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = randomString()
+local frame = Instance.new("Frame", gui)
+frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+frame.Position = UDim2.new(0.404, 0, 0.346, 0)
+frame.Size = UDim2.new(0, 90, 0, 65)
+frame.Active = true
+frame.Draggable = true
+frame.Name = randomString()
+
+local label = Instance.new("TextLabel", frame)
 label.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-label.Size = UDim2.new(0, 90, 0, 20)
+label.Size = UDim2.new(1, 0, 0, 20)
 label.Font = Enum.Font.SourceSans
-label.Text = "Noclip Gui"
+label.Text = "Noclip gui V2"
 label.TextColor3 = Color3.fromRGB(0, 99, 390)
 label.TextScaled = true
-label.TextSize = 3.580
 label.TextWrapped = true
 
-Rawnder.Name = "Rawnder"
-Rawnder.Parent = main
-Rawnder.BackgroundColor3 = Color3.fromRGB(32, 32, 32)
-Rawnder.Position = UDim2.new(0.0483, 0, 0.388448981, 0)
-Rawnder.Size = UDim2.new(0, 82, 0, 34)
-Rawnder.Font = Enum.Font.Kalam
-Rawnder.Text = "OFF"
-Rawnder.TextColor3 = Color3.fromRGB(49, 180, 198)
-Rawnder.TextSize = 22.892
-Rawnder.MouseButton1Down:connect(function()
-    boolean2 = not boolean2
-    Rawnder.Text = boolean2 and "ON" or "OFF"
-    
-    task.wait()
-    
-    task.spawn(function()
-        local speaker = Prr
-        Clip = false
-        toggleNoclip = not toggleNoclip
-        
-        if toggleNoclip then
-            local function NoclipLoop()
-                if Clip == false and charr ~= nil then
-                    for _, child in pairs(charr:GetDescendants()) do
-                        if child:IsA("BasePart") and child.CanCollide == true and child.Name ~= floatName then
-                            child.CanCollide = false
-                            bolet.Sit = false
-                        end
-                    end
-                end
-            end
-            Noclipping = RunService.Stepped:Connect(NoclipLoop)
-        else
-            if Noclipping then
-                Noclipping:Disconnect()
-                bolet.Sit = true
-                task.wait(.05)
-                bolet.Sit = false
-            end
-            Clip = true
-        end
-    end)
+local button = Instance.new("TextButton", frame)
+button.BackgroundColor3 = Color3.fromRGB(32, 32, 32)
+button.Position = UDim2.new(0.048, 0, 0.39, 0)
+button.Size = UDim2.new(0, 82, 0, 34)
+button.Font = Enum.Font.Kalam
+button.Text = "OFF"
+button.TextColor3 = Color3.fromRGB(49, 180, 198)
+button.TextSize = 22
+
+local noclipEnabled = false
+local connection
+
+local function setNoclip(state)
+	noclipEnabled = state
+	button.Text = state and "ON" or "OFF"
+
+	if connection then
+	    local charr = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+	    
+		connection:Disconnect()
+		connection = nil
+		
+		if charr then
+    		charr.Humanoid.JumpPower = 0.001
+    		charr:FindFirstChildWhichIsA("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping)
+    		
+    		task.wait()
+    		charr.Humanoid.JumpPower = jp
+		end
+	end
+
+	if state then
+		connection = RunService.Stepped:Connect(function()
+			local character = LocalPlayer.Character
+			if not character then return end
+
+			local humanoid = character:FindFirstChildOfClass("Humanoid")
+			if humanoid then humanoid.Sit = false end
+
+			for _, part in pairs(character:GetDescendants()) do
+				if part:IsA("BasePart") and part.CanCollide then
+					part.CanCollide = false
+				end
+			end
+		end)
+	end
+end
+
+LocalPlayer.CharacterAdded:Connect(function()
+	task.wait(1)
+	if noclipEnabled then
+		setNoclip(true)
+	end
+end)
+
+button.MouseButton1Click:Connect(function()
+	setNoclip(not noclipEnabled)
+end)
+
+task.spawn(function()
+    while true do
+        encryptNames(gui)
+        task.wait(10)
+    end
 end)
