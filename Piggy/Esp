@@ -1,131 +1,114 @@
---// Notificação
-pcall(function()
-	game.StarterGui:SetCore("SendNotification", {
-		Title = "Attention",
-		Text = "Turn it off when the match is over!",
-		Duration = 60
-	})
-end)
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+local charr = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local jp = charr.Humanoid.JumpPower
 
---// Variáveis globais
-local enabled = false
-local fillTransparency = 0.87
-local outlineTransparency = 0.1
-local uselocalplayer = false
-local ignoredNames = { "Bess", "Ombra", "MrBliss" }
+local function randomString()
+	local length = math.random(17, 45)
+	local array = {}
+	for i = 1, length do
+		array[i] = string.char(math.random(32, 126))
+	end
+	return table.concat(array)
+end
 
---// GUI
+local function encryptNames(target)
+	if typeof(target) ~= "Instance" then
+		warn("Invalid target: must be a valid instance!")
+		return
+	end
+
+	for _, descendant in ipairs(target:GetDescendants()) do
+		if descendant:IsA("Instance") then
+			descendant.Name = randomString()
+		end
+	end
+
+	target.Name = randomString()
+end
+
 local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = randomString()
 local frame = Instance.new("Frame", gui)
-frame.Name = "main"
 frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-frame.Position = UDim2.new(0.4, 0, 0.35, 0)
+frame.Position = UDim2.new(0.404, 0, 0.346, 0)
 frame.Size = UDim2.new(0, 90, 0, 65)
 frame.Active = true
 frame.Draggable = true
+frame.Name = randomString()
 
 local label = Instance.new("TextLabel", frame)
-label.Size = UDim2.new(1, 0, 0, 20)
 label.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+label.Size = UDim2.new(1, 0, 0, 20)
 label.Font = Enum.Font.SourceSans
-label.Text = "ESP gui V6"
+label.Text = "Noclip gui V2"
 label.TextColor3 = Color3.fromRGB(0, 99, 390)
 label.TextScaled = true
+label.TextWrapped = true
 
-local toggle = Instance.new("TextButton", frame)
-toggle.Position = UDim2.new(0.05, 0, 0.4, 0)
-toggle.Size = UDim2.new(0, 82, 0, 34)
-toggle.BackgroundColor3 = Color3.fromRGB(32, 32, 32)
-toggle.Font = Enum.Font.Kalam
-toggle.Text = "OFF"
-toggle.TextColor3 = Color3.fromRGB(49, 180, 198)
-toggle.TextSize = 22
+local button = Instance.new("TextButton", frame)
+button.BackgroundColor3 = Color3.fromRGB(32, 32, 32)
+button.Position = UDim2.new(0.048, 0, 0.39, 0)
+button.Size = UDim2.new(0, 82, 0, 34)
+button.Font = Enum.Font.Kalam
+button.Text = "OFF"
+button.TextColor3 = Color3.fromRGB(49, 180, 198)
+button.TextSize = 22
 
---// Função para criar/reaproveitar Highlight
-local function createOrUpdateESP(model)
-	if not model or not model:IsA("Model") then return end
-	if table.find(ignoredNames, model.Name) then return end
-	if not model:FindFirstChild("Humanoid") then return end
-	if model == game.Players.LocalPlayer.Character and not uselocalplayer then return end
+local noclipEnabled = false
+local connection
 
-	local folder = game.CoreGui:FindFirstChild("ESPHolder") or Instance.new("Folder", game.CoreGui)
-	folder.Name = "ESPHolder"
+local function setNoclip(state)
+	noclipEnabled = state
+	button.Text = state and "ON" or "OFF"
 
-	local esp = folder:FindFirstChild(model.Name)
-	if not esp then
-		esp = Instance.new("Highlight", folder)
-		esp.Name = model.Name
-	end
-
-	-- Atributos de cor e lógica
-	if model:FindFirstChild("Enemy") and not model:FindFirstChild("IsActive") then
-		esp.FillColor = Color3.new(1, 0, 0) -- vermelho
-		esp.OutlineColor = Color3.new(1, 0, 0)
-	elseif model:FindFirstChild("IsActive") then
-		esp.FillColor = Color3.new(1, 1, 0) -- amarelo
-		esp.OutlineColor = Color3.new(1, 1, 0)
-	elseif model:FindFirstChild("Traitor") and not model:FindFirstChild("IsActive") then
-		-- efeito piscante
-		task.spawn(function()
-			while enabled and esp and esp.Parent do
-				esp.FillColor = Color3.new(1, 0, 0)
-				esp.OutlineColor = Color3.new(1, 0, 0)
-				task.wait(0.5)
-				esp.FillColor = Color3.new(0, 1, 0)
-				esp.OutlineColor = Color3.new(0, 1, 0)
-				task.wait(0.5)
-			end
-		end)
-	else
-		esp.FillColor = Color3.new(0, 1, 0) -- verde padrão
-		esp.OutlineColor = Color3.new(0, 1, 0)
-	end
-
-	esp.FillTransparency = fillTransparency
-	esp.OutlineTransparency = outlineTransparency
-	esp.Adornee = model
-	esp.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-end
-
---// Ativar ESP
-local function refreshAll()
-	if not enabled then return end
-
-	for _, obj in ipairs(workspace:GetDescendants()) do
-		if obj:IsA("Model") and obj:FindFirstChild("Humanoid") then
-			createOrUpdateESP(obj)
+	if connection then
+	    local charr = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+	    
+		connection:Disconnect()
+		connection = nil
+		
+		if charr then
+    		charr.Humanoid.JumpPower = 0.001
+    		charr:FindFirstChildWhichIsA("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping)
+    		
+    		task.wait()
+    		charr.Humanoid.JumpPower = jp
 		end
 	end
+
+	if state then
+		connection = RunService.Stepped:Connect(function()
+			local character = LocalPlayer.Character
+			if not character then return end
+
+			local humanoid = character:FindFirstChildOfClass("Humanoid")
+			if humanoid then humanoid.Sit = false end
+
+			for _, part in pairs(character:GetDescendants()) do
+				if part:IsA("BasePart") and part.CanCollide then
+					part.CanCollide = false
+				end
+			end
+		end)
+	end
 end
 
---// Loop principal
-local updateConnection
-toggle.MouseButton1Click:Connect(function()
-	enabled = not enabled
-	toggle.Text = enabled and "ON" or "OFF"
-
-	local folder = game.CoreGui:FindFirstChild("ESPHolder")
-	if not enabled and folder then
-		folder:Destroy()
-	end
-
-	if enabled then
-		refreshAll()
-
-		if updateConnection then updateConnection:Disconnect() end
-		updateConnection = game:GetService("RunService").RenderStepped:Connect(function()
-			refreshAll()
-		end)
-	else
-		if updateConnection then updateConnection:Disconnect() end
+LocalPlayer.CharacterAdded:Connect(function()
+	task.wait(1)
+	if noclipEnabled then
+		setNoclip(true)
 	end
 end)
 
---// Atualiza quando jogador entra
-game.Players.PlayerAdded:Connect(function(plr)
-	plr.CharacterAdded:Connect(function(char)
-		if enabled then
-			createOrUpdateESP(char)
-		end
-	end)
+button.MouseButton1Click:Connect(function()
+	setNoclip(not noclipEnabled)
+end)
+
+task.spawn(function()
+    while true do
+        encryptNames(gui)
+        task.wait(10)
+    end
 end)
