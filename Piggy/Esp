@@ -1,141 +1,131 @@
-game.StarterGui:SetCore("SendNotification", {
-	Title = "Attention";
-	Text = "turn it off when the match is over!";
-    Duration = 60;
-})    
+--// Notificação
+pcall(function()
+	game.StarterGui:SetCore("SendNotification", {
+		Title = "Attention",
+		Text = "Turn it off when the match is over!",
+		Duration = 60
+	})
+end)
 
-boolean = false
-local ScreenGui = Instance.new("ScreenGui")
-local main = Instance.new("Frame")
-local label = Instance.new("TextLabel")
-local Rawnder = Instance.new("TextButton")
+--// Variáveis globais
+local enabled = false
+local fillTransparency = 0.87
+local outlineTransparency = 0.1
+local uselocalplayer = false
+local ignoredNames = { "Bess", "Ombra", "MrBliss" }
 
-ScreenGui.Parent = game.CoreGui
-main.Name = "main"
-main.Parent = ScreenGui
-main.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-main.Position = UDim2.new(0.40427351, 0, 0.34591195, 0)
-main.Size = UDim2.new(0, 90, 0, 65)
-main.Active = true
-main.Draggable = true
+--// GUI
+local gui = Instance.new("ScreenGui", game.CoreGui)
+local frame = Instance.new("Frame", gui)
+frame.Name = "main"
+frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+frame.Position = UDim2.new(0.4, 0, 0.35, 0)
+frame.Size = UDim2.new(0, 90, 0, 65)
+frame.Active = true
+frame.Draggable = true
 
-label.Name = "label"
-label.Parent = main
+local label = Instance.new("TextLabel", frame)
+label.Size = UDim2.new(1, 0, 0, 20)
 label.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-label.Size = UDim2.new(0, 90, 0, 20)
 label.Font = Enum.Font.SourceSans
-label.Text = "ESP gui"
+label.Text = "ESP gui V6"
 label.TextColor3 = Color3.fromRGB(0, 99, 390)
 label.TextScaled = true
-label.TextSize = 2.580
-label.TextWrapped = true
 
-Rawnder.Name = "Rawnder"
-Rawnder.Parent = main
-Rawnder.BackgroundColor3 = Color3.fromRGB(32, 32, 32)
-Rawnder.Position = UDim2.new(0.0483, 0, 0.388448981, 0)
-Rawnder.Size = UDim2.new(0, 82, 0, 34)
-Rawnder.Font = Enum.Font.Kalam
-Rawnder.Text = "TOGGLE"
-Rawnder.TextColor3 = Color3.fromRGB(49, 180, 198)
-Rawnder.TextSize = 19.892
-Rawnder.MouseButton1Down:connect(function()
-    boolean = not boolean
-    task.wait()
-    getgenv().enabled = boolean
-    getgenv().filltrans = 0.85
-    getgenv().outlinetrans = 0.1
+local toggle = Instance.new("TextButton", frame)
+toggle.Position = UDim2.new(0.05, 0, 0.4, 0)
+toggle.Size = UDim2.new(0, 82, 0, 34)
+toggle.BackgroundColor3 = Color3.fromRGB(32, 32, 32)
+toggle.Font = Enum.Font.Kalam
+toggle.Text = "OFF"
+toggle.TextColor3 = Color3.fromRGB(49, 180, 198)
+toggle.TextSize = 22
 
-    local localPlayer = game.Players.LocalPlayer
-    local function checkAndCreateHighlight(player)
-        if player == localPlayer then
-            return
-        end
+--// Função para criar/reaproveitar Highlight
+local function createOrUpdateESP(model)
+	if not model or not model:IsA("Model") then return end
+	if table.find(ignoredNames, model.Name) then return end
+	if not model:FindFirstChild("Humanoid") then return end
+	if model == game.Players.LocalPlayer.Character and not uselocalplayer then return end
 
-        local playerName = player.Name
-        local enemyObject = player:FindFirstChild("Enemy")
-        local npcc = player:FindFirstChild("NPCScript")
-        local holder = game.CoreGui:FindFirstChild("ESPHolder") or Instance.new("Folder")
+	local folder = game.CoreGui:FindFirstChild("ESPHolder") or Instance.new("Folder", game.CoreGui)
+	folder.Name = "ESPHolder"
 
-        if enabled == false then
-            holder:Destroy()
-            return
-        end
+	local esp = folder:FindFirstChild(model.Name)
+	if not esp then
+		esp = Instance.new("Highlight", folder)
+		esp.Name = model.Name
+	end
 
-        if holder.Name == "Folder" then
-            holder.Name = "ESPHolder"
-            holder.Parent = game.CoreGui
-        end
+	-- Atributos de cor e lógica
+	if model:FindFirstChild("Enemy") and not model:FindFirstChild("IsActive") then
+		esp.FillColor = Color3.new(1, 0, 0) -- vermelho
+		esp.OutlineColor = Color3.new(1, 0, 0)
+	elseif model:FindFirstChild("IsActive") then
+		esp.FillColor = Color3.new(1, 1, 0) -- amarelo
+		esp.OutlineColor = Color3.new(1, 1, 0)
+	elseif model:FindFirstChild("Traitor") and not model:FindFirstChild("IsActive") then
+		-- efeito piscante
+		task.spawn(function()
+			while enabled and esp and esp.Parent do
+				esp.FillColor = Color3.new(1, 0, 0)
+				esp.OutlineColor = Color3.new(1, 0, 0)
+				task.wait(0.5)
+				esp.FillColor = Color3.new(0, 1, 0)
+				esp.OutlineColor = Color3.new(0, 1, 0)
+				task.wait(0.5)
+			end
+		end)
+	else
+		esp.FillColor = Color3.new(0, 1, 0) -- verde padrão
+		esp.OutlineColor = Color3.new(0, 1, 0)
+	end
 
-        if uselocalplayer == false and holder:FindFirstChild(game.Players.LocalPlayer.Name) then
-            holder:FindFirstChild(game.Players.LocalPlayer.Name):Destroy()
-        end
+	esp.FillTransparency = fillTransparency
+	esp.OutlineTransparency = outlineTransparency
+	esp.Adornee = model
+	esp.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+end
 
-        local chr = player
-        if chr ~= nil then
-            local esp = holder:FindFirstChild(playerName) or Instance.new("Highlight")
-            esp.Name = playerName
-            if uselocalplayer == false and esp.Name == game.Players.LocalPlayer.Name then
-                return
-            end
-            esp.Parent = holder
-            if enemyObject then
-                esp.FillColor = Color3.new(1, 0, 0)
-                esp.OutlineColor = Color3.new(1, 0, 0)
-            elseif npcc then
-                esp.FillColor = Color3.new(0, 1, 0)
-                esp.OutlineColor = Color3.new(0, 1, 0)
-            else
-                esp.FillColor = Color3.new(1, 1, 0)
-                esp.OutlineColor = Color3.new(1, 1, 0)
-            end
-            esp.FillTransparency = filltrans
-            esp.OutlineTransparency = outlinetrans
-            esp.Adornee = chr
-            esp.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-        end
-    end
+--// Ativar ESP
+local function refreshAll()
+	if not enabled then return end
 
-    local function onPlayerAdded(player)
-        checkAndCreateHighlight(player.Character)
-    end
+	for _, obj in ipairs(workspace:GetDescendants()) do
+		if obj:IsA("Model") and obj:FindFirstChild("Humanoid") then
+			createOrUpdateESP(obj)
+		end
+	end
+end
 
-    game.Players.PlayerAdded:Connect(function(player)
-        checkAndCreateHighlight(player.Character)
-    end)
+--// Loop principal
+local updateConnection
+toggle.MouseButton1Click:Connect(function()
+	enabled = not enabled
+	toggle.Text = enabled and "ON" or "OFF"
 
-    local namesToIgnore = {
-        "Bess",
-        "Ombra",
-        "MrBliss"
-    }
+	local folder = game.CoreGui:FindFirstChild("ESPHolder")
+	if not enabled and folder then
+		folder:Destroy()
+	end
 
-    local function checkAndCreateHighlightForObjects()
-        for _, object in ipairs(game.Workspace:GetDescendants()) do
-            if object:IsA("Model") and object:FindFirstChild("Humanoid") then
-                local playerName = object.Name
-                local ignore = false
+	if enabled then
+		refreshAll()
 
-                for _, name in ipairs(namesToIgnore) do
-                    if playerName == name then
-                        ignore = true
-                        break
-                    end
-                end
+		if updateConnection then updateConnection:Disconnect() end
+		updateConnection = game:GetService("RunService").RenderStepped:Connect(function()
+			refreshAll()
+		end)
+	else
+		if updateConnection then updateConnection:Disconnect() end
+	end
+end)
 
-                if not ignore then
-                    checkAndCreateHighlight(object)
-                end
-            end
-        end
-    end
-
-    checkAndCreateHighlightForObjects()
-
-    coroutine.wrap(function()
-        while enabled do
-            task.wait()
-            checkAndCreateHighlightForObjects()
-        end
-    end)()
+--// Atualiza quando jogador entra
+game.Players.PlayerAdded:Connect(function(plr)
+	plr.CharacterAdded:Connect(function(char)
+		if enabled then
+			createOrUpdateESP(char)
+		end
+	end)
 end)
