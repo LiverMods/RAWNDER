@@ -1,11 +1,3 @@
-pcall(function()
-	game.StarterGui:SetCore("SendNotification", {
-		Title = "Attention",
-		Text = "Turn it off when the match is over!",
-		Duration = 60
-	})
-end)
-
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
@@ -14,6 +6,7 @@ local fillTransparency = 0.87
 local outlineTransparency = 0.1
 local uselocalplayer = false
 local ignoredNames = { "Bess", "Ombra", "MrBliss" }
+local traitorStates = {}
 
 local function randomString()
 	local length = math.random(17, 45)
@@ -48,7 +41,7 @@ local label = Instance.new("TextLabel", frame)
 label.Size = UDim2.new(1, 0, 0, 20)
 label.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 label.Font = Enum.Font.SourceSans
-label.Text = "ESP gui V5"
+label.Text = "ESP gui V6"
 label.TextColor3 = Color3.fromRGB(0, 99, 390)
 label.TextScaled = true
 
@@ -67,8 +60,11 @@ local function createOrUpdateESP(model)
 	if not model:FindFirstChild("Humanoid") then return end
 	if model == LocalPlayer.Character and not uselocalplayer then return end
 
-	local folder = game.CoreGui:FindFirstChildWhichIsA("Folder") or Instance.new("Folder", game.CoreGui)
-	folder.Name = folder.Name or randomString()
+	local folder = game.CoreGui:FindFirstChild("ESPFolder")
+	if not folder then
+		folder = Instance.new("Folder", game.CoreGui)
+		folder.Name = "ESPFolder"
+	end
 
 	local esp = folder:FindFirstChild(model.Name)
 	if not esp then
@@ -76,43 +72,49 @@ local function createOrUpdateESP(model)
 		esp.Name = model.Name
 	end
 
-	esp.FillColor = Color3.new(0, 1, 0)
-	esp.OutlineColor = Color3.new(0, 1, 0)
+	local fillColor = Color3.new(0, 1, 0)
+	local outlineColor = Color3.new(0, 1, 0)
 
 	if model:FindFirstChild("Enemy") and not model:FindFirstChild("IsActive") then
-		esp.FillColor = Color3.new(1, 0, 0)
-		esp.OutlineColor = Color3.new(1, 0, 0)
-		
+		fillColor = Color3.new(1, 0, 0)
+		outlineColor = Color3.new(1, 0, 0)
 	elseif model:FindFirstChild("IsActive") then
-		esp.FillColor = Color3.new(1, 1, 0)
-		esp.OutlineColor = Color3.new(1, 1, 0)
-		
+		fillColor = Color3.new(1, 1, 0)
+		outlineColor = Color3.new(1, 1, 0)
 	elseif model:FindFirstChild("Traitor") and not model:FindFirstChild("IsActive") then
-		task.spawn(function()
-			esp.FillColor = Color3.new(1, 0, 0)
-			esp.OutlineColor = Color3.new(1, 0, 0)
-			task.wait(0.5)
-			esp.FillColor = Color3.new(0, 1, 0)
-			esp.OutlineColor = Color3.new(0, 1, 0)
-		end)
+		local now = tick()
+		if not traitorStates[model] or now - traitorStates[model] > 1 then
+			traitorStates[model] = now
+			task.spawn(function()
+				esp.FillColor = Color3.new(1, 0, 0)
+				esp.OutlineColor = Color3.new(1, 0, 0)
+				task.wait(0.5)
+				esp.FillColor = Color3.new(0, 1, 0)
+				esp.OutlineColor = Color3.new(0, 1, 0)
+			end)
+		end
+		esp.FillTransparency = fillTransparency
+		esp.OutlineTransparency = outlineTransparency
+		esp.Adornee = model
+		esp.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+		return
 	end
 
+	esp.FillColor = fillColor
+	esp.OutlineColor = outlineColor
 	esp.FillTransparency = fillTransparency
 	esp.OutlineTransparency = outlineTransparency
 	esp.Adornee = model
 	esp.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-
-	encryptNames(folder)
 end
 
 local function refreshAll()
 	if not enabled then return end
-
 	for _, obj in ipairs(workspace:GetDescendants()) do
 		if obj:IsA("Model") and obj:FindFirstChild("Humanoid") then
 			createOrUpdateESP(obj)
 		end
-	end
+    end
 end
 
 local updateConnection
