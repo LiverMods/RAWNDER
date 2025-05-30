@@ -1,6 +1,7 @@
 --<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
 -- Script de carregamento
 --// check game //
+local __global = getfenv and getfenv(0) or _G
 local pulse = true
 local pulse1 = true
 local RunService = game:GetService("RunService")
@@ -19,6 +20,7 @@ local Basic = Instance.new('BindableFunction')
 local TeleportService = cloneref(game:GetService("TeleportService"))
 local PlaceId = 4623386862
 local LocalPlayer = game.Players.LocalPlayer
+__global.Ws = false
 Noclipping = nil
 Ui.CornerRadius = UDim.new(0.4, 0)
 
@@ -255,6 +257,36 @@ local plr = game.Players.LocalPlayer
 local blacklistText = "Você está na lista negra"
 
 --<>---<>---<>---<>---<>--
+--<>---<>---<>---<>---<>--
+--<>---<>---<>---<>---<>--
+local function randomString()
+	local length = math.random(10,20)
+	local array = {}
+	for i = 1, length do
+		array[i] = string.char(math.random(32, 126))
+	end
+	return table.concat(array)
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function encryptNames(target)
+	if typeof(target) ~= "Instance" then
+		warn("Invalid target: must be a valid instance!")
+		return
+	end
+
+	for _, descendant in ipairs(target:GetDescendants()) do
+		if descendant:IsA("Instance") then
+			descendant.Name = randomString()
+		end
+	end
+
+	target.Name = randomString()
+end
+--<>---<>---<>---<>---<>--
+--<>---<>---<>---<>---<>--
+--<>---<>---<>---<>---<>--
 
 local function kicker(reason)
     pcall(function()
@@ -394,7 +426,7 @@ floatName = randomString()
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 --// loadstrings //
-loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/077c856c291ab6ab58df99e8d70f7208/raw/95a0b2e647265d1bac1516e8817fc606bebd4606/Cmds"))();
+loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/077c856c291ab6ab58df99e8d70f7208/raw/b62e8697ccc502ab43d06a9a11b63e0c975e1e5e/Cmds"))();
 local library2 = loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/refs/heads/main/BaseUI/TbaoHubEz.lua"))();
 local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))();
 
@@ -655,6 +687,8 @@ coroutine.wrap(function()
     
     Add_cmds_Chat("fly", function()
         loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
+        task.wait(1)
+        encryptNames(game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("main"))
     end)
     
     CTT = true
@@ -689,7 +723,7 @@ coroutine.wrap(function()
         task.wait()
         if not pulse then return end
         pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/raw/main/P--y"))();
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/refs/heads/main/Piggy/Esp"))();
         end)
         chat_Message(Language.esp, colors.red, "Gotham")
         pulse = false
@@ -699,23 +733,15 @@ coroutine.wrap(function()
         task.wait()
         if not pulse1 then return end
         pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/main/Piggy/Noclip"))();
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/refs/heads/main/Piggy/Noclip"))();
         end)
         chat_Message(Language.noclip, colors.red, "Gotham")
         pulse1 = false
     end)
     
-    iaiwjjw8s7q0a = 16
     Add_cmds_ChatSearch("ws", spe, function(spe)
-        iaiwjjw8s7q0a = spe
-        warn(spe)
-    end)
-
-    task.spawn(function()
-        while true do
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/raw/main/nelhaudhqb1"))();
-            task.wait()
-        end
+        local charr = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+        charr.Humanoid.WalkSpeed = spe
     end)
 end)()
 
@@ -733,7 +759,9 @@ coroutine.wrap(function()
         message:Destroy()
         
         if gott == '✅' then
-            loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
+            task.spawn(function()
+                loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
+            end)
         end
     end
     
@@ -894,34 +922,6 @@ local function IsGame()
     elseif game.PlaceId == 5661005779 or game.PlaceId == 5247067896 then
         return findFolder("NewItemPickupScript")
     end
-end
-
---<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
-
-local function randomString()
-	local length = math.random(10,20)
-	local array = {}
-	for i = 1, length do
-		array[i] = string.char(math.random(32, 126))
-	end
-	return table.concat(array)
-end
-
---<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
-
-local function encryptNames(target)
-	if typeof(target) ~= "Instance" then
-		warn("Invalid target: must be a valid instance!")
-		return
-	end
-
-	for _, descendant in ipairs(target:GetDescendants()) do
-		if descendant:IsA("Instance") then
-			descendant.Name = randomString()
-		end
-	end
-
-	target.Name = randomString()
 end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
