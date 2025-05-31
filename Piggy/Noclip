@@ -1,3 +1,15 @@
+--[[             GNU AFFERO GENERAL PUBLIC LICENSE
+               Version 3, 19 November 2007
+               
+               Copyright (C) 2007 Free Software
+               Foundation, Inc. https://fsf.org/ Everyone is permitted to
+               copy anddistribute verbatim copies of this license
+               document, but changing it is not allowed.
+               
+               more information at: https://github.com/LiverMods/RAWNDER/blob/main/LICENSE.md
+--]]
+
+--<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
@@ -42,7 +54,7 @@ local label = Instance.new("TextLabel", frame)
 label.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 label.Size = UDim2.new(1, 0, 0, 20)
 label.Font = Enum.Font.SourceSans
-label.Text = "Noclip gui V2"
+label.Text = "Noclip gui V2.5"
 label.TextColor3 = Color3.fromRGB(0, 99, 390)
 label.TextScaled = true
 label.TextWrapped = true
@@ -73,8 +85,13 @@ local function setNoclip(state)
     		charr.Humanoid.JumpPower = 0.001
     		charr:FindFirstChildWhichIsA("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping)
     		
-    		task.wait()
-    		charr.Humanoid.JumpPower = jp
+    		task.wait(.1)
+    		
+    		for i = 1, 200 do
+        		pcall(function()
+            		charr.Humanoid.JumpPower = jp
+        		end)
+    		end
 		end
 	end
 
@@ -112,3 +129,4 @@ task.spawn(function()
         task.wait(10)
     end
 end)
+--<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
