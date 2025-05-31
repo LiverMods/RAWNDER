@@ -1,84 +1,72 @@
---// Function to find the second parent of an object with a specific MeshId //
---// Função para encontrar o segundo parente de um objeto com um MeshId específico //
+--[[       
+       • GNU AFFERO GENERAL PUBLIC LICENSE
+           • Version 3, 19 November 2007
+        
+      • Copyright (C) 2007 Free Software
+         Foundation, Inc. https://fsf.org/ Everyone is permitted to
+         copy anddistribute verbatim copies of this license
+         document, but changing it is not allowed.
+        
+       • more information at: https://github.com/LiverMods/RAWNDER/blob/main/LICENSE.md
+--]]
+
+--<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
 local function findSecondParent(meshId)
     local meshObject = nil
 
-    --// Loop until the meshObject is found //
-    --// Loop até encontrar o meshObject //
     while not meshObject do
         for _, obj in ipairs(game:GetDescendants()) do
-            --// Check if the object is a SpecialMesh with the specified MeshId //
-            --// Verifique se o objeto é um SpecialMesh com o MeshId especificado //
             if obj:IsA("SpecialMesh") and obj.MeshId == meshId then
                 meshObject = obj
                 break
             end
         end
-        task.wait(0.5) --// Wait before trying again // --// Aguarde antes de tentar novamente //
+        task.wait(0.5)
     end
 
-    --// Get the first parent of the found meshObject //
-    --// Obtenha o primeiro parente do meshObject encontrado //
     local firstParent = meshObject.Parent
     if firstParent then
-        --// Get the second parent (which is the parent of the first parent) //
-        --// Obtenha o segundo parente (que é o parente do primeiro parente) //
         local secondParent = firstParent.Parent
         return secondParent
     end
 
-    return nil --// Return nil if no valid parent is found // --// Retorna nil se nenhum parente válido for encontrado //
+    return nil
 end
 
---// Function to teleport the player and click on a ClickDetector //
---// Função para teletransportar o jogador e clicar em um ClickDetector //
 local function teleportAndClick(part)
     local player = game.Players.LocalPlayer
     local character = player.Character or player.CharacterAdded:Wait()
     
-    --// Teleport the player to the position of the part //
-    --// Teletransporta o jogador para a posição da part //
     character:SetPrimaryPartCFrame(part.CFrame)
     
-    task.wait(0.2) --// Wait to ensure the character is in the correct position // --// Aguarde para garantir que o personagem esteja na posição correta //
+    task.wait(0.2)
     
-    --// Click on the ClickDetector //
-    --// Clique no ClickDetector //
     local clickDetector = part:FindFirstChildOfClass("ClickDetector")
     if clickDetector then
         fireclickdetector(clickDetector)
     else
         warn("ClickDetector not found on part:", part.Name)
-        --// ClickDetector não encontrado na part: // --// ClickDetector não encontrado na part: //
     end
 end
 
---// Function to click on all items in a folder that have a ClickDetector //
---// Função para clicar em todos os itens em uma pasta que têm um ClickDetector //
 local function clickOnAllItemsInFolder(folder)
     for _, item in ipairs(folder:GetDescendants()) do
         if item:IsA("Part") and item:FindFirstChildOfClass("ClickDetector") then
             teleportAndClick(item)
-            task.wait(0.5) --// Small delay to avoid timing issues // --// Pequeno atraso para evitar problemas de timing //
+            task.wait(0.5)
         end
     end
 end
 
---// Function to check if the game is the correct one by finding the second parent //
---// Função para verificar se o jogo é o correto encontrando o segundo parente //
 local function IsGame2()
     return findSecondParent("rbxassetid://6714051581")
 end
 
---// Get the folder using IsGame2 function //
---// Obtenha a pasta usando a função IsGame2 //
 local folder = IsGame2()
 
 if folder then
-    --// Click on all items in the found folder //
-    --// Clique em todos os itens na pasta encontrada //
     clickOnAllItemsInFolder(folder)
 else
     warn("No folder found with the specified MeshId.")
-    --// Nenhuma pasta encontrada com o MeshId especificado. //
 end
+--<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
