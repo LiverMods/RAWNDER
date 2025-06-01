@@ -441,7 +441,7 @@ local _ALLOWED = (function()
     }) do
         t[r] = true
     end
-    return t
+    return t 
 end)()
 --<>---<>---<>---<>---<>--
 local function kicker(reason)
@@ -1035,6 +1035,8 @@ ScrollingFrame.Size = UDim2.new(0, 296, 0, 388)
 local UIGridLayout = Instance.new("UIGridLayout", ScrollingFrame)
 UIGridLayout.CellSize = UDim2.new(0, 90, 0, 90)
 UIGridLayout.Name = randomString()
+UIGridLayout.FillDirection = Enum.FillDirection.Horizontal
+UIGridLayout.VerticalAlignment = Enum.VerticalAlignment.Top
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
@@ -1045,154 +1047,89 @@ end)()
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
-local itemButtons = {}
-local textoAnterior = nil
-local tempoCongelado = 0
-local tempoLimite = 3
-
 coroutine.wrap(function()
-	while true do
-		local player = game:GetService("Players").LocalPlayer
-		local gui = player:FindFirstChild("PlayerGui")
-		local menu = gui and gui:FindFirstChild("MainMenu")
-		local timerLabel = menu and menu:FindFirstChild("Timer")
-		local timerVisivel = timerLabel and timerLabel:IsA("TextLabel") and timerLabel.Visible
+    while true do
+        pasta = IsGame()
+        if pasta then
+            task.wait()
+            local items = {}
+            local itemframes = ScrollingFrame:getChildren()
+            
+            for i = 1, #itemframes do
+                if itemframes[i].ClassName == "TextButton" then
+                    itemframes[i]:Destroy()
+                end
+            end
+            
+            for _, v in ipairs(pasta:GetDescendants()) do
+                if v.Name == "ItemPickupScript" or
+                v.Name == "NewItemPickupScript" or
+                (v.Name == "Script" and v.Parent:FindFirstChild("ClickDetector")) then
+                    table.insert(items, v.Parent)
+                end
+            end
+            
+            for i = 1, #items do
+                local U_i = Instance.new("UICorner")
+                U_i.CornerRadius = UDim.new(0.15, 0)
+                U_i.Name = randomString()
+                
+                local ItemFrame = Instance.new("TextButton", ScrollingFrame)
+                ItemFrame.Name = randomString()
+                ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
+                ItemFrame.BackgroundTransparency = 1
+                ItemFrame.Size = UDim2.new(0, 100, 0, 100)
+                ItemFrame.Text = "★"
+                U_i.Parent = ItemFrame
+                
+                local View = Instance.new("ViewportFrame", ItemFrame)
+                View.Name = randomString()
+                View.Size = UDim2.new(1, 0, 1, 0)
+                View.BackgroundTransparency = 0.9
+                View.BorderSizePixel = 0.3
+                U_i.Parent = View
+                
+                local object = items[i]
+                local viewportclone = object:Clone()
+                viewportclone.Parent = View
+                viewportclone.Name = randomString()
+                
+                local cam = Instance.new("Camera", viewportclone)
+                cam.CameraType = Enum.CameraType.Fixed
+                
+                local objectPosition = object.Position
+                local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
+                cam.CoordinateFrame = CFrame.new(cameraPosition, objectPosition)
+                View.CurrentCamera = cam
 
-		local deveResetar = false
-
-		if not menu or not timerLabel or not timerVisivel then
-			deveResetar = true
-		else
-			local tempoAtual = timerLabel.Text
-			if tempoAtual == textoAnterior then
-				tempoCongelado += task.wait()
-				if tempoCongelado >= tempoLimite then
-					deveResetar = true
-				end
-			else
-				textoAnterior = tempoAtual
-				tempoCongelado = 0
-			end
-		end
-
-		if deveResetar then
-			for _, button in pairs(itemButtons) do
-				button:Destroy()
-			end
-			itemButtons = {}
-			textoAnterior = nil
-			tempoCongelado = 0
-			task.wait(1)
-			continue
-		end
-
-		local pasta = IsGame()
-		if not pasta then
-			task.wait()
-			continue
-		end
-
-		local descendants = pasta:GetDescendants()
-		local currentItems = {}
-
-		for _, obj in ipairs(descendants) do
-			if obj.Name == "ItemPickupScript" or obj.Name == "NewItemPickupScript" or (obj.Name == "Script" and obj.Parent:FindFirstChild("ClickDetector")) then
-				table.insert(currentItems, obj.Parent)
-			end
-		end
-
-		table.sort(currentItems, function(a, b)
-			return a.Name < b.Name
-		end)
-
-		local currentNames = {}
-		for _, item in ipairs(currentItems) do
-			currentNames[item.Name] = true
-		end
-
-		for name, button in pairs(itemButtons) do
-			if not currentNames[name] then
-				button:Destroy()
-				itemButtons[name] = nil
-			end
-		end
-
-		for _, item in ipairs(currentItems) do
-			if not itemButtons[item.Name] then
-				local U_i = Instance.new("UICorner")
-				U_i.CornerRadius = UDim.new(0.15, 0)
-				U_i.Name = randomString()
-
-				local ItemFrame = Instance.new("TextButton", ScrollingFrame)
-				ItemFrame.Name = randomString()
-				ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
-				ItemFrame.BackgroundTransparency = 1
-				ItemFrame.Size = UDim2.new(0, 100, 0, 100)
-				ItemFrame.Text = "★"
-				U_i.Parent = ItemFrame
-
-				local View = Instance.new("ViewportFrame", ItemFrame)
-				View.Name = randomString()
-				View.Size = UDim2.new(1, 0, 1, 0)
-				View.BackgroundTransparency = 0.9
-				View.BorderSizePixel = 0.3
-				U_i.Parent = View
-
-				local viewportclone = item:Clone()
-				viewportclone.Parent = View
-				viewportclone.Name = randomString()
-
-				local cam = Instance.new("Camera", viewportclone)
-				cam.CameraType = Enum.CameraType.Fixed
-
-				local objectPosition = item.Position
-				local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
-				cam.CoordinateFrame = CFrame.new(cameraPosition, objectPosition)
-				View.CurrentCamera = cam
-
-				local debounce = false
-				ItemFrame.MouseButton1Down:Connect(function()
-					if debounce then return end
-					debounce = true
-
-					if item:FindFirstChild("ClickDetector") then
-						local character = player.Character
-						if character and character.PrimaryPart then
-							local cpos = character:GetPrimaryPartCFrame()
-							MoveTo(item.CFrame)
-							task.wait(0.2)
-							for _ = 1, 20 do
-								pcall(function()
-									for _ = 1, 2 do
-										fireclickdetector(item.ClickDetector)
-									end
-								end)
-							end
-							task.wait(0.2)
-							for _ = 1, 5 do
-								MoveTo(cpos)
-							end
-						end
-					end
-
-					debounce = false
-				end)
-
-				itemButtons[item.Name] = ItemFrame
-			end
-		end
-
-		local index = 0
-		for _, item in ipairs(currentItems) do
-			local button = itemButtons[item.Name]
-			if button then
-				button.Position = UDim2.new(0, 0, 0, index * 110)
-				index += 1
-			end
-		end
-
-		task.wait()
-	end
+                ItemFrame.MouseButton1Down:Connect(function()
+                    if items[i]:FindFirstChild("ClickDetector") then
+                        local player = game:GetService("Players").LocalPlayer
+                        local char = player.Character or player.CharacterAdded:Wait()
+                        local root = char:WaitForChild("HumanoidRootPart")
+                        
+                        local cpos = root.CFrame
+                        local item = items[i]
+                        
+                        repeat
+                            pcall(function()
+                                for _ = 1, 2 do
+                                    MoveTo(item.CFrame)
+                                    fireclickdetector(item:FindFirstChild("ClickDetector"))
+                                end
+                            end)
+                            task.wait()
+                        until not (item and item.Parent and item:IsDescendantOf(pasta))
+                        
+                        task.wait(.05)
+                        
+                        MoveTo(cpos)
+                    end
+                end)
+            end
+        end
+        task.wait(1.5)
+    end
 end)()
 up(60)
 
@@ -1394,7 +1331,7 @@ task.spawn(function()
         pcall(function()
             loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/e078befcb255a18acf13f16177a5e4e1/raw/2b64be3a508926291dc499c3881d7343151e217d/inventory"))();
         end)
-    end)()
+    end)
     
     task.spawn(function()
         task.wait(random(15, 30))
