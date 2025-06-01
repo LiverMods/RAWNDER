@@ -86,7 +86,7 @@ local function setNoclip(state)
     		charr.Humanoid.JumpPower = 0.001
     		charr:FindFirstChildWhichIsA("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping)
     		
-    		task.wait(.1)
+    		task.wait(.4)
     		
     		for i = 1, 200 do
         		pcall(function()
