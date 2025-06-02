@@ -13,8 +13,6 @@
 -- Script de carregamento
 --// check game //
 local __global = getfenv and getfenv(0) or _G
-local pulse = true
-local pulse1 = true
 local RunService = game:GetService("RunService")
 local Prr = game.Players.LocalPlayer
 local camPos = game.Workspace.CurrentCamera
@@ -497,7 +495,7 @@ floatName = randomString()
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 --// loadstrings //
-loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/077c856c291ab6ab58df99e8d70f7208/raw/b62e8697ccc502ab43d06a9a11b63e0c975e1e5e/Cmds"))();
+loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/077c856c291ab6ab58df99e8d70f7208/raw/9539803cb4b867936104c77eea2955a0ac338490/Cmds"))();
 local library2 = loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/refs/heads/main/BaseUI/TbaoHubEz.lua"))();
 local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))();
 
@@ -682,6 +680,7 @@ local __global = getfenv and getfenv(0) or _G
 local country = game:GetService("LocalizationService").RobloxLocaleId
 local Initials = country:sub(1,2)
 local Language = txt[Initials] or txt.en
+delayTime = 1.5
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 --// Créditos //
@@ -725,9 +724,8 @@ coroutine.wrap(function()
             if _G.GODMODE == true then
                 local a = game:GetService("Workspace"):getDescendants()
                 for i = 1, #a do
-                    if a[i]:FindFirstChild("Enemy") and a[i].Enemy.Value == true then
-                        local ab = a[i].Parent
-                        SAD("TouchInterest", ab)
+                    if a[i]:FindFirstChild("Enemy") then
+                        SAD("TouchInterest", a[i])
                     end
                 end
             end
@@ -739,14 +737,15 @@ end)()
 up(5)
 
 coroutine.wrap(function()
-    chat_Message("————".. Language.cmds .." [BETA 2.0]————", "xrawnder", "Gotham")
+    chat_Message("————".. Language.cmds .." [BETA 3.1]————", "xrawnder", "Gotham")
     chat_Message("• fly", "xrawnder", "Gotham")
-    chat_Message("• noclip", "xrawnder", "Gotham")
+    chat_Message("• noclip or np", "xrawnder", "Gotham")
     chat_Message("• esp", "xrawnder", "Gotham")
-    chat_Message("• godmode", "xrawnder", "Gotham")
+    chat_Message("• godmode or gm", "xrawnder", "Gotham")
     chat_Message("• ws [".. Language.speed .."]", "xrawnder", "Gotham")
-    chat_Message("• add prefix", "xrawnder", "Gotham")
-    chat_Message("——————".. Language.prefix .." [BETA 2.0]——————", "xrawnder", "Gotham")
+    chat_Message("• addprefix", "xrawnder", "Gotham")
+    chat_Message("• delay or d", "xrawnder", "Gotham")
+    chat_Message("——————".. Language.prefix .." [BETA 3.1]——————", "xrawnder", "Gotham")
     
     for _, v in ipairs(prefixes) do
         chat_Message("----------------{ " .. v .. " }----------------", "xrawnder", "Gotham")
@@ -762,34 +761,62 @@ coroutine.wrap(function()
         encryptNames(game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("main"))
     end)
     
-    CTT = true
+    pcall(function() getgenv().CTT = true end)
     Add_cmds_Chat("godmode", function()
         if not CTT then return end
         pcall(function()
-            CTT = false
+            pcall(function() getgenv().CTT = false end)
             task.wait(.5)
             
             task.spawn(function()
                 _G.GODMODE = not _G.GODMODE
                 
                 if _G.GODMODE == true then
-                    chat_Message("on", colors.green, "Gotham")
+                    chat_Message("Connected", colors.green, "Gotham")
                     task.spawn(function()
                         game.StarterGui:SetCore("SendNotification", {
-                    	   Title = "[BETA]";
+                    	   Title = "[BETA 2.0]";
                     	   Text = Language.error;
                            Duration = 11.2
                         })
                     end)
                 elseif _G.GODMODE == false then
-                    chat_Message("off", colors.red, "Gotham")
+                    chat_Message("Off", colors.red, "Gotham")
                 end
             end)
             
-            task.wait(2.23) CTT = true
+            task.wait(2.23) pcall(function() getgenv().CTT = true end)
         end)
     end)
     
+    Add_cmds_Chat("gm", function()
+        if not CTT then return end
+        pcall(function()
+            pcall(function() getgenv().CTT = false end)
+            task.wait(.5)
+            
+            task.spawn(function()
+                _G.GODMODE = not _G.GODMODE
+                
+                if _G.GODMODE == true then
+                    chat_Message("Connected", colors.green, "Gotham")
+                    task.spawn(function()
+                        game.StarterGui:SetCore("SendNotification", {
+                    	   Title = "[BETA 2.0]";
+                    	   Text = Language.error;
+                           Duration = 11.2
+                        })
+                    end)
+                elseif _G.GODMODE == false then
+                    chat_Message("Off", colors.red, "Gotham")
+                end
+            end)
+            
+            task.wait(2.23) pcall(function() getgenv().CTT = true end)
+        end)
+    end)
+    
+    pcall(function() getgenv().pulse = true end)
     Add_cmds_Chat("esp", function()
         task.wait()
         if not pulse then return end
@@ -797,10 +824,25 @@ coroutine.wrap(function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/refs/heads/main/Piggy/Esp"))();
         end)
         chat_Message(Language.esp, colors.red, "Gotham")
-        pulse = false
+        pcall(function() getgenv().pulse = false end)
+    end)
+    if XR_LOADED or RX_Loading then
+    	error("x-Rawnder is already running!", 0)
+    	return
+    end
+
+    pcall(function() getgenv().pulse1 = true end)
+    Add_cmds_Chat("noclip", function()
+        task.wait()
+        if not pulse1 then return end
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/refs/heads/main/Piggy/Noclip"))();
+        end)
+        chat_Message(Language.noclip, colors.red, "Gotham")
+        pcall(function() getgenv().pulse1 = false end)
     end)
     
-    Add_cmds_Chat("noclip", function()
+    Add_cmds_Chat("np", function()
         task.wait()
         if not pulse1 then return end
         pcall(function()
@@ -810,9 +852,29 @@ coroutine.wrap(function()
         pulse1 = false
     end)
     
-    Add_cmds_ChatSearch("ws", spe, function(spe)
-        local charr = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-        charr.Humanoid.WalkSpeed = spe
+    Add_cmds_ChatSearch("ws", function(player, spe)
+        local speed = tonumber(spe)
+        if speed then
+            local charr = player.Character or player.CharacterAdded:Wait()
+            charr.Humanoid.WalkSpeed = speed
+        else
+            chat_Message("Valor inválido! Use um número, tipo: ;ws 16", colors.red, "Gotham")
+        end
+    end)
+    
+    
+    Add_cmds_ChatSearch("delay", function(_, spe)
+        local num = tonumber(spe)
+        if num then
+            delayTime = num
+        end
+    end)
+    
+    Add_cmds_ChatSearch("d", function(spe)
+        local num = tonumber(spe)
+        if num then
+            delayTime = num
+        end
     end)
 end)()
 
@@ -1053,7 +1115,7 @@ coroutine.wrap(function()
         if pasta then
             task.wait()
             local items = {}
-            local itemframes = ScrollingFrame:getChildren()
+            local itemframes = ScrollingFrame:GetChildren()
             
             for i = 1, #itemframes do
                 if itemframes[i].ClassName == "TextButton" then
@@ -1063,13 +1125,23 @@ coroutine.wrap(function()
             
             for _, v in ipairs(pasta:GetDescendants()) do
                 if v.Name == "ItemPickupScript" or
-                v.Name == "NewItemPickupScript" or
-                (v.Name == "Script" and v.Parent:FindFirstChild("ClickDetector")) then
+                   v.Name == "NewItemPickupScript" or
+                   (v.Name == "Script" and v.Parent:FindFirstChild("ClickDetector")) then
                     table.insert(items, v.Parent)
                 end
             end
-            
+
             for i = 1, #items do
+                local object = items[i]
+
+                if not object:IsA("BasePart") and not object:IsA("Model") then
+                    continue
+                end
+
+                if object:IsA("BasePart") and (object.Transparency == 1 or not object:IsDescendantOf(workspace)) then
+                    continue
+                end
+                
                 local U_i = Instance.new("UICorner")
                 U_i.CornerRadius = UDim.new(0.15, 0)
                 U_i.Name = randomString()
@@ -1080,7 +1152,6 @@ coroutine.wrap(function()
                 ItemFrame.BackgroundTransparency = 1
                 ItemFrame.Size = UDim2.new(0, 100, 0, 100)
                 ItemFrame.Text = "★"
-                U_i.Parent = ItemFrame
                 
                 local View = Instance.new("ViewportFrame", ItemFrame)
                 View.Name = randomString()
@@ -1088,19 +1159,46 @@ coroutine.wrap(function()
                 View.BackgroundTransparency = 0.9
                 View.BorderSizePixel = 0.3
                 U_i.Parent = View
-                
-                local object = items[i]
-                local viewportclone = object:Clone()
-                viewportclone.Parent = View
-                viewportclone.Name = randomString()
-                
-                local cam = Instance.new("Camera", viewportclone)
-                cam.CameraType = Enum.CameraType.Fixed
-                
-                local objectPosition = object.Position
-                local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
-                cam.CoordinateFrame = CFrame.new(cameraPosition, objectPosition)
-                View.CurrentCamera = cam
+
+                local viewportclone
+
+                if object:IsA("BasePart") then
+                    viewportclone = object:Clone()
+                    viewportclone.Anchored = true
+                elseif object:IsA("Model") then
+                    viewportclone = object:Clone()
+                    for _, part in ipairs(viewportclone:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                            part.Anchored = true
+                        end
+                    end
+                end
+
+                if viewportclone then
+                    viewportclone.Name = randomString()
+                    viewportclone.Parent = View
+
+                    local cam = Instance.new("Camera")
+                    cam.CameraType = Enum.CameraType.Fixed
+                    cam.Parent = View
+
+                    local primary = viewportclone:IsA("Model") and viewportclone.PrimaryPart or viewportclone
+                    if not primary and viewportclone:IsA("Model") then
+                        viewportclone:MakeJoints()
+                        viewportclone.PrimaryPart = viewportclone:FindFirstChildWhichIsA("BasePart")
+                        primary = viewportclone.PrimaryPart
+                    end
+
+                    if primary then
+                        local objectPosition = primary.Position
+                        local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
+                        cam.CFrame = CFrame.new(cameraPosition, objectPosition)
+                        View.CurrentCamera = cam
+                    end
+                else
+                    ItemFrame:Destroy()
+                    continue
+                end
 
                 ItemFrame.MouseButton1Down:Connect(function()
                     if items[i]:FindFirstChild("ClickDetector") then
@@ -1122,13 +1220,20 @@ coroutine.wrap(function()
                         until not (item and item.Parent and item:IsDescendantOf(pasta))
                         
                         task.wait(.05)
-                        
                         MoveTo(cpos)
+                        task.spawn(function()
+                            local bolet = charr:WaitForChild("Humanoid")
+                            if bolet then
+                    		    bolet.Sit = true
+                        		task.wait()
+                        		bolet.Sit = false
+                    		end
+                		end)
                     end
                 end)
             end
         end
-        task.wait(1.5)
+        task.wait(delayTime)
     end
 end)()
 up(60)
