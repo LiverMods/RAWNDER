@@ -1,6 +1,6 @@
 --[[       
        • GNU AFFERO GENERAL PUBLIC LICENSE
-            • Version 3, 19 November 2007
+           • Version 3, 19 November 2007
         
       • Copyright (C) 2007 Free Software
          Foundation, Inc. https://fsf.org/ Everyone is permitted to
@@ -9,22 +9,275 @@
         
        • more information at: https://github.com/LiverMods/RAWNDER/blob/main/LICENSE.md
 --]]
-
 --<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
-local Players = game:GetService("Players")
+-- Script de carregamento
+--// check game //
+local __global = getfenv and getfenv(0) or _G
 local RunService = game:GetService("RunService")
-local LocalPlayer = Players.LocalPlayer
-local charr = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-local jp = charr.Humanoid.JumpPower
+local Prr = game.Players.LocalPlayer
+local camPos = game.Workspace.CurrentCamera
+local CPs = camPos.CameraSubject
+local charr = game:GetService("Players").LocalPlayer.Character
+local bolet = charr:FindFirstChildOfClass("Humanoid")
+local notify = game.StarterGui 
+local chelse
+local Basic = Instance.new('BindableFunction')
+local Ui = Instance.new("UICorner")
+local cloneref = cloneref or function(o) return o end
+local notify = game.StarterGui 
+local Basic = Instance.new('BindableFunction')
+local TeleportService = cloneref(game:GetService("TeleportService"))
+local PlaceId = 4623386862
+local LocalPlayer = game.Players.LocalPlayer
+__global.Ws = false
+Noclipping = nil
+Ui.CornerRadius = UDim.new(0.4, 0)
+
+function AddSound(id)
+    task.spawn(function()
+        if type(id) == "number" then
+            local Sound = Instance.new("Sound", game:GetService("SoundService"))
+            Sound.SoundId = "rbxassetid://" .. id
+            Sound:Play()
+        elseif type(id) == "string" and id == "error" then
+            local Sound = Instance.new("Sound", game:GetService("SoundService"))
+            Sound.SoundId = "rbxassetid://2323663829"
+            Sound:Play()
+        end
+    end)
+end
+
+function Basic.OnInvoke(got)
+    task.spawn(function()
+        local message = Instance.new("Message", workspace)
+        task.spawn(function()
+            message.Text = "Loading"
+        end)
+        task.wait(.76)
+        message:Destroy()
+    end)
+
+    if got == '✅' then
+        if game.PlaceId == 4623386862 or game.PlaceId == 5661005779 or game.PlaceId == 5247067896 then goods = true else
+            local player = game.Players:GetPlayerFromCharacter(char)
+            local teleportService = game:GetService("TeleportService")
+            
+            AddSound("error")
+
+            function Basic.OnInvoke(state)
+                if state == 'join Piggy' then
+                    pcall(function()
+                        task.spawn(function()
+                            if not hookmetamethod then 
+                        		return print('Exploração incompatível. Sua exploração não suporta este comando (hookmetamethod ausente)')
+                        	end
+                        	
+                        	local TeleportService = cloneref(game:GetService("TeleportService"))
+                        	local TeleportService = TeleportService
+                        	local oldhmmi
+                        	local oldhmmnc
+                        	oldhmmi = hookmetamethod(game, "__index", function(self, method)
+                        		if self == TeleportService then
+                        			if method:lower() == "teleport" then
+                        				return error("Expected ':' not '.' calling member function Kick", 2)
+                        			elseif method == "TeleportToPlaceInstance" then
+                        				return error("Expected ':' not '.' calling member function TeleportToPlaceInstance", 2)
+                        			end
+                        		end
+                        		return oldhmmi(self, method)
+                        	end)
+                        	oldhmmnc = hookmetamethod(game, "__namecall", function(self, ...)
+                        		if self == TeleportService and getnamecallmethod():lower() == "teleport" or getnamecallmethod() == "TeleportToPlaceInstance" then
+                        			return
+                        		end
+                        		return oldhmmnc(self, ...)
+                        	end)
+                    	end) task.wait(.5)
+                    	
+                    	local TeleportService = cloneref(game:GetService("TeleportService"))
+                        pcall(function() TeleportService:Teleport(PlaceId, LocalPlayer); end);
+                    end)
+                end
+            end
+
+            game.StarterGui:SetCore('SendNotification', {
+                Title = "Error";
+                Text = "no support for this game";
+                Icon = "rbxthumb://type=Asset&id=12294607996&w=150&h=150";
+                Duration = math.huge,
+                Callback = Basic,
+                Button1 = 'join Piggy',
+                Button2 = '❌'
+            })
+            return
+        end
+    end
+end
+
+notify:SetCore('SendNotification', {
+    Title = 'load the script',
+    Text = 'Want to Load Script. This was created to prevent loading 2 Scripts at once',
+    Duration = 210,
+    Callback = Basic,
+    Button1 = '✅',
+    Button2 = '❌'
+})
+
+while not goods do task.wait(0.5) end
+
+--// end check game //
 
 local function randomString()
-	local length = math.random(17, 45)
+    local length = math.random(17,45)
+    local array = {}
+    for i = 1, length do
+        array[i] = string.char(math.random(32, 126))
+    end
+    return table.concat(array)
+end
+
+--// carregando //
+task.spawn(function()
+    coroutine.wrap(function()
+        task.spawn(function()
+            local function randomString()
+            	local length = math.random(10,20)
+            	local array = {}
+            	for i = 1, length do
+            		array[i] = string.char(math.random(32, 126))
+            	end
+            	return table.concat(array)
+            end
+            
+            blur = Instance.new("BlurEffect")
+            
+            local Ui = Instance.new("UICorner")
+            local Ui_ = Instance.new("UICorner")
+            local Ui__ = Instance.new("UICorner")
+            Ui_.CornerRadius = UDim.new(0.2, 0)
+            Ui.CornerRadius = UDim.new(0.15, 0)
+            Ui__.CornerRadius = UDim.new(0.2, 0)
+            
+            blur.Parent = game.Lighting
+            blur.Size = 999
+            blur.Enabled = false
+
+            local ScreenGui = Instance.new("ScreenGui")
+            ScreenGui.Name = randomString()
+            ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+            ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+            Ui.Parent = ScreenGui
+
+            local BackgroundImage = Instance.new("ImageLabel")
+            BackgroundImage.Name = randomString()
+            BackgroundImage.BackgroundTransparency = 1
+            BackgroundImage.Position = UDim2.new(0.5, -250, 0.5, -150)
+            BackgroundImage.Size = UDim2.new(0, 500, 0, 300)
+            BackgroundImage.Image = "https://www.example.com/background.jpg"
+            BackgroundImage.Parent = ScreenGui
+
+            local Frame = Instance.new("Frame")
+            Frame.Name = randomString()
+            Frame.Size = UDim2.new(0, 400, 0, 100)
+            Frame.Position = UDim2.new(0.5, -200, 0.5, -50)
+            Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            Frame.BackgroundTransparency = 0.5
+            Frame.BorderSizePixel = 0
+            Frame.Parent = ScreenGui
+            Ui_.Parent = Frame
+
+            local TextLabel = Instance.new("TextLabel")
+            TextLabel.Name = randomString()
+            TextLabel.Size = UDim2.new(1, 0, 0, 50)
+            TextLabel.Position = UDim2.new(0, 0, 0.06, 0)
+            TextLabel.Text = "Loading..."
+            TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+            TextLabel.BackgroundTransparency = 1
+            TextLabel.TextScaled = true
+            TextLabel.Font = Enum.Font.GothamBold
+            TextLabel.Parent = Frame
+            Ui.Parent = TextLabel
+
+            local Background = Instance.new("Frame")
+            Background.Name = randomString()
+            Background.Size = UDim2.new(0.8, 0, 0, 21)
+            Background.Position = UDim2.new(0.1, 0, 0.73, -5)
+            Background.BackgroundColor3 = Color3.fromRGB(100, 100, 100)
+            Background.BorderSizePixel = 0
+            Background.Parent = Frame
+            Ui__.Parent = Background
+
+            local Progress = Instance.new("Frame")
+            Progress.Name = randomString()
+            Progress.Size = UDim2.new(0, 0, 1, 0)
+            Progress.BackgroundColor3 = Color3.fromRGB(30, 145, 255)
+            Progress.BorderSizePixel = 0
+            Progress.Parent = Background
+            Ui.Parent = Progress
+
+            function updateProgress(percent)
+                Progress:TweenSize(UDim2.new(percent, 0, 1, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.2, true)
+                TextLabel.Text = string.format("Carregando... %d%%", percent * 100)
+            end
+
+            blur.Enabled = true
+            
+            roNub1 = 0
+            function up(text)
+                roNub1 = (roNub1 + text)
+                updateProgress(roNub1 / 100)
+    
+                task.wait(.15)
+                if roNub1 == 100 then
+                    task.wait(0.8)
+                    ScreenGui:Destroy()
+                    blur.Enabled = false
+                end
+            end
+        end)
+    end)()
+end)
+
+--// verificação blacklist //
+
+--<>---<>---<>---<>---<>--
+
+task.wait(.1)
+up(0.25)
+task.wait(.1)
+up(0.25)
+task.wait(.1)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/Script-New-/refs/heads/main/print-test-script.txt"))();
+task.wait()
+up(0.5)
+
+--<>---<>---<>---<>---<>--
+
+local itl
+local dat, mon, yea = 17, 4, 2025
+local itl2
+local cam = workspace.CurrentCamera.CFrame
+local sn = game.Players.LocalPlayer.Character:GetPrimaryPartCFrame()
+local verifq = false
+local plr = game.Players.LocalPlayer
+
+--<>---<>---<>---<>---<>--
+
+local blacklistText = "Você está na lista negra"
+
+--<>---<>---<>---<>---<>--
+--<>---<>---<>---<>---<>--
+--<>---<>---<>---<>---<>--
+local function randomString()
+	local length = math.random(10,20)
 	local array = {}
 	for i = 1, length do
 		array[i] = string.char(math.random(32, 126))
 	end
 	return table.concat(array)
 end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 local function encryptNames(target)
 	if typeof(target) ~= "Instance" then
@@ -40,94 +293,1146 @@ local function encryptNames(target)
 
 	target.Name = randomString()
 end
+--<>---<>---<>---<>---<>--
+--<>---<>---<>---<>---<>--
+--<>---<>---<>---<>---<>--
 
-local gui = Instance.new("ScreenGui", game.CoreGui)
-gui.Name = randomString()
-local frame = Instance.new("Frame", gui)
-frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-frame.Position = UDim2.new(0.404, 0, 0.346, 0)
-frame.Size = UDim2.new(0, 90, 0, 65)
-frame.Active = true
-frame.Draggable = true
-frame.Name = randomString()
-
-local label = Instance.new("TextLabel", frame)
-label.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-label.Size = UDim2.new(1, 0, 0, 20)
-label.Font = Enum.Font.SourceSans
-label.Text = "Noclip gui V2.5"
-label.TextColor3 = Color3.fromRGB(0, 99, 390)
-label.TextScaled = true
-label.TextWrapped = true
-
-local button = Instance.new("TextButton", frame)
-button.BackgroundColor3 = Color3.fromRGB(32, 32, 32)
-button.Position = UDim2.new(0.048, 0, 0.39, 0)
-button.Size = UDim2.new(0, 82, 0, 34)
-button.Font = Enum.Font.Kalam
-button.Text = "OFF"
-button.TextColor3 = Color3.fromRGB(49, 180, 198)
-button.TextSize = 22
-
-local noclipEnabled = false
-local connection
-
-local function setNoclip(state)
-	noclipEnabled = state
-	button.Text = state and "ON" or "OFF"
-
-	if connection then
-	    local charr = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
-	    
-		connection:Disconnect()
-		connection = nil
-		
-		if charr then
-    		charr.Humanoid.JumpPower = 0.001
-    		charr:FindFirstChildWhichIsA("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping)
-    		
-    		task.wait(.4)
-    		
-    		for i = 1, 200 do
-        		pcall(function()
-            		charr.Humanoid.JumpPower = jp
-        		end)
-    		end
-		end
-	end
-
-	if state then
-		connection = RunService.Stepped:Connect(function()
-			local character = LocalPlayer.Character
-			if not character then return end
-
-			local humanoid = character:FindFirstChildOfClass("Humanoid")
-			if humanoid then humanoid.Sit = false end
-
-			for _, part in pairs(character:GetDescendants()) do
-				if part:IsA("BasePart") and part.CanCollide then
-					part.CanCollide = false
-				end
-			end
-		end)
-	end
+local function kicker(reason)
+    pcall(function()
+        game.Players.LocalPlayer:Kick(reason)
+    end)
 end
 
-LocalPlayer.CharacterAdded:Connect(function()
-	task.wait(1)
-	if noclipEnabled then
-		setNoclip(true)
-	end
-end)
+--<>---<>---<>---<>---<>--
 
-button.MouseButton1Click:Connect(function()
-	setNoclip(not noclipEnabled)
+local function kick(player, reason)
+    task.spawn(function()
+        task.wait()
+        if game.Players.LocalPlayer.Name == player then
+            kicker(reason)
+            task.wait()
+            print("You are on the Blacklist")
+            return
+        else
+            if itl then return end
+            print("You are on the Whitelist")
+            itl = true
+        end
+    end)
+end
+
+--<>---<>---<>---<>---<>--
+
+local function isDateValid(date)
+    if not date then
+        return true
+    end
+    
+    local currentDate = os.date("*t")
+    local year, month, day = tonumber(date:sub(1,4)), tonumber(date:sub(6,7)), tonumber(date:sub(9,10))
+    
+    if year and month and day then
+        local banDate = {
+            year = year,
+            month = month,
+            day = day
+        }
+        
+        if banDate.year > currentDate.year then
+            return true
+        elseif banDate.year == currentDate.year and banDate.month > currentDate.month then
+            return true
+        elseif banDate.year == currentDate.year and banDate.month == currentDate.month and banDate.day >= currentDate.day then
+            return true
+        end
+    end
+    
+    return false
+end
+
+--<>---<>---<>---<>---<>--
+
+local function BlackList()
+    for _, entry in pairs(BlacKlIst_89171050018619910013_plr_name) do
+        local username = entry.Username
+        local permanent = entry.permanent
+        local date = entry.date
+        local banType = permanent and "PERMANENTE" or "Temporário"
+        local kickReason = blacklistText .. " \nban: " .. banType .. " \n( " .. username .. " )"
+        
+        if not permanent then
+            if isDateValid(date) then
+                kickReason = kickReason .. " | data: " .. date
+            else
+                if not itl2 then
+                    print("A banimento de ''" .. username .. "'' expirou")
+                end
+                itl2 = true
+                continue
+            end
+        end
+        
+        kick(username, kickReason)
+    end
+end
+
+--<>---<>---<>---<>---<>--
+
+local function CheckBlacklist()
+    for _, entry in pairs(BlacKlIst_89171050018619910013_plr_name) do
+        if entry.Username == plr.Name then
+            if isDateValid(entry.date) then
+                return true
+            else
+                return false
+            end
+        end
+    end
+    return false
+end
+
+--<>---<>---<>---<>---<>--
+
+coroutine.wrap(function()
+    while true do
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/Script-New-/refs/heads/main/print-test-script.txt"))();
+        BlackList()
+        
+        task.wait(5)
+    end
+end)()
+
+--<>---<>---<>---<>---<>--
+
+task.wait(0.4)
+if CheckBlacklist() then
+    while CheckBlacklist() do
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 0
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 0
+        game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(sn)
+        workspace.CurrentCamera.CFrame = cam
+        task.wait()
+    end
+    return
+end
+
+--<>---<>---<>---<>---<>--
+
+local function tw(gui, targetPosition, duration)
+    local tweenInfo = TweenInfo.new(duration, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
+    local tween = game.TweenService:Create(gui, tweenInfo, { Position = targetPosition })
+
+    tween:Play()
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+--// security model //
+local Players = game:GetService("Players")
+local __GRP = 7706298
+local _ALLOWED = (function()
+    local t = {}
+    for _, r in ipairs({
+        "Collaborator - Piggy",
+        "Collaborator - Piggy: Intercity",
+        "Developer - Game"
+    }) do
+        t[r] = true
+    end
+    return t 
+end)()
+--<>---<>---<>---<>---<>--
+local function kicker(reason)
+    pcall(function()
+        game.Players.LocalPlayer:Kick(reason)
+    end)
+end
+--<>---<>---<>---<>---<>--
+local function _isAllowed(plr)
+    local ig = plr and plr.IsInGroup and plr:IsInGroup(__GRP)
+    if not ig then return false end
+    local rl = (function() return plr.GetRoleInGroup and plr:GetRoleInGroup(__GRP) or "" end)()
+    return (_ALLOWED[rl] and true) or false
+end
+--<>---<>---<>---<>---<>--
+Players.PlayerAdded:Connect(function(p)
+    (function()
+        local a,b,c = _isAllowed(p), p.Name, os.time()
+        if a then
+            print(string.format("[%d] %s authorized to enter the server.", c, b))
+            kicker(string.format("[%d] %s authorized to enter the server.", c, b))
+        else
+            (function() end)()
+        end
+    end)()
 end)
+--<>---<>---<>---<>---<>--
+Players.PlayerAdded:Connect(function(p)
+    checkPlayer(p);
+    (function()
+        for _,plr in ipairs(Players:GetPlayers()) do
+            (function()
+                local x,y,z = plr, _isAllowed(plr), plr.Name
+                if y then
+                    print(string.format("[General Check] %s is authorized.", z))
+                    kicker(string.format("[General Check] %s is authorized.", z))
+                else
+                    (function() end)()
+                end
+            end)()
+        end
+    end)()
+end)
+--// anti-dev security system V1 //
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+task.wait(1.5)
+mobile = true
+Floating = false
+floatName = randomString()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+--// loadstrings //
+loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/077c856c291ab6ab58df99e8d70f7208/raw/9539803cb4b867936104c77eea2955a0ac338490/Cmds"))();
+local library2 = loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/refs/heads/main/BaseUI/TbaoHubEz.lua"))();
+local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))();
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+--// variáveis //
+local txt = {
+    pt = { -- Português (pt)
+        credito = "Feito por brasileiro",
+        credito2 = "Créditos",
+        speed = "digite o número",
+        esp = "desligue o ''ESP'' quando a partida acabar",
+        noclip = "Cuidado, quando ativado, se você pegar um item você cairá no vazio quando retornar à sua posição original!",
+        flytxt = "Você quer um script de voar (Fly)?",
+        ScriptLoaded = "Script carregado",
+        AllScriptsLoaded = "Todos os scripts foram carregados",
+        NewVersion = "Nova versão V11",
+        AdvancedFeatures = "Um contador avançado e detector de idioma foram adicionados.",
+        newUp = "nova atualização! 🎉",
+        hora = "hora",
+        by = "Feito por",
+        by2 = "Por",
+        prefix = "prefixo",
+        cmds = "comandos",
+        error = "erros são prováveis"
+    },
+    en = { -- Inglês (en)
+        credito = "Made by Brazilian",
+        credito2 = "Credits",
+        speed = "enter the number",
+        esp = "turn off ''ESP'' when the match is over",
+        noclip = "Be careful, when enabled, if you pick up an item you will fall into the void when you return to your original position!",
+        flytxt = "Do you want a Fly script?",
+        ScriptLoaded = "Script loaded",
+        AllScriptsLoaded = "All scripts have been loaded",
+        NewVersion = "New version V11",
+        AdvancedFeatures = "An advanced counter and language detector were added.",
+        newUp = "new update! 🎉",
+        hora = "time",
+        by = "Made by",
+        by2 = "By",
+        prefix = "prefix",
+        cmds = "commands",
+        error = "errors are likely"
+    },
+    es = { -- Espanhol (es)
+        credito = "Hecho por brasileño",
+        credito2 = "Créditos",
+        speed = "Ingrese el número",
+        esp = "Desactivar ''ESP'' cuando el partido haya terminado",
+        noclip = "¡Ten cuidado, cuando está activado, si recoges un objeto caerás al vacío cuando regreses a tu posición original!",
+        flytxt = "¿Quieres un script de Volar (Fly)?",
+        ScriptLoaded = "Script cargado",
+        AllScriptsLoaded = "Todos los scripts han sido cargados",
+        NewVersion = "Nueva versión V11",
+        AdvancedFeatures = "Se añadió un contador avanzado y un detector de idioma.",
+        newUp = "¡Nueva actualización! 🎉",
+        hora = "tiempo",
+        by = "Hecho por",
+        by2 = "Por",
+        prefix = "prefijo",
+        cmds = "comandos",
+        error = "Es probable que haya errores"
+    },
+    fr = { -- Francês (fr)
+        credito = "Fait par Brésilien",
+        credito2 = "Crédits",
+        speed = "entrez le nombre",
+        esp = "désactivez l'''ESP'' quand le match est fini",
+        noclip = "Attention, si vous activez et ramassez un objet, vous tomberez dans le vide en revenant à votre position d'origine !",
+        flytxt = "Voulez-vous un script de vol (Fly) ?",
+        ScriptLoaded = "Script chargé",
+        AllScriptsLoaded = "Tous les scripts ont été chargés",
+        NewVersion = "Nouvelle version V11",
+        AdvancedFeatures = "Un compteur avancé et un détecteur de langue ont été ajoutés.",
+        newUp = "nouvelle mise à jour ! 🎉",
+        hora = "heure",
+        by = "Fait par",
+        by2 = "Par",
+        prefix = "préfixe",
+        cmds = "commandes",
+        error = "des erreurs sont probables"
+    },
+    it = { -- Italiano (it)
+        credito = "Fatto da brasiliano",
+        credito2 = "Crediti",
+        speed = "inserisci il numero",
+        esp = "disattiva l'''ESP'' quando la partita è finita",
+        noclip = "Attenzione, se lo attivi e raccogli un oggetto, cadrai nel vuoto quando tornerai alla tua posizione originale!",
+        flytxt = "Vuoi uno script per volare (Fly)?",
+        ScriptLoaded = "Script caricato",
+        AllScriptsLoaded = "Tutti gli script sono stati caricati",
+        NewVersion = "Nuova versione V11",
+        AdvancedFeatures = "Un contatore avanzato e un rilevatore di lingua sono stati aggiunti.",
+        newUp = "nuovo aggiornamento! 🎉",
+        hora = "ora",
+        by = "Fatto da",
+        by2 = "Da",
+        prefix = "prefisso",
+        cmds = "comandi",
+        error = "gli errori sono probabili"
+    },
+    de = { -- Alemão (de)
+        credito = "Von Brasilianer gemacht",
+        credito2 = "Credits",
+        speed = "Nummer eingeben",
+        esp = "deaktiviere ''ESP'' wenn das Spiel vorbei ist",
+        noclip = "Achtung, wenn aktiviert und du einen Gegenstand aufhebst, fällst du ins Leere, wenn du zu deiner ursprünglichen Position zurückkehrst!",
+        flytxt = "Möchtest du ein Flug-Skript (Fly)?",
+        ScriptLoaded = "Skript geladen",
+        AllScriptsLoaded = "Alle Skripte wurden geladen",
+        NewVersion = "Neue Version V11",
+        AdvancedFeatures = "Ein fortschrittlicher Zähler und Spracherkennung wurden hinzugefügt.",
+        newUp = "neues Update! 🎉",
+        hora = "Uhrzeit",
+        by = "Gemacht von",
+        by2 = "Von",
+        prefix = "Präfix",
+        cmds = "Befehle",
+        error = "Fehler sind wahrscheinlich"
+    },
+    zh = { -- Chinês Simplificado (zh)
+        credito = "巴西人制作",
+        credito2 = "鸣谢",
+        speed = "输入数字",
+        esp = "比赛结束后请关闭“ESP”",
+        noclip = "小心，激活后，如果你捡起物品，返回原位时会掉入虚空！",
+        flytxt = "你想要飞行（Fly）脚本吗？",
+        ScriptLoaded = "脚本已加载",
+        AllScriptsLoaded = "所有脚本已加载",
+        NewVersion = "新版本V11",
+        AdvancedFeatures = "已添加高级计数器和语言检测器。",
+        newUp = "新更新！🎉",
+        hora = "时间",
+        by = "由",
+        by2 = "作者",
+        prefix = "前缀",
+        cmds = "命令",
+        error = "可能会出错"
+    },
+    ja = { -- Japonês (ja)
+        credito = "ブラジル人による制作",
+        credito2 = "クレジット",
+        speed = "数字を入力してください",
+        esp = "試合終了時に「ESP」をオフにしてください",
+        noclip = "注意：有効な状態でアイテムを拾うと、元の位置に戻ったときに虚空に落ちます！",
+        flytxt = "飛行（Fly）スクリプトが必要ですか？",
+        ScriptLoaded = "スクリプトがロードされました",
+        AllScriptsLoaded = "すべてのスクリプトがロードされました",
+        NewVersion = "新バージョンV11",
+        AdvancedFeatures = "高度なカウンターと言語検出機能が追加されました。",
+        newUp = "新しいアップデート！🎉",
+        hora = "時間",
+        by = "作成者：",
+        by2 = "by",
+        prefix = "プレフィックス",
+        cmds = "コマンド",
+        error = "エラーが発生する可能性があります"
+    },
+    ru = { -- Russo (ru)
+        credito = "Сделано бразильцем",
+        credito2 = "Кредиты",
+        speed = "введите число",
+        esp = "отключите ''ESP'' по окончании матча",
+        noclip = "Будьте осторожны, если вы активируете и подберете предмет, вы упадете в пустоту при возвращении в исходное положение!",
+        flytxt = "Вам нужен скрипт полёта (Fly)?",
+        ScriptLoaded = "Скрипт загружен",
+        AllScriptsLoaded = "Все скрипты загружены",
+        NewVersion = "Новая версия V11",
+        AdvancedFeatures = "Добавлен продвинутый счётчик и детектор языка.",
+        newUp = "новое обновление! 🎉",
+        hora = "время",
+        by = "Сделано",
+        by2 = "От",
+        prefix = "префикс",
+        cmds = "команды",
+        error = "возможны ошибки"
+    }
+}
+
+local __global = getfenv and getfenv(0) or _G
+local country = game:GetService("LocalizationService").RobloxLocaleId
+local Initials = country:sub(1,2)
+local Language = txt[Initials] or txt.en
+delayTime = 1.5
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+--// Créditos //
 
 task.spawn(function()
-    while true do
-        encryptNames(gui)
-        task.wait(10)
-    end
+    local message = Instance.new("Message", workspace)
+    task.wait(1)
+    message.Text = Language.credito
+    task.wait(4.3)
+    message:Destroy()
 end)
+
+up(5)
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+warn("——————————————————")
+print("——————{ Success }——————")
+warn("——————————————————")
+
+coroutine.wrap(function()
+    function SAD(object, wk)
+        if object == "all" then
+            local b = wk:getDescendants()
+            for i = 1, #b do
+                b[i]:Destroy()
+            end
+        else
+            local a = wk:getDescendants()
+            for i = 1, #a do
+                if a[i].Name == object then
+                    a[i].Parent.CanCollide = false
+                    a[i]:Destroy()
+                end
+            end
+        end
+    end
+    
+    _G.GODMODE = false
+    task.spawn(function()
+        while task.wait() do
+            if _G.GODMODE == true then
+                local a = game:GetService("Workspace"):getDescendants()
+                for i = 1, #a do
+                    if a[i]:FindFirstChild("Enemy") then
+                        SAD("TouchInterest", a[i])
+                    end
+                end
+            end
+        end
+    end)
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+up(5)
+
+coroutine.wrap(function()
+    chat_Message("————".. Language.cmds .." [BETA 3.1]————", "xrawnder", "Gotham")
+    chat_Message("• fly", "xrawnder", "Gotham")
+    chat_Message("• noclip or np", "xrawnder", "Gotham")
+    chat_Message("• esp", "xrawnder", "Gotham")
+    chat_Message("• godmode or gm", "xrawnder", "Gotham")
+    chat_Message("• ws [".. Language.speed .."]", "xrawnder", "Gotham")
+    chat_Message("• addprefix", "xrawnder", "Gotham")
+    chat_Message("• delay or d", "xrawnder", "Gotham")
+    chat_Message("——————".. Language.prefix .." [BETA 3.1]——————", "xrawnder", "Gotham")
+    
+    for _, v in ipairs(prefixes) do
+        chat_Message("----------------{ " .. v .. " }----------------", "xrawnder", "Gotham")
+    end
+    
+    chat_Message("—————————END—————————", "xrawnder", "Arial")
+    chat_Message("• ".. Language.credito2 ..": Liver zMods", "xrawnder", "Gotham")
+    chat_Message("————————————————————", "xrawnder", "Gotham")
+    
+    Add_cmds_Chat("fly", function()
+        loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
+        task.wait(1)
+        encryptNames(game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("main"))
+    end)
+    
+    pcall(function() getgenv().CTT = true end)
+    Add_cmds_Chat("godmode", function()
+        if not CTT then return end
+            pcall(function() getgenv().CTT = false end)
+            task.wait(.5)
+            
+            task.spawn(function()
+                _G.GODMODE = not _G.GODMODE
+                
+                if _G.GODMODE == true then
+                    chat_Message("Connected", colors.green, "Gotham")
+                    task.spawn(function()
+                        game.StarterGui:SetCore("SendNotification", {
+                    	   Title = "[BETA 2.0]";
+                    	   Text = Language.error;
+                           Duration = 11.2
+                        })
+                    end)
+                elseif _G.GODMODE == false then
+                    chat_Message("Off", colors.red, "Gotham")
+                end
+            end)
+            
+            task.wait(2.23) pcall(function() getgenv().CTT = true end)
+        end
+    end)
+    
+    Add_cmds_Chat("gm", function()
+        if not CTT then return end
+            pcall(function() getgenv().CTT = false end)
+            task.wait(.5)
+            
+            task.spawn(function()
+                _G.GODMODE = not _G.GODMODE
+                
+                if _G.GODMODE == true then
+                    chat_Message("Connected", colors.green, "Gotham")
+                    task.spawn(function()
+                        game.StarterGui:SetCore("SendNotification", {
+                    	   Title = "[BETA 2.0]";
+                    	   Text = Language.error;
+                           Duration = 11.2
+                        })
+                    end)
+                elseif _G.GODMODE == false then
+                    chat_Message("Off", colors.red, "Gotham")
+                end
+            end)
+            
+            task.wait(2.23) pcall(function() getgenv().CTT = true end)
+        end
+    end)
+    
+    pcall(function() getgenv().pulse = true end)
+    Add_cmds_Chat("esp", function()
+        task.wait()
+        if not pulse then return end
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/refs/heads/main/Piggy/Esp"))();
+        end)
+        chat_Message(Language.esp, colors.red, "Gotham")
+        pcall(function() getgenv().pulse = false end)
+    end)
+    if XR_LOADED or RX_Loading then
+    	error("x-Rawnder is already running!", 0)
+    	return
+    end
+
+    pcall(function() getgenv().pulse1 = true end)
+    Add_cmds_Chat("noclip", function()
+        task.wait()
+        if not pulse1 then return end
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/refs/heads/main/Piggy/Noclip"))();
+        end)
+        chat_Message(Language.noclip, colors.red, "Gotham")
+        pcall(function() getgenv().pulse1 = false end)
+    end)
+    
+    Add_cmds_Chat("np", function()
+        task.wait()
+        if not pulse1 then return end
+        pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/refs/heads/main/Piggy/Noclip"))();
+        end)
+        chat_Message(Language.noclip, colors.red, "Gotham")
+        pulse1 = false
+    end)
+    
+    Add_cmds_ChatSearch("ws", function(player, spe)
+        local speed = tonumber(spe)
+        if speed then
+            local charr = player.Character or player.CharacterAdded:Wait()
+            charr.Humanoid.WalkSpeed = speed
+        else
+            chat_Message("Valor inválido! Use um número, tipo: ;ws 16", colors.red, "Gotham")
+        end
+    end)
+    
+    
+    Add_cmds_ChatSearch("delay", function(_, spe)
+        local num = tonumber(spe)
+        if num then
+            delayTime = num
+        end
+    end)
+    
+    Add_cmds_ChatSearch("d", function(spe)
+        local num = tonumber(spe)
+        if num then
+            delayTime = num
+        end
+    end)
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+up(9)
+
+coroutine.wrap(function()
+    task.wait(3)
+    function Basic.OnInvoke(gott)
+        local message = Instance.new("Message", workspace)
+        task.spawn(function()
+            message.Text = "Loading"
+        end)
+        task.wait(.2)
+        message:Destroy()
+        
+        if gott == '✅' then
+            task.spawn(function()
+                loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
+            end)
+        end
+    end
+    
+    notify:SetCore('SendNotification', {
+        Title = 'Fly Gui?',
+        Text = Language.flytxt,
+        Duration = 240,
+        Callback = Basic,
+        Button1 = '✅',
+        Button2 = '❌'
+    })
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+coroutine.wrap(function()
+    while task.wait() do
+        game.StarterGui:SetCore("SendNotification", {
+	     Title = Language.by2 .." Liver zMods";
+	     Text = Language.credito .. "!";
+            Icon = "rbxthumb://type=Asset&id=11935866652&w=150&h=150";
+            Duration = 30; 
+        }) 
+        task.wait(61.5)
+    end
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+coroutine.wrap(function()
+    task.wait(6.1)
+    game.StarterGui:SetCore("SendNotification", {
+         Title = Language.newUp;
+         Text = Language.AdvancedFeatures;
+         Duration = 40; 
+    }) 
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+up(10)
+
+local function findFolder(scriptName)
+    local scriptObject = nil
+    
+    while not scriptObject do
+        for _, obj in ipairs(workspace:GetDescendants()) do
+            if obj.Name == scriptName then
+                scriptObject = obj
+                break
+            end
+        end
+        task.wait(0.5)
+    end
+    
+    local parent = scriptObject.Parent
+    while parent and parent.Parent ~= workspace do
+        parent = parent.Parent
+    end
+    return parent
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function GetPart(Target)
+    if Target and Target.Character then
+        return Target.Character:FindFirstChild("HumanoidRootPart") or Target.Character:FindFirstChild("Head")
+    end
+    return nil
+end
+
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function AkaliNotif_(Title, Description, time)
+    local Notify = AkaliNotif.Notify;
+    Notify({
+        Description = Description,
+        Title = Title,
+        Duration = time
+    });
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+function random(min, max)
+    if min and max then
+        return math.random(min, max)
+    elseif min then
+        return math.random(0.1, min)
+    end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+function GetPosition(Player)
+    plr.Character:WaitForChild("HumanoidRootPart")
+    if Player then
+        return GetPart(Player).CFrame
+    else
+        return GetPart(plr).CFrame
+    end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function swait()
+    game:GetService("RunService").Stepped:Wait()
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function GetCameraPosition()
+    return workspace.CurrentCamera.CFrame
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function Loop(Times, calling)
+    for i = 1, tonumber(Times) do
+        calling()
+    end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function ConvertPosition(Position)
+    if typeof(Position):lower() == "vector3" then
+        return CFrame.new(Position)
+    else
+        return Position
+    end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function UnSit()
+    plr.Character:WaitForChild("Humanoid").Sit = false
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+function MoveTo(Cframe)
+    Cframe = ConvertPosition(Cframe)
+    local Amount = 5
+
+    for i = 1, Amount do
+        UnSit()
+        plr.Character:PivotTo(Cframe)
+        swait()
+    end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function IsGame()
+    if game.PlaceId == 4623386862 then
+        return findFolder("ItemPickupScript")
+    elseif game.PlaceId == 5661005779 or game.PlaceId == 5247067896 then
+        return findFolder("NewItemPickupScript")
+    end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function songIntro()
+    task.spawn(function()
+        task.wait() local Sound = Instance.new("Sound",game:GetService("SoundService")) Sound.SoundId = "rbxassetid://488265234" Sound.Volume = 2.6 Sound:Play()
+    end)
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+--// Gui do Piggy //
+local U_i = Instance.new("UICorner")
+local U_i_2 = Instance.new("UICorner")
+U_i.CornerRadius = UDim.new(0.4, 0)
+U_i_2.CornerRadius = UDim.new(0.4, 0)
+U_i.Name = randomString()
+U_i_2.Name = randomString()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local PiggyGui = Instance.new("ScreenGui")
+PiggyGui.Name = randomString()
+PiggyGui.Enabled = true
+PiggyGui.ResetOnSpawn = false
+PiggyGui.Parent = game.CoreGui
+PiggyGui.DisplayOrder = 9e9
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local ScrollingFrame = Instance.new("ScrollingFrame", PiggyGui)
+ScrollingFrame.Name = randomString()
+ScrollingFrame.BackgroundColor3 = Color3.new(0.15, 0, 0)
+ScrollingFrame.Position = UDim2.new(0.08, 0, -0.95, 0)
+ScrollingFrame.Size = UDim2.new(0, 296, 0, 388)
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local UIGridLayout = Instance.new("UIGridLayout", ScrollingFrame)
+UIGridLayout.CellSize = UDim2.new(0, 90, 0, 90)
+UIGridLayout.Name = randomString()
+UIGridLayout.FillDirection = Enum.FillDirection.Horizontal
+UIGridLayout.VerticalAlignment = Enum.VerticalAlignment.Top
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+coroutine.wrap(function()
+    task.wait(0.7)
+    tw(ScrollingFrame, UDim2.new(0.08, 0, 0.42, 0), 1.3)
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+coroutine.wrap(function()
+    while true do
+        pasta = IsGame()
+        if pasta then
+            task.wait()
+            local items = {}
+            local itemframes = ScrollingFrame:GetChildren()
+            
+            for i = 1, #itemframes do
+                if itemframes[i].ClassName == "TextButton" then
+                    itemframes[i]:Destroy()
+                end
+            end
+            
+            for _, v in ipairs(pasta:GetDescendants()) do
+                if v.Name == "ItemPickupScript" or
+                   v.Name == "NewItemPickupScript" or
+                   (v.Name == "Script" and v.Parent:FindFirstChild("ClickDetector")) then
+                    table.insert(items, v.Parent)
+                end
+            end
+
+            for i = 1, #items do
+                local object = items[i]
+
+                if not object:IsA("BasePart") and not object:IsA("Model") then
+                    continue
+                end
+
+                if object:IsA("BasePart") and (object.Transparency == 1 or not object:IsDescendantOf(workspace)) then
+                    continue
+                end
+                
+                local U_i = Instance.new("UICorner")
+                U_i.CornerRadius = UDim.new(0.15, 0)
+                U_i.Name = randomString()
+                
+                local ItemFrame = Instance.new("TextButton", ScrollingFrame)
+                ItemFrame.Name = randomString()
+                ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
+                ItemFrame.BackgroundTransparency = 1
+                ItemFrame.Size = UDim2.new(0, 100, 0, 100)
+                ItemFrame.Text = "★"
+                
+                local View = Instance.new("ViewportFrame", ItemFrame)
+                View.Name = randomString()
+                View.Size = UDim2.new(1, 0, 1, 0)
+                View.BackgroundTransparency = 0.9
+                View.BorderSizePixel = 0.3
+                U_i.Parent = View
+
+                local viewportclone
+
+                if object:IsA("BasePart") then
+                    viewportclone = object:Clone()
+                    viewportclone.Anchored = true
+                elseif object:IsA("Model") then
+                    viewportclone = object:Clone()
+                    for _, part in ipairs(viewportclone:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                            part.Anchored = true
+                        end
+                    end
+                end
+
+                if viewportclone then
+                    viewportclone.Name = randomString()
+                    viewportclone.Parent = View
+
+                    local cam = Instance.new("Camera")
+                    cam.CameraType = Enum.CameraType.Fixed
+                    cam.Parent = View
+
+                    local primary = viewportclone:IsA("Model") and viewportclone.PrimaryPart or viewportclone
+                    if not primary and viewportclone:IsA("Model") then
+                        viewportclone:MakeJoints()
+                        viewportclone.PrimaryPart = viewportclone:FindFirstChildWhichIsA("BasePart")
+                        primary = viewportclone.PrimaryPart
+                    end
+
+                    if primary then
+                        local objectPosition = primary.Position
+                        local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
+                        cam.CFrame = CFrame.new(cameraPosition, objectPosition)
+                        View.CurrentCamera = cam
+                    end
+                else
+                    ItemFrame:Destroy()
+                    continue
+                end
+
+                ItemFrame.MouseButton1Down:Connect(function()
+                    if items[i]:FindFirstChild("ClickDetector") then
+                        local player = game:GetService("Players").LocalPlayer
+                        local char = player.Character or player.CharacterAdded:Wait()
+                        local root = char:WaitForChild("HumanoidRootPart")
+                        
+                        local cpos = root.CFrame
+                        local item = items[i]
+                        
+                        repeat
+                            pcall(function()
+                                for _ = 1, 2 do
+                                    MoveTo(item.CFrame)
+                                    fireclickdetector(item:FindFirstChild("ClickDetector"))
+                                end
+                            end)
+                            task.wait()
+                        until not (item and item.Parent and item:IsDescendantOf(pasta))
+                        
+                        task.wait(.05)
+                        MoveTo(cpos)
+                    end
+                end)
+            end
+        end
+        task.wait(delayTime)
+    end
+end)()
+up(60)
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+task.spawn(function()
+    repeat RunService.Heartbeat:Wait()
+    until roNub1 == 100
+    local startTime = os.time()
+    local Players = game:GetService("Players")
+    local plr = Players.LocalPlayer
+    
+    local Wm = library2:Watermark("Ping: ")
+    local FpsWm = Wm:AddWatermark("fps: " .. library2.fps)
+    local HoraWm = Wm:AddWatermark("hora: --:--:--")
+    local TempoWm = Wm:AddWatermark("online: 0s")
+    
+    coroutine.wrap(function()
+    	while true do
+    	    if roNub1 == 100 then
+        		pcall(function()
+        			FpsWm:Text("fps: " .. library2.fps)
+        			Wm:Text("Ping: " .. math.round(plr:GetNetworkPing() * 1000) .. "")
+        
+        			local agora = os.date("*t")
+        			local horaAtual = string.format("%02d:%02d:%02d", agora.hour, agora.min, agora.sec)
+        			HoraWm:Text(Language.hora .. ": " .. horaAtual)
+        
+        			local diff = os.time() - startTime
+        			local horas = math.floor(diff / 3600)
+        			local minutos = math.floor((diff % 3600) / 60)
+        			local segundos = diff % 60
+        
+        			local tempoStr = ""
+        			if horas > 0 then
+        				tempoStr = string.format("%dh %02dm %02ds", horas, minutos, segundos)
+        			elseif minutos > 0 then
+        				tempoStr = string.format("%dm %02ds", minutos, segundos)
+        			else
+        				tempoStr = string.format("%ds", segundos)
+        			end
+        
+        			TempoWm:Text("online: " .. tempoStr)
+        		end)
+    		end
+    		task.wait(.5)
+    	end
+    end)()
+    
+    
+    pcall(function()
+        encryptNames(game:GetService("CoreGui").watermark)
+    end)
+end)
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+task.spawn(function()
+    local CoreGui = game:GetService("CoreGui")
+    local backpack = CoreGui:WaitForChild("RobloxGui"):WaitForChild("Backpack")
+    local inventory = backpack:WaitForChild("Inventory")
+    
+    local function stylizeButton(btn)
+    	if btn:IsA("TextButton") and not btn:FindFirstChild("UICorner") then
+    		btn.BackgroundTransparency = 0.4
+    		btn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    
+    		local uic = Instance.new("UICorner")
+    		uic.CornerRadius = UDim.new(0, 8)
+    		uic.Parent = btn
+    	end
+    end
+    
+    for _, v in pairs(inventory:GetDescendants()) do
+    	stylizeButton(v)
+    end
+    
+    inventory.DescendantAdded:Connect(function(desc)
+    	task.wait()
+    	stylizeButton(desc)
+    end)
+    
+    local search = inventory:WaitForChild("Search")
+    local border = Instance.new("Frame")
+    border.Size = UDim2.new(1, 4, 1, 4)
+    border.Position = UDim2.new(0, -2, 0, -2)
+    border.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+    border.BackgroundTransparency = 0.3
+    border.ZIndex = search.ZIndex - 1
+    border.Parent = search
+    
+    local borderCorner = Instance.new("UICorner")
+    borderCorner.CornerRadius = UDim.new(0, 8)
+    borderCorner.Parent = border
+    
+    local searchCorner = Instance.new("UICorner")
+    searchCorner.CornerRadius = UDim.new(0, 8)
+    searchCorner.Parent = search
+end)
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+task.spawn(function()
+    coroutine.wrap(function()
+        __global.gui = Instance.new("ScreenGui")
+        gui.Name = randomString()
+        gui.Parent = (game:GetService("CoreGui") or gethui())
+        gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+        gui.DisplayOrder = 9e9
+    
+        local imageButton = Instance.new("ImageButton")
+        imageButton.Name = randomString()
+        imageButton.Size = UDim2.new(0.0325, 0, 0.076, 0)
+        imageButton.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+        imageButton.BackgroundTransparency = 0.1
+        imageButton.Image = "rbxassetid://18293640018"
+        imageButton.Position = UDim2.new(0.20, 0, 0, 0)
+        imageButton.Draggable = true
+        
+        local imageButtonBorder = Instance.new("UIStroke", imageButton)
+        imageButtonBorder.Color = Color3.fromRGB(71, 71, 71)
+        imageButtonBorder.Name = randomString()
+        imageButton.Name = randomString()
+        imageButtonBorder.Thickness = 1.5
+        imageButton.Parent = gui
+        
+        booletan = false
+        
+        imageButton.MouseButton1Click:Connect(function()
+            task.spawn(function()
+                local Sound = Instance.new("Sound", game:GetService("SoundService"))
+                Sound.SoundId = "rbxassetid://4601634016"
+                booletan = not booletan
+                imageButton.Image = booletan and "rbxassetid://18293634731" or "rbxassetid://18293640018"
+                Sound:Play()
+                
+                for i = 1, 5 do
+                    task.wait()
+                    gui.DisplayOrder = 9e9
+                    PiggyGui.DisplayOrder = 9e9
+                end 
+                
+                if booletan then
+                    tw(ScrollingFrame, UDim2.new(0.08, 0, 1.1, 0), 0.58)
+                else
+                    tw(ScrollingFrame, UDim2.new(0.08, 0, 0.42, 0), 0.48)
+                end
+            end)
+        end)
+        
+        local corner = Instance.new("UICorner")
+        corner.CornerRadius = UDim.new(0.2, 0.1)
+        corner.Parent = imageButton
+        corner.Name = randomString()
+        
+        coroutine.wrap(function()
+            while task.wait() do
+                gui.RobloxLocked = true
+                
+                gui.ResetOnSpawn = false
+                PiggyGui.ResetOnSpawn = false
+                
+                PiggyGui.Enabled = true
+                gui.Enabled = true
+                
+                ScrollingFrame.Active = true
+                ScrollingFrame.Visible = true
+                ScrollingFrame.ScrollingEnabled = true
+                
+                imageButton.Visible = true
+            end
+        end)()
+    end)()
+end)
+
+coroutine.wrap(function()
+    local ui = __global.gui
+    while true do
+        if roNub1 == 100 then
+            pcall(function()
+                encryptNames(PiggyGui)
+                encryptNames(ui)
+            end) task.wait(10)
+        else
+            task.wait()
+        end
+    end
+end)()
+
+task.spawn(function()
+    task.wait()
+    AkaliNotif_(Language.ScriptLoaded, Language.AllScriptsLoaded, random(15, 30))
+    
+    up(10)
+    task.wait()
+    songIntro()
+    
+    task.spawn(function()
+        pcall(function()
+            loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/e078befcb255a18acf13f16177a5e4e1/raw/921145e555d53c43cd85176d89baf79ff4ccef05/inventory"))();
+        end)
+    end)
+    
+    task.spawn(function()
+        task.wait(random(15, 30))
+        AkaliNotif_(Language.NewVersion, Language.AdvancedFeatures, 7.8)
+    end)
+end)
+
+--// Please don't edit or steal my credits!! //
 --<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
