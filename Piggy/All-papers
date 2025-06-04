@@ -58,11 +58,15 @@ local function clickOnAllItemsInFolder(folder)
     end
 end
 
-local function IsGame2()
-    return findSecondParent("rbxassetid://6714051581")
+local function IsGame(item)
+    if item == "paper" then
+        return findSecondParent("rbxassetid://6714051581")
+    elseif item == "parchment" then
+        return findSecondParent("rbxassetid://60791940")
+    end
 end
 
-local folder = IsGame2()
+local folder = IsGame(--[[Type what you want]])
 
 if folder then
     clickOnAllItemsInFolder(folder)
