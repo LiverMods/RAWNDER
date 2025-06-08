@@ -1242,43 +1242,119 @@ end
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 --// Gui do Piggy //
-local U_i = Instance.new("UICorner")
-local U_i_2 = Instance.new("UICorner")
-U_i.CornerRadius = UDim.new(0.4, 0)
-U_i_2.CornerRadius = UDim.new(0.4, 0)
-U_i.Name = randomString()
-U_i_2.Name = randomString()
-
---<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
-
 local PiggyGui = Instance.new("ScreenGui")
 PiggyGui.Name = randomString()
-PiggyGui.Enabled = true
 PiggyGui.ResetOnSpawn = false
-PiggyGui.Parent = game.CoreGui
 PiggyGui.DisplayOrder = 9e9
+PiggyGui.Enabled = true
+PiggyGui.Parent = game:GetService("CoreGui")
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
-local ScrollingFrame = Instance.new("ScrollingFrame", PiggyGui)
+local Frame = Instance.new("Frame")
+Frame.Name = randomString()
+Frame.Size = UDim2.new(0, 297, 0, 389)
+Frame.Position = UDim2.new(0.08, 0, -0.95, 0)
+Frame.BackgroundColor3 = Color3.fromRGB(38, 0, 0)
+Frame.BackgroundTransparency = 0.4
+Frame.BorderSizePixel = 0
+Frame.Active = true
+Frame.Parent = PiggyGui
+Frame.Draggable = true
+Frame.ClipsDescendants = true
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local UiCorner = Instance.new("UICorner")
+UiCorner.Name = randomString()
+UiCorner.CornerRadius = UDim.new(0, 5)
+UiCorner.Parent = Frame
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local UiStroke = Instance.new("UIStroke")
+UiStroke.Name = randomString()
+UiStroke.Color = Color3.fromRGB(255, 255, 255)
+UiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UiStroke.Parent = Frame
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local GradientColors = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(85, 0, 0)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(245, 0, 0))
+}
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local GradientStroke = Instance.new("UIGradient")
+GradientStroke.Name = randomString()
+GradientStroke.Color = GradientColors
+GradientStroke.Parent = UiStroke
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local TextLabel = Instance.new("TextLabel")
+TextLabel.Name = randomString()
+TextLabel.BackgroundColor3 = Color3.fromRGB(85, 0, 0)
+TextLabel.BackgroundTransparency = 1
+TextLabel.BorderColor3 = Color3.fromRGB(17, 17, 17)
+TextLabel.BorderSizePixel = 0
+TextLabel.TextStrokeColor3 = Color3.fromRGB(17, 17, 17)
+TextLabel.TextStrokeTransparency = 0
+TextLabel.Position = UDim2.new(0, 0, 0, 0)
+TextLabel.Size = UDim2.new(0, 296, 0, 30)
+TextLabel.Text = "Piggy V12"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.TextSize = 10
+TextLabel.Parent = Frame
+TextLabel.Draggable = true
+TextLabel.Selectable = true
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local LabelGradient = Instance.new("UIGradient")
+LabelGradient.Name = randomString()
+LabelGradient.Color = GradientColors
+LabelGradient.Rotation = 90
+LabelGradient.Parent = TextLabel
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local ScrollingFrame = Instance.new("ScrollingFrame")
 ScrollingFrame.Name = randomString()
-ScrollingFrame.BackgroundColor3 = Color3.new(0.15, 0, 0)
-ScrollingFrame.Position = UDim2.new(0.08, 0, -0.95, 0)
+ScrollingFrame.BackgroundColor3 = Color3.fromRGB(38, 0, 0)
+ScrollingFrame.BackgroundTransparency = 1
+ScrollingFrame.BorderSizePixel = 0
+ScrollingFrame.Position = UDim2.new(0, 0, 0.1, 0)
 ScrollingFrame.Size = UDim2.new(0, 296, 0, 388)
+ScrollingFrame.Active = true
+ScrollingFrame.ZIndex = 2
+ScrollingFrame.Parent = Frame
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
-local UIGridLayout = Instance.new("UIGridLayout", ScrollingFrame)
-UIGridLayout.CellSize = UDim2.new(0, 90, 0, 90)
-UIGridLayout.Name = randomString()
-UIGridLayout.FillDirection = Enum.FillDirection.Horizontal
-UIGridLayout.VerticalAlignment = Enum.VerticalAlignment.Top
+local Grid = Instance.new("UIGridLayout")
+Grid.Name = randomString()
+Grid.CellSize = UDim2.new(0, 90, 0, 90)
+Grid.FillDirection = Enum.FillDirection.Horizontal
+Grid.VerticalAlignment = Enum.VerticalAlignment.Top
+Grid.Parent = ScrollingFrame
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+RunService.RenderStepped:Connect(function(deltaTime)
+    local gradient = GradientStroke
+    if gradient then
+        gradient.Rotation = (gradient.Rotation + deltaTime * 60) % 360
+    end
+end)
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 coroutine.wrap(function()
     task.wait(0.7)
-    tw(ScrollingFrame, UDim2.new(0.08, 0, 0.42, 0), 1.3)
+    tw(Frame, UDim2.new(0.2, 0, 0.2, 0), 1.3)
 end)()
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
@@ -1350,7 +1426,12 @@ coroutine.wrap(function()
     
                     local U_i = Instance.new("UICorner")
                     U_i.CornerRadius = UDim.new(0.15, 0)
-    
+                    
+                    local GradientColors = ColorSequence.new{
+                        ColorSequenceKeypoint.new(0, Color3.fromRGB(85, 0, 0)),
+                        ColorSequenceKeypoint.new(1, Color3.fromRGB(225, 0, 0))
+                    }
+                    
                     local ItemFrame = Instance.new("TextButton", ScrollingFrame)
                     ItemFrame.Name = randomString()
                     ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
@@ -1358,14 +1439,35 @@ coroutine.wrap(function()
                     ItemFrame.Size = UDim2.new(0, 100, 0, 100)
                     ItemFrame.Text = "★"
                     U_i.Parent = ItemFrame
-    
+                    
                     local View = Instance.new("ViewportFrame", ItemFrame)
                     View.Name = randomString()
                     View.Size = UDim2.new(1, 0, 1, 0)
-                    View.BackgroundTransparency = 0.9
-                    View.BorderSizePixel = 0.3
+                    View.BackgroundTransparency = 0.4
+                    View.BackgroundColor3 = Color3.fromRGB(85, 0, 0)
+                    View.BorderSizePixel = 0
                     U_i:Clone().Parent = View
-    
+                    
+                    local UiStroke = Instance.new("UIStroke")
+                    UiStroke.Name = randomString()
+                    UiStroke.Color = Color3.fromRGB(255, 255, 255)
+                    UiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+                    UiStroke.Parent = View
+                    
+                    local UiGradient = Instance.new("UIGradient")
+                    UiGradient.Name = randomString()
+                    UiGradient.Color = GradientColors
+                    UiGradient.Rotation = 90
+                    UiGradient.Parent = UiStroke
+                    
+                    local UiPadding = Instance.new("UIPadding")
+                    UiPadding.PaddingBottom = UDim.new(0, 1) -- diz que tem erro aqui (debug disse)
+                    UiPadding.PaddingLeft = UDim.new(0, 1)
+                    UiPadding.PaddingRight = UDim.new(0, 1)
+                    UiPadding.PaddingTop = UDim.new(0, 1)
+                    UiPadding.Parent = ItemFrame
+                    UiPadding.Name = randomString()
+                    
                     local viewportclone
                     if item:IsA("BasePart") then
                         viewportclone = item:Clone()
@@ -1585,6 +1687,7 @@ task.spawn(function()
         imageButton.Parent = gui
         
         booletan = false
+        local originalPos = Frame.Position
         
         imageButton.MouseButton1Click:Connect(function()
             task.spawn(function()
@@ -1601,9 +1704,10 @@ task.spawn(function()
                 end 
                 
                 if booletan then
-                    tw(ScrollingFrame, UDim2.new(0.08, 0, 1.1, 0), 0.58)
+                    originalPos = Frame.Position
+                	tw(Frame, UDim2.new(originalPos.X.Scale, originalPos.X.Offset, 1.1, 0), 0.58)
                 else
-                    tw(ScrollingFrame, UDim2.new(0.08, 0, 0.42, 0), 0.48)
+                	tw(Frame, originalPos, 0.48)
                 end
             end)
         end)
