@@ -1304,10 +1304,12 @@ TextLabel.TextStrokeColor3 = Color3.fromRGB(17, 17, 17)
 TextLabel.TextStrokeTransparency = 0
 TextLabel.Position = UDim2.new(0, 0, 0, 0)
 TextLabel.Size = UDim2.new(0, 296, 0, 30)
-TextLabel.Text = "Piggy V12"
+TextLabel.Text = "PIGGY V12"
 TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.TextSize = 10
+TextLabel.Font = Enum.Font.FredokaOne
 TextLabel.Parent = Frame
+TextLabel.TextScaled = true
 TextLabel.Draggable = true
 TextLabel.Selectable = true
 
@@ -1345,8 +1347,12 @@ Grid.Parent = ScrollingFrame
 
 RunService.RenderStepped:Connect(function(deltaTime)
     local gradient = GradientStroke
+    local gradient2 = LabelGradient
     if gradient then
         gradient.Rotation = (gradient.Rotation + deltaTime * 60) % 360
+    end
+    if gradient then
+        gradient2.Rotation = (gradient2.Rotation + deltaTime * 25) % 360
     end
 end)
 
@@ -1512,13 +1518,13 @@ coroutine.wrap(function()
                             v.Parent.ClickDetector.MaxActivationDistance = 8999999488
                         end
                     end
-    
+                    
                     local itemNameValue = Instance.new("StringValue", ItemFrame)
                     itemNameValue.Name = "ItemName"
                     itemNameValue.Value = item.Name
                     itemFrames[item.Name] = ItemFrame
     
-                    ItemFrame.MouseButton1Down:Connect(function()
+                    ItemFrame.MouseButton1Up:Connect(function()
                         if item:FindFirstChild("ClickDetector") then
                             local player = game:GetService("Players").LocalPlayer
                             local char = player.Character or player.CharacterAdded:Wait()
@@ -1669,6 +1675,7 @@ end)
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 task.spawn(function()
+    task.wait(2)
     coroutine.wrap(function()
         __global.gui = Instance.new("ScreenGui")
         gui.Name = randomString()
@@ -1694,16 +1701,21 @@ task.spawn(function()
         
         booletan = false
         local originalPos = Frame.Position
+        local lastClick = 0
         
         imageButton.MouseButton1Click:Connect(function()
+            if tick() - lastClick < 0.3 then return end
+            lastClick = tick()
+            
             task.spawn(function()
                 local Sound = Instance.new("Sound", game:GetService("SoundService"))
                 Sound.SoundId = "rbxassetid://3011722164"
                 Sound.PlaybackSpeed = 1.2
                 Sound.Volume = 1
+                Sound:Play()
+                
                 booletan = not booletan
                 imageButton.Image = booletan and "rbxassetid://18293634731" or "rbxassetid://18293640018"
-                Sound:Play()
                 
                 for i = 1, 5 do
                     task.wait()
@@ -1713,9 +1725,9 @@ task.spawn(function()
                 
                 if booletan then
                     originalPos = Frame.Position
-                	tw(Frame, UDim2.new(originalPos.X.Scale, originalPos.X.Offset, 1.8, 0), 0.58)
+                    tw(Frame, UDim2.new(originalPos.X.Scale, originalPos.X.Offset, 1.8, 0), 0.58)
                 else
-                	tw(Frame, originalPos, 0.48)
+                    tw(Frame, originalPos, 0.48)
                 end
             end)
         end)
@@ -1728,17 +1740,13 @@ task.spawn(function()
         coroutine.wrap(function()
             while task.wait() do
                 gui.RobloxLocked = true
-                
                 gui.ResetOnSpawn = false
                 PiggyGui.ResetOnSpawn = false
-                
                 PiggyGui.Enabled = true
                 gui.Enabled = true
-                
                 ScrollingFrame.Active = true
                 ScrollingFrame.Visible = true
                 ScrollingFrame.ScrollingEnabled = true
-                
                 imageButton.Visible = true
             end
         end)()
