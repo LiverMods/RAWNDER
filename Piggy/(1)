@@ -1524,7 +1524,13 @@ coroutine.wrap(function()
                             local char = player.Character or player.CharacterAdded:Wait()
                             local root = char:WaitForChild("HumanoidRootPart")
                             local cpos = root.CFrame
-    
+                            local Sound = Instance.new("Sound", game:GetService("SoundService"))
+                            Sound.SoundId = "rbxassetid://3011722164"
+                            Sound.PlaybackSpeed = 1.2
+                            Sound.Volume = 1
+                            
+                            Sound:Play()
+                            
                             repeat
                                 pcall(function()
                                     for _ = 1, 2 do
@@ -1692,7 +1698,9 @@ task.spawn(function()
         imageButton.MouseButton1Click:Connect(function()
             task.spawn(function()
                 local Sound = Instance.new("Sound", game:GetService("SoundService"))
-                Sound.SoundId = "rbxassetid://4601634016"
+                Sound.SoundId = "rbxassetid://3011722164"
+                Sound.PlaybackSpeed = 1.2
+                Sound.Volume = 1
                 booletan = not booletan
                 imageButton.Image = booletan and "rbxassetid://18293634731" or "rbxassetid://18293640018"
                 Sound:Play()
@@ -1705,7 +1713,7 @@ task.spawn(function()
                 
                 if booletan then
                     originalPos = Frame.Position
-                	tw(Frame, UDim2.new(originalPos.X.Scale, originalPos.X.Offset, 1.1, 0), 0.58)
+                	tw(Frame, UDim2.new(originalPos.X.Scale, originalPos.X.Offset, 1.8, 0), 0.58)
                 else
                 	tw(Frame, originalPos, 0.48)
                 end
