@@ -12,6 +12,7 @@
 --<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
 -- Script de carregamento
 --// check game //
+local wk = game:GetService("Workspace")
 local __global = getfenv and getfenv(0) or _G
 local RunService = game:GetService("RunService")
 local Prr = game.Players.LocalPlayer
@@ -468,7 +469,7 @@ Players.PlayerAdded:Connect(function(p)
 end)
 --<>---<>---<>---<>---<>--
 Players.PlayerAdded:Connect(function(p)
-    checkPlayer(p);
+    -- checkPlayer(p);
     (function()
         for _,plr in ipairs(Players:GetPlayers()) do
             (function()
@@ -502,9 +503,10 @@ local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/Ki
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 --// variáveis //
+local traps = {}
 local txt = {
     pt = { -- Português (pt)
-        credito = "Feito por brasileiro",
+        credito = "Feito por um brasileiro",
         credito2 = "Créditos",
         speed = "digite o número",
         esp = "desligue o ''ESP'' quando a partida acabar",
@@ -512,17 +514,18 @@ local txt = {
         flytxt = "Você quer um script de voar (Fly)?",
         ScriptLoaded = "Script carregado",
         AllScriptsLoaded = "Todos os scripts foram carregados",
-        NewVersion = "Nova versão V11",
-        AdvancedFeatures = "Um contador avançado e detector de idioma foram adicionados.",
+        NewVersion = "Nova versão V12",
+        AdvancedFeatures = "Mecânica de atualização de items reformulada, novos comandos ao chat",
         newUp = "nova atualização! 🎉",
         hora = "hora",
         by = "Feito por",
         by2 = "Por",
         prefix = "prefixo",
         cmds = "comandos",
-        error = "erros são prováveis"
+        error = "erros são prováveis",
+        Dest = "Auto Destruir Traps"
     },
-    en = { -- Inglês (en)
+    en = { -- English (en)
         credito = "Made by Brazilian",
         credito2 = "Credits",
         speed = "enter the number",
@@ -531,17 +534,18 @@ local txt = {
         flytxt = "Do you want a Fly script?",
         ScriptLoaded = "Script loaded",
         AllScriptsLoaded = "All scripts have been loaded",
-        NewVersion = "New version V11",
-        AdvancedFeatures = "An advanced counter and language detector were added.",
+        NewVersion = "New version V12",
+        AdvancedFeatures = "Item upgrade system revamped, new chat commands added",
         newUp = "new update! 🎉",
         hora = "time",
         by = "Made by",
         by2 = "By",
         prefix = "prefix",
         cmds = "commands",
-        error = "errors are likely"
+        error = "errors are likely",
+        Dest = "Auto Destroy Traps"
     },
-    es = { -- Espanhol (es)
+    es = { -- Español (es)
         credito = "Hecho por brasileño",
         credito2 = "Créditos",
         speed = "Ingrese el número",
@@ -550,137 +554,165 @@ local txt = {
         flytxt = "¿Quieres un script de Volar (Fly)?",
         ScriptLoaded = "Script cargado",
         AllScriptsLoaded = "Todos los scripts han sido cargados",
-        NewVersion = "Nueva versión V11",
-        AdvancedFeatures = "Se añadió un contador avanzado y un detector de idioma.",
+        NewVersion = "Nueva versión V12",
+        AdvancedFeatures = "Sistema de mejora de ítems reformulado, nuevos comandos por chat",
         newUp = "¡Nueva actualización! 🎉",
         hora = "tiempo",
         by = "Hecho por",
         by2 = "Por",
         prefix = "prefijo",
         cmds = "comandos",
-        error = "Es probable que haya errores"
+        error = "Es probable que haya errores",
+        Dest = "Destruir Trampas Automáticamente"
     },
-    fr = { -- Francês (fr)
-        credito = "Fait par Brésilien",
+    fr = { -- Français (fr)
+        credito = "Fait par un Brésilien",
         credito2 = "Crédits",
         speed = "entrez le nombre",
-        esp = "désactivez l'''ESP'' quand le match est fini",
+        esp = "désactivez ''ESP'' quand le match est fini",
         noclip = "Attention, si vous activez et ramassez un objet, vous tomberez dans le vide en revenant à votre position d'origine !",
         flytxt = "Voulez-vous un script de vol (Fly) ?",
         ScriptLoaded = "Script chargé",
         AllScriptsLoaded = "Tous les scripts ont été chargés",
-        NewVersion = "Nouvelle version V11",
-        AdvancedFeatures = "Un compteur avancé et un détecteur de langue ont été ajoutés.",
+        NewVersion = "Nouvelle version V12",
+        AdvancedFeatures = "Système de mise à niveau des objets repensé, nouveaux commandes de chat",
         newUp = "nouvelle mise à jour ! 🎉",
         hora = "heure",
         by = "Fait par",
         by2 = "Par",
         prefix = "préfixe",
         cmds = "commandes",
-        error = "des erreurs sont probables"
+        error = "des erreurs sont probables",
+        Dest = "Destruction automatique des pièges"
     },
     it = { -- Italiano (it)
-        credito = "Fatto da brasiliano",
+        credito = "Fatto da un brasiliano",
         credito2 = "Crediti",
         speed = "inserisci il numero",
-        esp = "disattiva l'''ESP'' quando la partita è finita",
+        esp = "disattiva ''ESP'' quando la partita è finita",
         noclip = "Attenzione, se lo attivi e raccogli un oggetto, cadrai nel vuoto quando tornerai alla tua posizione originale!",
         flytxt = "Vuoi uno script per volare (Fly)?",
         ScriptLoaded = "Script caricato",
         AllScriptsLoaded = "Tutti gli script sono stati caricati",
-        NewVersion = "Nuova versione V11",
-        AdvancedFeatures = "Un contatore avanzato e un rilevatore di lingua sono stati aggiunti.",
+        NewVersion = "Nuova versione V12",
+        AdvancedFeatures = "Sistema di aggiornamento oggetti rielaborato, nuovi comandi nella chat",
         newUp = "nuovo aggiornamento! 🎉",
         hora = "ora",
         by = "Fatto da",
         by2 = "Da",
         prefix = "prefisso",
         cmds = "comandi",
-        error = "gli errori sono probabili"
+        error = "gli errori sono probabili",
+        Dest = "Distruggi automaticamente le trappole"
     },
-    de = { -- Alemão (de)
-        credito = "Von Brasilianer gemacht",
+    de = { -- Deutsch (de)
+        credito = "Von einem Brasilianer gemacht",
         credito2 = "Credits",
         speed = "Nummer eingeben",
-        esp = "deaktiviere ''ESP'' wenn das Spiel vorbei ist",
-        noclip = "Achtung, wenn aktiviert und du einen Gegenstand aufhebst, fällst du ins Leere, wenn du zu deiner ursprünglichen Position zurückkehrst!",
+        esp = "deaktiviere ''ESP'', wenn das Spiel vorbei ist",
+        noclip = "Achtung: Wenn aktiviert und du einen Gegenstand aufhebst, fällst du beim Zurückkehren in die Leere!",
         flytxt = "Möchtest du ein Flug-Skript (Fly)?",
         ScriptLoaded = "Skript geladen",
         AllScriptsLoaded = "Alle Skripte wurden geladen",
-        NewVersion = "Neue Version V11",
-        AdvancedFeatures = "Ein fortschrittlicher Zähler und Spracherkennung wurden hinzugefügt.",
+        NewVersion = "Neue Version V12",
+        AdvancedFeatures = "Item-Upgrade-System überarbeitet, neue Chatbefehle hinzugefügt",
         newUp = "neues Update! 🎉",
         hora = "Uhrzeit",
         by = "Gemacht von",
         by2 = "Von",
         prefix = "Präfix",
         cmds = "Befehle",
-        error = "Fehler sind wahrscheinlich"
+        error = "Fehler sind wahrscheinlich",
+        Dest = "Fallen automatisch zerstören"
     },
-    zh = { -- Chinês Simplificado (zh)
-        credito = "巴西人制作",
+    zh = { -- 中文 (zh)
+        credito = "由巴西人制作",
         credito2 = "鸣谢",
         speed = "输入数字",
-        esp = "比赛结束后请关闭“ESP”",
-        noclip = "小心，激活后，如果你捡起物品，返回原位时会掉入虚空！",
-        flytxt = "你想要飞行（Fly）脚本吗？",
+        esp = "比赛结束后关闭“ESP”",
+        noclip = "小心，启用后捡起物品会在返回原位时掉入虚空！",
+        flytxt = "你想要飞行脚本（Fly）吗？",
         ScriptLoaded = "脚本已加载",
         AllScriptsLoaded = "所有脚本已加载",
-        NewVersion = "新版本V11",
-        AdvancedFeatures = "已添加高级计数器和语言检测器。",
+        NewVersion = "新版本 V12",
+        AdvancedFeatures = "物品升级机制已重做，新增聊天命令",
         newUp = "新更新！🎉",
         hora = "时间",
-        by = "由",
+        by = "由...制作",
         by2 = "作者",
         prefix = "前缀",
         cmds = "命令",
-        error = "可能会出错"
+        error = "可能会出错",
+        Dest = "自动摧毁陷阱"
     },
-    ja = { -- Japonês (ja)
-        credito = "ブラジル人による制作",
+    ja = { -- 日本語 (ja)
+        credito = "ブラジル人によって作成されました",
         credito2 = "クレジット",
         speed = "数字を入力してください",
-        esp = "試合終了時に「ESP」をオフにしてください",
-        noclip = "注意：有効な状態でアイテムを拾うと、元の位置に戻ったときに虚空に落ちます！",
-        flytxt = "飛行（Fly）スクリプトが必要ですか？",
-        ScriptLoaded = "スクリプトがロードされました",
-        AllScriptsLoaded = "すべてのスクリプトがロードされました",
-        NewVersion = "新バージョンV11",
-        AdvancedFeatures = "高度なカウンターと言語検出機能が追加されました。",
+        esp = "試合終了後に「ESP」をオフにしてください",
+        noclip = "注意：有効にしてアイテムを拾うと、元の位置に戻ったときに虚空に落ちます！",
+        flytxt = "飛行スクリプト（Fly）が必要ですか？",
+        ScriptLoaded = "スクリプトが読み込まれました",
+        AllScriptsLoaded = "すべてのスクリプトが読み込まれました",
+        NewVersion = "新バージョン V12",
+        AdvancedFeatures = "アイテムのアップグレード機構を刷新し、チャットコマンドを追加",
         newUp = "新しいアップデート！🎉",
         hora = "時間",
-        by = "作成者：",
+        by = "作成者",
         by2 = "by",
         prefix = "プレフィックス",
         cmds = "コマンド",
-        error = "エラーが発生する可能性があります"
+        error = "エラーが発生する可能性があります",
+        Dest = "トラップを自動的に破壊する"
     },
-    ru = { -- Russo (ru)
+    ru = { -- Русский (ru)
         credito = "Сделано бразильцем",
         credito2 = "Кредиты",
         speed = "введите число",
         esp = "отключите ''ESP'' по окончании матча",
-        noclip = "Будьте осторожны, если вы активируете и подберете предмет, вы упадете в пустоту при возвращении в исходное положение!",
-        flytxt = "Вам нужен скрипт полёта (Fly)?",
+        noclip = "Будьте осторожны: при активации и подборе предмета вы упадете в пустоту при возвращении!",
+        flytxt = "Хотите скрипт полета (Fly)?",
         ScriptLoaded = "Скрипт загружен",
         AllScriptsLoaded = "Все скрипты загружены",
-        NewVersion = "Новая версия V11",
-        AdvancedFeatures = "Добавлен продвинутый счётчик и детектор языка.",
+        NewVersion = "Новая версия V12",
+        AdvancedFeatures = "Система улучшения предметов переработана, добавлены новые команды в чат",
         newUp = "новое обновление! 🎉",
         hora = "время",
         by = "Сделано",
         by2 = "От",
         prefix = "префикс",
         cmds = "команды",
-        error = "возможны ошибки"
+        error = "возможны ошибки",
+        Dest = "Авто-уничтожение ловушек"
+    },
+    ar = { -- Árabe (ar)
+        credito = "صنعه برازيلي",
+        credito2 = "الاعتمادات",
+        speed = "أدخل الرقم",
+        esp = "قم بإيقاف تشغيل 'ESP' عند انتهاء المباراة",
+        noclip = "احذر، عند التفعيل، إذا التقطت عنصراً ستسقط في الفراغ عند العودة إلى موقعك الأصلي!",
+        flytxt = "هل تريد سكربت طيران (Fly)؟",
+        ScriptLoaded = "تم تحميل السكربت",
+        AllScriptsLoaded = "تم تحميل جميع السكربتات",
+        NewVersion = "الإصدار الجديد V12",
+        AdvancedFeatures = "إعادة تصميم نظام ترقية العناصر، تمت إضافة أوامر جديدة للدردشة",
+        newUp = "تحديث جديد! 🎉",
+        hora = "الوقت",
+        by = "صنع بواسطة",
+        by2 = "بواسطة",
+        prefix = "بادئة",
+        cmds = "الأوامر",
+        error = "من المحتمل وجود أخطاء",
+        Dest = "تدمير الفخاخ تلقائيًا"
     }
 }
+
 
 local __global = getfenv and getfenv(0) or _G
 local country = game:GetService("LocalizationService").RobloxLocaleId
 local Initials = country:sub(1,2)
 local Language = txt[Initials] or txt.en
-delayTime = 1.5
+local delayTime = 0.3
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 --// Créditos //
@@ -703,15 +735,14 @@ warn("——————————————————")
 coroutine.wrap(function()
     function SAD(object, wk)
         if object == "all" then
-            local b = wk:getDescendants()
+            local b = wk:GetDescendants()
             for i = 1, #b do
                 b[i]:Destroy()
             end
         else
-            local a = wk:getDescendants()
+            local a = wk:GetDescendants()
             for i = 1, #a do
                 if a[i].Name == object then
-                    a[i].Parent.CanCollide = false
                     a[i]:Destroy()
                 end
             end
@@ -739,12 +770,13 @@ up(5)
 coroutine.wrap(function()
     chat_Message("————".. Language.cmds .." [BETA 3.1]————", "xrawnder", "Gotham")
     chat_Message("• fly", "xrawnder", "Gotham")
-    chat_Message("• noclip or np", "xrawnder", "Gotham")
+    chat_Message("• noclip / np", "xrawnder", "Gotham")
     chat_Message("• esp", "xrawnder", "Gotham")
-    chat_Message("• godmode or gm", "xrawnder", "Gotham")
+    chat_Message("• godmode / gm", "xrawnder", "Gotham")
     chat_Message("• ws [".. Language.speed .."]", "xrawnder", "Gotham")
     chat_Message("• addprefix", "xrawnder", "Gotham")
-    chat_Message("• delay or d", "xrawnder", "Gotham")
+    chat_Message("• delay / d", "xrawnder", "Gotham")
+    chat_Message("• selfdestructtraps / sdt [".. Language.Dest .."]", "xrawnder", "Gotham")
     chat_Message("——————".. Language.prefix .." [BETA 3.1]——————", "xrawnder", "Gotham")
     
     for _, v in ipairs(prefixes) do
@@ -852,6 +884,15 @@ coroutine.wrap(function()
         pulse1 = false
     end)
     
+    _G.Traps = false
+    Add_cmds_Chat("selfdestructtraps", function()
+        _G.Traps = not _G.Traps
+    end)
+    
+    Add_cmds_Chat("sdt", function()
+        _G.Traps = not _G.Traps
+    end)
+    
     Add_cmds_ChatSearch("ws", function(player, spe)
         local speed = tonumber(spe)
         if speed then
@@ -861,7 +902,6 @@ coroutine.wrap(function()
             chat_Message("Valor inválido! Use um número, tipo: ;ws 16", colors.red, "Gotham")
         end
     end)
-    
     
     Add_cmds_ChatSearch("delay", function(_, spe)
         local num = tonumber(spe)
@@ -979,6 +1019,78 @@ end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
+task.spawn(function()
+    local placeId = game.PlaceId
+    local doors = {}
+    local CTS
+    
+    local function HCWCN(LM, requiredClassNames)
+    	local found = {}
+    	for _, className in ipairs(requiredClassNames) do
+    		found[className] = false
+    	end
+    
+    	for _, descendant in ipairs(LM:GetDescendants()) do
+    		if found[descendant.ClassName] == false then
+    			found[descendant.ClassName] = true
+    		end
+    	end
+    
+    	for _, className in ipairs(requiredClassNames) do
+    		if not found[className] then
+    			return false
+    		end
+    	end
+    
+    	return true
+    end
+    
+    if placeId == 4623386862 then
+    	CTS = { "Sound", "ClickDetector", "BoolValue", "Script" }
+    elseif placeId == 5661005779 or placeId == 5247067896 then
+    	CTS = { "RemoteEvent", "WeldConstraint", "ClickDetector" }
+    end
+    
+    if CTS then
+    	for _, v in ipairs(workspace:GetDescendants()) do
+    		if v:IsA("Model") or v:IsA("Part") then
+    			if HCWCN(v, CTS) then
+    				table.insert(doors, v)
+    			end
+    		end
+    	end
+    end
+    
+    for _, door in ipairs(doors) do
+        for _, v in ipairs(door:GetDescendants()) do
+            if v:IsA("ClickDetector") then
+            	v.MaxActivationDistance = 8999999488
+            end
+        end
+    end
+end)
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local wk = game:GetService("Workspace")
+function SAD(object, w1k)
+    if object == "all" then
+        local b = w1k:GetDescendants()
+        for i = 1, #b do
+            b[i]:Destroy()
+        end
+    else
+        local a = w1k:GetDescendants()
+        for i = 1, #a do
+            if a[i].Name == object then
+                a[i]:Destroy()
+            end
+        end
+    end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
 function random(min, max)
     if min and max then
         return math.random(min, max)
@@ -1067,6 +1179,68 @@ end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
+local function getFullPath(obj)
+	local path = obj.Name
+	local parent = obj.Parent
+	while parent and parent ~= game do
+		path = parent.Name .. "." .. path
+		parent = parent.Parent
+	end
+	return "workspace." .. path
+end
+
+local function isCharacterLike(obj)
+	local hasHumanoid = false
+	local hasRootPart = false
+
+	for _, child in ipairs(obj:GetDescendants()) do
+		if child:IsA("Humanoid") then
+			hasHumanoid = true
+		elseif child.Name == "HumanoidRootPart" and child:IsA("BasePart") then
+			hasRootPart = true
+		end
+		if hasHumanoid and hasRootPart then
+			return true
+		end
+	end
+
+	return false
+end
+
+local function findAllSafeTraps()
+	local traps = {}
+	for _, obj in ipairs(workspace:GetDescendants()) do
+		if string.lower(obj.Name):find("trap") and not isCharacterLike(obj) then
+			table.insert(traps, obj)
+		end
+	end
+	return traps
+end
+
+function SAD2(objectName, parentObj)
+	local descendants = parentObj:GetDescendants()
+	for _, d in ipairs(descendants) do
+		if objectName == "all" or d.ClassName == objectName then
+			d:Destroy()
+		end
+	end
+end
+
+local function DestroyTraps()
+	local traps = findAllSafeTraps()
+	if #traps == 0 then
+		return
+	end
+
+	for _, trapObj in ipairs(traps) do
+		pcall(function()
+			SAD2("TouchTransmitter", trapObj)
+		end)
+	end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
 --// Gui do Piggy //
 local U_i = Instance.new("UICorner")
 local U_i_2 = Instance.new("UICorner")
@@ -1110,127 +1284,176 @@ end)()
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 coroutine.wrap(function()
+    local __global = getfenv and getfenv(0) or _G
+    local player = game:GetService("Players").LocalPlayer
+    local label = player:WaitForChild("PlayerGui"):WaitForChild("MainMenu"):WaitForChild("Timer")
+    local RunService = game:GetService("RunService")
+    
+    local lastText = label.Text
+    local lastChange = tick()
+    __global.Optimization = true
+    
+    RunService.Heartbeat:Connect(function()
+        local currentText = label.Text
+
+        if currentText ~= lastText then
+            if currentText > lastText then
+                __global.Optimization = false
+            else
+                __global.Optimization = true
+            end
+            lastText = currentText
+            lastChange = tick()
+        else
+            if tick() - lastChange >= 2.5 then
+                __global.Optimization = false
+            else
+                __global.Optimization = true
+            end
+        end
+    end)
+end)()
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local itemFrames = {}
+coroutine.wrap(function()
     while true do
-        pasta = IsGame()
+        local pasta = IsGame()
         if pasta then
             task.wait()
-            local items = {}
-            local itemframes = ScrollingFrame:GetChildren()
-            
-            for i = 1, #itemframes do
-                if itemframes[i].ClassName == "TextButton" then
-                    itemframes[i]:Destroy()
+
+            for itemName, itemFrame in pairs(itemFrames) do
+                if not pasta:FindFirstChild(itemName) then
+                    itemFrame:Destroy()
+                    itemFrames[itemName] = nil
                 end
             end
-            
+
+            local items = {}
             for _, v in ipairs(pasta:GetDescendants()) do
-                if v.Name == "ItemPickupScript" or
-                   v.Name == "NewItemPickupScript" or
-                   (v.Name == "Script" and v.Parent:FindFirstChild("ClickDetector")) then
+                if (v.Name == "ItemPickupScript" or v.Name == "NewItemPickupScript" or v.Name == "Script") and
+                   v.Parent and v.Parent:FindFirstChild("ClickDetector") then
                     table.insert(items, v.Parent)
                 end
             end
-
-            for i = 1, #items do
-                local object = items[i]
-
-                if not object:IsA("BasePart") and not object:IsA("Model") then
-                    continue
-                end
-
-                if object:IsA("BasePart") and (object.Transparency == 1 or not object:IsDescendantOf(workspace)) then
-                    continue
-                end
-                
-                local U_i = Instance.new("UICorner")
-                U_i.CornerRadius = UDim.new(0.15, 0)
-                U_i.Name = randomString()
-                
-                local ItemFrame = Instance.new("TextButton", ScrollingFrame)
-                ItemFrame.Name = randomString()
-                ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
-                ItemFrame.BackgroundTransparency = 1
-                ItemFrame.Size = UDim2.new(0, 100, 0, 100)
-                ItemFrame.Text = "★"
-                
-                local View = Instance.new("ViewportFrame", ItemFrame)
-                View.Name = randomString()
-                View.Size = UDim2.new(1, 0, 1, 0)
-                View.BackgroundTransparency = 0.9
-                View.BorderSizePixel = 0.3
-                U_i.Parent = View
-
-                local viewportclone
-
-                if object:IsA("BasePart") then
-                    viewportclone = object:Clone()
-                    viewportclone.Anchored = true
-                elseif object:IsA("Model") then
-                    viewportclone = object:Clone()
-                    for _, part in ipairs(viewportclone:GetDescendants()) do
-                        if part:IsA("BasePart") then
-                            part.Anchored = true
+            
+            if _G.Traps then
+                DestroyTraps()
+            end
+            
+            if Optimization == true then
+                for _, item in ipairs(items) do
+                    if not item:IsA("BasePart") and not item:IsA("Model") then continue end
+                    if item:IsA("BasePart") and (item.Transparency == 1 or not item:IsDescendantOf(workspace)) then continue end
+                    if itemFrames[item.Name] then continue end
+    
+                    local U_i = Instance.new("UICorner")
+                    U_i.CornerRadius = UDim.new(0.15, 0)
+    
+                    local ItemFrame = Instance.new("TextButton", ScrollingFrame)
+                    ItemFrame.Name = randomString()
+                    ItemFrame.BackgroundColor3 = Color3.new(0.10, 0, 0)
+                    ItemFrame.BackgroundTransparency = 1
+                    ItemFrame.Size = UDim2.new(0, 100, 0, 100)
+                    ItemFrame.Text = "★"
+                    U_i.Parent = ItemFrame
+    
+                    local View = Instance.new("ViewportFrame", ItemFrame)
+                    View.Name = randomString()
+                    View.Size = UDim2.new(1, 0, 1, 0)
+                    View.BackgroundTransparency = 0.9
+                    View.BorderSizePixel = 0.3
+                    U_i:Clone().Parent = View
+    
+                    local viewportclone
+                    if item:IsA("BasePart") then
+                        viewportclone = item:Clone()
+                        viewportclone.Anchored = true
+                    elseif item:IsA("Model") then
+                        viewportclone = item:Clone()
+                        for _, part in ipairs(viewportclone:GetDescendants()) do
+                            if part:IsA("BasePart") then
+                                part.Anchored = true
+                            end
                         end
                     end
-                end
-
-                if viewportclone then
-                    viewportclone.Name = randomString()
-                    viewportclone.Parent = View
-
-                    local cam = Instance.new("Camera")
-                    cam.CameraType = Enum.CameraType.Fixed
-                    cam.Parent = View
-
-                    local primary = viewportclone:IsA("Model") and viewportclone.PrimaryPart or viewportclone
-                    if not primary and viewportclone:IsA("Model") then
-                        viewportclone:MakeJoints()
-                        viewportclone.PrimaryPart = viewportclone:FindFirstChildWhichIsA("BasePart")
-                        primary = viewportclone.PrimaryPart
+    
+                    if viewportclone then
+                        viewportclone.Name = randomString()
+                        viewportclone.Parent = View
+    
+                        local cam = Instance.new("Camera")
+                        cam.CameraType = Enum.CameraType.Fixed
+                        cam.Parent = View
+    
+                        local primary = viewportclone:IsA("Model") and viewportclone.PrimaryPart or viewportclone
+                        if not primary and viewportclone:IsA("Model") then
+                            viewportclone.PrimaryPart = viewportclone:FindFirstChildWhichIsA("BasePart")
+                            primary = viewportclone.PrimaryPart
+                        end
+    
+                        if primary then
+                            local objectPosition = primary.Position
+                            local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
+                            cam.CFrame = CFrame.new(cameraPosition, objectPosition)
+                            View.CurrentCamera = cam
+                        end
+                    else
+                        ItemFrame:Destroy()
+                        continue
                     end
-
-                    if primary then
-                        local objectPosition = primary.Position
-                        local cameraPosition = objectPosition + Vector3.new(0, 3, 0)
-                        cam.CFrame = CFrame.new(cameraPosition, objectPosition)
-                        View.CurrentCamera = cam
+    
+                    for _, v in ipairs(pasta:GetDescendants()) do
+                        if (v.Name == "ItemPickupScript" or v.Name == "NewItemPickupScript" or v.Name == "Script") and
+                           v.Parent and v.Parent:FindFirstChild("ClickDetector") then
+                            v.Parent.ClickDetector.MaxActivationDistance = 8999999488
+                        end
                     end
-                else
-                    ItemFrame:Destroy()
-                    continue
-                end
-
-                ItemFrame.MouseButton1Down:Connect(function()
-                    if items[i]:FindFirstChild("ClickDetector") then
-                        local player = game:GetService("Players").LocalPlayer
-                        local char = player.Character or player.CharacterAdded:Wait()
-                        local root = char:WaitForChild("HumanoidRootPart")
-                        
-                        local cpos = root.CFrame
-                        local item = items[i]
-                        
-                        repeat
-                            pcall(function()
-                                for _ = 1, 2 do
-                                    MoveTo(item.CFrame)
-                                    fireclickdetector(item:FindFirstChild("ClickDetector"))
+    
+                    local itemNameValue = Instance.new("StringValue", ItemFrame)
+                    itemNameValue.Name = "ItemName"
+                    itemNameValue.Value = item.Name
+                    itemFrames[item.Name] = ItemFrame
+    
+                    ItemFrame.MouseButton1Down:Connect(function()
+                        if item:FindFirstChild("ClickDetector") then
+                            local player = game:GetService("Players").LocalPlayer
+                            local char = player.Character or player.CharacterAdded:Wait()
+                            local root = char:WaitForChild("HumanoidRootPart")
+                            local cpos = root.CFrame
+    
+                            repeat
+                                pcall(function()
+                                    for _ = 1, 2 do
+                                        MoveTo(item.CFrame)
+                                        fireclickdetector(item:FindFirstChild("ClickDetector"))
+                                    end
+                                end)
+                                task.wait()
+                            until not (item and item.Parent and item:IsDescendantOf(pasta))
+    
+                            task.wait(0.05)
+                            MoveTo(cpos)
+    
+                            task.spawn(function()
+                                local bolet = char:WaitForChild("Humanoid")
+                                if bolet then
+                                    bolet.Sit = true
+                                    task.wait()
+                                    bolet.Sit = false
                                 end
                             end)
-                            task.wait()
-                        until not (item and item.Parent and item:IsDescendantOf(pasta))
-                        
-                        task.wait(.05)
-                        MoveTo(cpos)
-                        task.spawn(function()
-                            local bolet = charr:WaitForChild("Humanoid")
-                            if bolet then
-                    		    bolet.Sit = true
-                        		task.wait()
-                        		bolet.Sit = false
-                    		end
-                		end)
+                        end
+                    end)
+                end
+            elseif Optimization == false then
+                for name, frame in pairs(itemFrames) do
+                    if frame and frame:IsA("TextButton") then
+                        frame:Destroy()
+                        itemFrames[name] = nil
                     end
-                end)
+                end
             end
         end
         task.wait(delayTime)
