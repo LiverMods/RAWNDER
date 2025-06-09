@@ -1247,7 +1247,7 @@ PiggyGui.Name = randomString()
 PiggyGui.ResetOnSpawn = false
 PiggyGui.DisplayOrder = 9e9
 PiggyGui.Enabled = true
-PiggyGui.Parent = game:GetService("CoreGui")
+PiggyGui.Parent = (game:GetService("CoreGui") or gethui())
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
@@ -1405,10 +1405,10 @@ coroutine.wrap(function()
         if pasta then
             task.wait()
 
-            for itemName, itemFrame in pairs(itemFrames) do
-                if not pasta:FindFirstChild(itemName) then
+            for item, itemFrame in pairs(itemFrames) do
+                if not item or not item:IsDescendantOf(pasta) then
                     itemFrame:Destroy()
-                    itemFrames[itemName] = nil
+                    itemFrames[item] = nil
                 end
             end
 
@@ -1428,8 +1428,8 @@ coroutine.wrap(function()
                 for _, item in ipairs(items) do
                     if not item:IsA("BasePart") and not item:IsA("Model") then continue end
                     if item:IsA("BasePart") and (item.Transparency == 1 or not item:IsDescendantOf(workspace)) then continue end
-                    if itemFrames[item.Name] then continue end
-    
+                    if itemFrames[item] then continue end
+                        
                     local U_i = Instance.new("UICorner")
                     U_i.CornerRadius = UDim.new(0.15, 0)
                     
@@ -1467,7 +1467,7 @@ coroutine.wrap(function()
                     UiGradient.Parent = UiStroke
                     
                     local UiPadding = Instance.new("UIPadding")
-                    UiPadding.PaddingBottom = UDim.new(0, 1) -- diz que tem erro aqui (debug disse)
+                    UiPadding.PaddingBottom = UDim.new(0, 1)
                     UiPadding.PaddingLeft = UDim.new(0, 1)
                     UiPadding.PaddingRight = UDim.new(0, 1)
                     UiPadding.PaddingTop = UDim.new(0, 1)
@@ -1522,7 +1522,7 @@ coroutine.wrap(function()
                     local itemNameValue = Instance.new("StringValue", ItemFrame)
                     itemNameValue.Name = "ItemName"
                     itemNameValue.Value = item.Name
-                    itemFrames[item.Name] = ItemFrame
+                    itemFrames[item] = ItemFrame
     
                     ItemFrame.MouseButton1Up:Connect(function()
                         if item:FindFirstChild("ClickDetector") then
@@ -1562,12 +1562,10 @@ coroutine.wrap(function()
                     end)
                 end
             elseif Optimization == false then
-                for name, frame in pairs(itemFrames) do
-                    if frame and frame:IsA("TextButton") then
-                        frame:Destroy()
-                        itemFrames[name] = nil
-                    end
+                for item, itemFrame in pairs(itemFrames) do
+                    itemFrame:Destroy()
                 end
+                table.clear(itemFrames) 
             end
         end
         task.wait(delayTime)
@@ -1675,7 +1673,6 @@ end)
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 task.spawn(function()
-    task.wait(2)
     coroutine.wrap(function()
         __global.gui = Instance.new("ScreenGui")
         gui.Name = randomString()
@@ -1709,9 +1706,7 @@ task.spawn(function()
             
             task.spawn(function()
                 local Sound = Instance.new("Sound", game:GetService("SoundService"))
-                Sound.SoundId = "rbxassetid://3011722164"
-                Sound.PlaybackSpeed = 1.2
-                Sound.Volume = 1
+                Sound.SoundId = "rbxassetid://4601634016"
                 Sound:Play()
                 
                 booletan = not booletan
@@ -1738,6 +1733,7 @@ task.spawn(function()
         corner.Name = randomString()
         
         coroutine.wrap(function()
+            task.wait(2)
             while task.wait() do
                 gui.RobloxLocked = true
                 gui.ResetOnSpawn = false
