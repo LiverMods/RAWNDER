@@ -20,10 +20,12 @@ local tweeninfo = TweenInfo.new
 local input = cloneref(game:GetService("UserInputService"))
 local run = cloneref(game:GetService("RunService"))
 local players = cloneref(game:GetService("Players"))
+local HttpService = cloneref(game:service("HttpService"))
 local plr = players.LocalPlayer
 
 local Utility = {}
 local Objects = {}
+
 function Kavo:DraggingEnabled(frame, parent)
         
     parent = parent or frame
@@ -167,10 +169,10 @@ local Name = "KavoConfig.JSON"
 
 pcall(function()
     if not pcall(function() readfile(Name) end) then
-        writefile(Name, game:service("HttpService"):JSONEncode(SettingsT))
+        writefile(Name, HttpService:JSONEncode(SettingsT))
     end
     
-    Settings = game:service("HttpService"):JSONEncode(readfile(Name))
+    Settings = HttpService:JSONEncode(readfile(Name))
 end)
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
@@ -283,7 +285,7 @@ function Kavo.CreateLib(kavName, themeList)
     blurFrame.Size = UDim2.new(0, 376, 0, 289)
     blurFrame.ZIndex = 999
 
-    ScreenGui.Parent = CoreGui
+    ScreenGui.Parent = (game:GetService("CoreGui") or gethui())
     ScreenGui.Name = "arquiv"
     ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     ScreenGui.ResetOnSpawn = false
@@ -392,7 +394,7 @@ function Kavo.CreateLib(kavName, themeList)
     end)()
     
     function Kavo:IsFinalizing()
-        local kavo = CoreGui:FindFirstChild("arquiv")
+        local kavo = game:GetService("CoreGui"):FindFirstChild("arquiv")
         if kavo then
             pcall(function()
                 encryptNames(kavo)
@@ -739,7 +741,7 @@ function Kavo.CreateLib(kavName, themeList)
                 end 
 
                 updateSectionFrame()
-                UpdateSize()
+                                UpdateSize()
 
                 local ms = plr:GetMouse()
 
@@ -1416,10 +1418,10 @@ function Kavo.CreateLib(kavName, themeList)
 
                                 updateSectionFrame()
                 UpdateSize()
-                local mouse = .LocalPlayer:GetMouse();
+                local mouse = game:GetService("Players").LocalPlayer:GetMouse();
 
                 local ms = plr:GetMouse()
-                local uis = cloneref(game:GetService("UserInputService"))
+                local uis = input
                 local btn = sliderElement
                 local infBtn = viewInfo
                 local hovering = false
@@ -1682,7 +1684,7 @@ function Kavo.CreateLib(kavName, themeList)
                 UpdateSize()
 
                 local ms = plr:GetMouse()
-                local uis = cloneref(game:GetService("UserInputService"))
+                local uis = input
                 local infBtn = viewInfo
 
                 local moreInfo = Instance.new("TextLabel")
@@ -1986,7 +1988,7 @@ function Kavo.CreateLib(kavName, themeList)
                 local togName_2 = Instance.new("TextLabel")
 
                 local ms = plr:GetMouse()
-                local uis = cloneref(game:GetService("UserInputService"))
+                local uis = input
                 local infBtn = viewInfo
 
                 local moreInfo = Instance.new("TextLabel")
@@ -2007,7 +2009,7 @@ function Kavo.CreateLib(kavName, themeList)
                 keybindElement.MouseButton1Click:connect(function(e) 
                     if not focusing then
                         togName_2.Text = ". . ."
-                        local a, b = uis.InputBegan:wait();
+                        local a, b = input.InputBegan:wait();
                         if a.KeyCode.Name ~= "Unknown" then
                             togName_2.Text = a.KeyCode.Name
                             oldKey = a.KeyCode.Name;
@@ -2036,7 +2038,7 @@ function Kavo.CreateLib(kavName, themeList)
                     end
                 end)
         
-                uis.InputBegan:connect(function(current, ok) 
+                input.InputBegan:connect(function(current, ok) 
                     if not ok then 
                         if current.KeyCode.Name == oldKey then 
                             callback()
@@ -2545,9 +2547,10 @@ function Kavo.CreateLib(kavName, themeList)
                 end)()
                 updateSectionFrame()
                 UpdateSize()
+                local plr = plr
                 local mouse = plr:GetMouse()
-                local uis = cloneref(game:GetService('UserInputService'))
-                local rs = cloneref(game:GetService("RunService"))
+                local uis = input
+                local rs = run
                 local colorpicker = false
                 local darknesss = false
                 local dark = false
