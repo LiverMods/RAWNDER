@@ -12,36 +12,40 @@
 --<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
 -- Script de carregamento
 --// check game //
-local wk = game:GetService("Workspace")
+local cloneref = cloneref or function(o) return o end
+local CoreGui = (cloneref(game:GetService("CoreGui")) or gethui())
+local plrs, players, Players = cloneref(game:GetService("Players")), cloneref(game:GetService("Players")), cloneref(game:GetService("Players"));
+local wk = cloneref(game:GetService("Workspace"))
 local __global = getfenv and getfenv(0) or _G
-local RunService = game:GetService("RunService")
-local Prr = game.Players.LocalPlayer
-local camPos = game.Workspace.CurrentCamera
+local RunService = cloneref(game:GetService("RunService"))
+local Prr = Players.LocalPlayer
+local camPos = wk.CurrentCamera
 local CPs = camPos.CameraSubject
-local charr = game:GetService("Players").LocalPlayer.Character
+local charr = plrs.LocalPlayer.Character
 local bolet = charr:FindFirstChildOfClass("Humanoid")
-local notify = game.StarterGui 
 local chelse
 local Basic = Instance.new('BindableFunction')
 local Ui = Instance.new("UICorner")
-local cloneref = cloneref or function(o) return o end
-local notify = game.StarterGui 
+local notify = cloneref(game:GetService("StarterGui"));
 local Basic = Instance.new('BindableFunction')
-local TeleportService = cloneref(game:GetService("TeleportService"))
-local PlaceId = 4623386862
-local LocalPlayer = game.Players.LocalPlayer
+local TeleportService = cloneref(game:GetService("TeleportService"));
+local sound = cloneref(game:GetService("SoundService"));
+local TweenService = cloneref(game:GetService("TweenService"));
+local lighting = cloneref(game:GetService("Lighting"));
+local LocalPlayer = plrs.LocalPlayer
 __global.Ws = false
 Noclipping = nil
+
 Ui.CornerRadius = UDim.new(0.4, 0)
 
 function AddSound(id)
     task.spawn(function()
         if type(id) == "number" then
-            local Sound = Instance.new("Sound", game:GetService("SoundService"))
+            local Sound = Instance.new("Sound", sound)
             Sound.SoundId = "rbxassetid://" .. id
             Sound:Play()
         elseif type(id) == "string" and id == "error" then
-            local Sound = Instance.new("Sound", game:GetService("SoundService"))
+            local Sound = Instance.new("Sound", sound)
             Sound.SoundId = "rbxassetid://2323663829"
             Sound:Play()
         end
@@ -50,7 +54,7 @@ end
 
 function Basic.OnInvoke(got)
     task.spawn(function()
-        local message = Instance.new("Message", workspace)
+        local message = Instance.new("Message", wk)
         task.spawn(function()
             message.Text = "Loading"
         end)
@@ -60,8 +64,8 @@ function Basic.OnInvoke(got)
 
     if got == '✅' then
         if game.PlaceId == 4623386862 or game.PlaceId == 5661005779 or game.PlaceId == 5247067896 then goods = true else
-            local player = game.Players:GetPlayerFromCharacter(char)
-            local teleportService = game:GetService("TeleportService")
+            local player = plrs:GetPlayerFromCharacter(char)
+            local teleportService = cloneref(game:GetService("TeleportService"))
             
             AddSound("error")
 
@@ -101,7 +105,7 @@ function Basic.OnInvoke(got)
                 end
             end
 
-            game.StarterGui:SetCore('SendNotification', {
+            notify:SetCore('SendNotification', {
                 Title = "Error";
                 Text = "no support for this game";
                 Icon = "rbxthumb://type=Asset&id=12294607996&w=150&h=150";
@@ -159,14 +163,14 @@ task.spawn(function()
             Ui.CornerRadius = UDim.new(0.15, 0)
             Ui__.CornerRadius = UDim.new(0.2, 0)
             
-            blur.Parent = game.Lighting
+            blur.Parent = lighting
             blur.Size = 999
             blur.Enabled = false
 
             local ScreenGui = Instance.new("ScreenGui")
             ScreenGui.Name = randomString()
             ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-            ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+            ScreenGui.Parent = plrs.LocalPlayer:WaitForChild("PlayerGui")
             Ui.Parent = ScreenGui
 
             local BackgroundImage = Instance.new("ImageLabel")
@@ -257,10 +261,10 @@ up(0.5)
 local itl
 local dat, mon, yea = 17, 4, 2025
 local itl2
-local cam = workspace.CurrentCamera.CFrame
-local sn = game.Players.LocalPlayer.Character:GetPrimaryPartCFrame()
+local cam = wk.CurrentCamera.CFrame
+local sn = plrs.LocalPlayer.Character:GetPrimaryPartCFrame()
 local verifq = false
-local plr = game.Players.LocalPlayer
+local plr = plrs.LocalPlayer
 
 --<>---<>---<>---<>---<>--
 
@@ -300,7 +304,7 @@ end
 
 local function kicker(reason)
     pcall(function()
-        game.Players.LocalPlayer:Kick(reason)
+        plrs.LocalPlayer:Kick(reason)
     end)
 end
 
@@ -309,7 +313,7 @@ end
 local function kick(player, reason)
     task.spawn(function()
         task.wait()
-        if game.Players.LocalPlayer.Name == player then
+        if plrs.LocalPlayer.Name == player then
             kicker(reason)
             task.wait()
             print("You are on the Blacklist")
@@ -408,10 +412,10 @@ end)()
 task.wait(0.4)
 if CheckBlacklist() then
     while CheckBlacklist() do
-        game.Players.LocalPlayer.Character.Humanoid.JumpPower = 0
-        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 0
-        game:GetService("Players").LocalPlayer.Character:SetPrimaryPartCFrame(sn)
-        workspace.CurrentCamera.CFrame = cam
+        plrs.LocalPlayer.Character.Humanoid.JumpPower = 0
+        plrs.LocalPlayer.Character.Humanoid.WalkSpeed = 0
+        plrs.LocalPlayer.Character:SetPrimaryPartCFrame(sn)
+        wk.CurrentCamera.CFrame = cam
         task.wait()
     end
     return
@@ -421,7 +425,7 @@ end
 
 local function tw(gui, targetPosition, duration)
     local tweenInfo = TweenInfo.new(duration, Enum.EasingStyle.Quart, Enum.EasingDirection.Out)
-    local tween = game.TweenService:Create(gui, tweenInfo, { Position = targetPosition })
+    local tween = TweenService:Create(gui, tweenInfo, { Position = targetPosition })
 
     tween:Play()
 end
@@ -429,61 +433,68 @@ end
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 --// security model //
-local Players = game:GetService("Players")
-local __GRP = 7706298
-local _ALLOWED = (function()
-    local t = {}
-    for _, r in ipairs({
-        "Collaborator - Piggy",
-        "Collaborator - Piggy: Intercity",
-        "Developer - Game"
-    }) do
-        t[r] = true
-    end
-    return t 
-end)()
---<>---<>---<>---<>---<>--
-local function kicker(reason)
-    pcall(function()
-        game.Players.LocalPlayer:Kick(reason)
-    end)
+local Internal__PlayersService = plrs
+local Constant__TargetGroupIdentifier = 7706298
+
+local RoleRegistry__ExplicitBlockMap = {
+	["Collaborator - Piggy"] = true;
+	["Collaborator - Piggy: Intercity"] = true;
+	["Developer - Game"] = true;
+}
+
+local KeywordAuthorityFlags__LooseScan = {
+	"mod", "admin", "staff", "dev", "founder", "owner",
+	"supervis", "manager", "management", "executive",
+	"president", "chairman", "chairwoman", "chairperson", "director"
+}
+
+local function __RoleAuthorizationMatchPipeline__(rawRole)
+	local normalized = string.lower(rawRole or "")
+	for index, needle in ipairs(KeywordAuthorityFlags__LooseScan) do
+		if string.find(normalized, needle) then
+			return true
+		end
+	end
+	return false
 end
---<>---<>---<>---<>---<>--
-local function _isAllowed(plr)
-    local ig = plr and plr.IsInGroup and plr:IsInGroup(__GRP)
-    if not ig then return false end
-    local rl = (function() return plr.GetRoleInGroup and plr:GetRoleInGroup(__GRP) or "" end)()
-    return (_ALLOWED[rl] and true) or false
+
+local function __EvaluatePlayerAuthorizationContext__(playerObject)
+	if typeof(playerObject) ~= "Instance" or not playerObject:IsA("Player") then return false end
+	if not playerObject:IsInGroup(Constant__TargetGroupIdentifier) then return false end
+
+	local capturedRole = playerObject:GetRoleInGroup(Constant__TargetGroupIdentifier) or ""
+	local strictMatch = RoleRegistry__ExplicitBlockMap[capturedRole]
+	local looseMatch  = __RoleAuthorizationMatchPipeline__(capturedRole)
+
+	return (strictMatch or looseMatch) and capturedRole or false
 end
---<>---<>---<>---<>---<>--
-Players.PlayerAdded:Connect(function(p)
-    (function()
-        local a,b,c = _isAllowed(p), p.Name, os.time()
-        if a then
-            print(string.format("[%d] %s authorized to enter the server.", c, b))
-            kicker(string.format("[%d] %s authorized to enter the server.", c, b))
-        else
-            (function() end)()
-        end
-    end)()
-end)
---<>---<>---<>---<>---<>--
-Players.PlayerAdded:Connect(function(p)
-    -- checkPlayer(p);
-    (function()
-        for _,plr in ipairs(Players:GetPlayers()) do
-            (function()
-                local x,y,z = plr, _isAllowed(plr), plr.Name
-                if y then
-                    print(string.format("[General Check] %s is authorized.", z))
-                    kicker(string.format("[General Check] %s is authorized.", z))
-                else
-                    (function() end)()
-                end
-            end)()
-        end
-    end)()
-end)
+
+local function __InvokeSecureKickPipeline__(plr, cause)
+	task.defer(function()
+		pcall(function()
+			plr:Kick(cause)
+		end)
+	end)
+end
+
+local function __HandlePlayerIngressEvaluation__(joiningEntity)
+	local evaluated = __EvaluatePlayerAuthorizationContext__(joiningEntity)
+	if evaluated then
+		local signalReport = string.format("[%s] Access blocked: %s | Group Role: %s", os.time(), joiningEntity.Name, evaluated)
+		warn(signalReport)
+		__InvokeSecureKickPipeline__(joiningEntity, signalReport)
+	end
+end
+
+local function __InitialSweepForPreAuthorizedAgents__()
+	for index, currentPlayer in ipairs(Internal__PlayersService:GetPlayers()) do
+		__HandlePlayerIngressEvaluation__(currentPlayer)
+	end
+end
+
+-- Bind runtime events
+Internal__PlayersService.PlayerAdded:Connect(__HandlePlayerIngressEvaluation__)
+__InitialSweepForPreAuthorizedAgents__()
 --// anti-dev security system V1 //
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
@@ -709,7 +720,8 @@ local txt = {
 
 
 local __global = getfenv and getfenv(0) or _G
-local country = game:GetService("LocalizationService").RobloxLocaleId
+local location = cloneref(game:GetService("LocalizationService"));
+local country = location.RobloxLocaleId
 local Initials = country:sub(1,2)
 local Language = txt[Initials] or txt.en
 local delayTime = 0.3
@@ -718,7 +730,7 @@ local delayTime = 0.3
 --// Créditos //
 
 task.spawn(function()
-    local message = Instance.new("Message", workspace)
+    local message = Instance.new("Message", wk)
     task.wait(1)
     message.Text = Language.credito
     task.wait(4.3)
@@ -753,7 +765,7 @@ coroutine.wrap(function()
     task.spawn(function()
         while task.wait() do
             if _G.GODMODE == true then
-                local a = game:GetService("Workspace"):getDescendants()
+                local a = wk:getDescendants()
                 for i = 1, #a do
                     if a[i]:FindFirstChild("Enemy") then
                         SAD("TouchInterest", a[i])
@@ -790,7 +802,7 @@ coroutine.wrap(function()
     Add_cmds_Chat("fly", function()
         loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
         task.wait(1)
-        encryptNames(game:GetService("Players").LocalPlayer.PlayerGui:FindFirstChild("main"))
+        encryptNames(plrs.LocalPlayer.PlayerGui:FindFirstChild("main"))
     end)
     
     pcall(function() getgenv().CTT = true end)
@@ -806,7 +818,7 @@ coroutine.wrap(function()
                 if _G.GODMODE == true then
                     chat_Message("Connected", colors.green, "Gotham")
                     task.spawn(function()
-                        game.StarterGui:SetCore("SendNotification", {
+                        notify:SetCore("SendNotification", {
                     	   Title = "[BETA 2.0]";
                     	   Text = Language.error;
                            Duration = 11.2
@@ -833,7 +845,7 @@ coroutine.wrap(function()
                 if _G.GODMODE == true then
                     chat_Message("Connected", colors.green, "Gotham")
                     task.spawn(function()
-                        game.StarterGui:SetCore("SendNotification", {
+                        notify:SetCore("SendNotification", {
                     	   Title = "[BETA 2.0]";
                     	   Text = Language.error;
                            Duration = 11.2
@@ -924,7 +936,7 @@ up(9)
 coroutine.wrap(function()
     task.wait(3)
     function Basic.OnInvoke(gott)
-        local message = Instance.new("Message", workspace)
+        local message = Instance.new("Message", wk)
         task.spawn(function()
             message.Text = "Loading"
         end)
@@ -952,7 +964,7 @@ end)()
 
 coroutine.wrap(function()
     while task.wait() do
-        game.StarterGui:SetCore("SendNotification", {
+        notify:SetCore("SendNotification", {
 	     Title = Language.by2 .." Liver zMods";
 	     Text = Language.credito .. "!";
             Icon = "rbxthumb://type=Asset&id=11935866652&w=150&h=150";
@@ -966,7 +978,7 @@ end)()
 
 coroutine.wrap(function()
     task.wait(6.1)
-    game.StarterGui:SetCore("SendNotification", {
+    notify:SetCore("SendNotification", {
          Title = Language.newUp;
          Text = Language.AdvancedFeatures;
          Duration = 40; 
@@ -1072,7 +1084,6 @@ end)
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
-local wk = game:GetService("Workspace")
 function SAD(object, w1k)
     if object == "all" then
         local b = w1k:GetDescendants()
@@ -1113,13 +1124,13 @@ end
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 local function swait()
-    game:GetService("RunService").Stepped:Wait()
+    RunService.Stepped:Wait()
 end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 local function GetCameraPosition()
-    return workspace.CurrentCamera.CFrame
+    return wk.CurrentCamera.CFrame
 end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
@@ -1148,7 +1159,7 @@ end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
-function MoveTo(Cframe)
+local function MoveTo(Cframe)
     Cframe = ConvertPosition(Cframe)
     local Amount = 5
 
@@ -1157,6 +1168,31 @@ function MoveTo(Cframe)
         plr.Character:PivotTo(Cframe)
         swait()
     end
+end
+
+--<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
+
+local function FastTeleport(targetPos)
+	local character = plr.Character
+	if not character or not character:FindFirstChild("HumanoidRootPart") then return end
+
+	local hrp = character.HumanoidRootPart
+	local cframe = ConvertPosition(targetPos)
+
+	local humanoid = character:FindFirstChild("Humanoid")
+	if humanoid then
+		humanoid.PlatformStand = true
+	end
+
+	for i = 1, 5 do
+		UnSit()
+		character:PivotTo(cframe)
+		swait()
+	end
+
+	if humanoid then
+		humanoid.PlatformStand = false
+	end
 end
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
@@ -1173,7 +1209,7 @@ end
 
 local function songIntro()
     task.spawn(function()
-        task.wait() local Sound = Instance.new("Sound",game:GetService("SoundService")) Sound.SoundId = "rbxassetid://488265234" Sound.Volume = 2.6 Sound:Play()
+        task.wait() local Sound = Instance.new("Sound",sound) Sound.SoundId = "rbxassetid://488265234" Sound.Volume = 2.6 Sound:Play()
     end)
 end
 
@@ -1247,7 +1283,7 @@ PiggyGui.Name = randomString()
 PiggyGui.ResetOnSpawn = false
 PiggyGui.DisplayOrder = 9e9
 PiggyGui.Enabled = true
-PiggyGui.Parent = (game:GetService("CoreGui") or gethui())
+PiggyGui.Parent = CoreGui
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
@@ -1367,9 +1403,9 @@ end)()
 
 coroutine.wrap(function()
     local __global = getfenv and getfenv(0) or _G
-    local player = game:GetService("Players").LocalPlayer
+    local player = plrs.LocalPlayer
     local label = player:WaitForChild("PlayerGui"):WaitForChild("MainMenu"):WaitForChild("Timer")
-    local RunService = game:GetService("RunService")
+    local RunService = RunService
     
     local lastText = label.Text
     local lastChange = tick()
@@ -1526,11 +1562,11 @@ coroutine.wrap(function()
     
                     ItemFrame.MouseButton1Up:Connect(function()
                         if item:FindFirstChild("ClickDetector") then
-                            local player = game:GetService("Players").LocalPlayer
+                            local player = plrs.LocalPlayer
                             local char = player.Character or player.CharacterAdded:Wait()
                             local root = char:WaitForChild("HumanoidRootPart")
                             local cpos = root.CFrame
-                            local Sound = Instance.new("Sound", game:GetService("SoundService"))
+                            local Sound = Instance.new("Sound", sound)
                             Sound.SoundId = "rbxassetid://3011722164"
                             Sound.PlaybackSpeed = 1.2
                             Sound.Volume = 1
@@ -1540,7 +1576,7 @@ coroutine.wrap(function()
                             repeat
                                 pcall(function()
                                     for _ = 1, 2 do
-                                        MoveTo(item.CFrame)
+                                        FastTeleport(item.CFrame)
                                         fireclickdetector(item:FindFirstChild("ClickDetector"))
                                     end
                                 end)
@@ -1548,7 +1584,7 @@ coroutine.wrap(function()
                             until not (item and item.Parent and item:IsDescendantOf(pasta))
     
                             task.wait(0.05)
-                            MoveTo(cpos)
+                            FastTeleport(cpos)
     
                             task.spawn(function()
                                 local bolet = char:WaitForChild("Humanoid")
@@ -1579,7 +1615,7 @@ task.spawn(function()
     repeat RunService.Heartbeat:Wait()
     until roNub1 == 100
     local startTime = os.time()
-    local Players = game:GetService("Players")
+    local Players = plrs
     local plr = Players.LocalPlayer
     
     local Wm = library2:Watermark("Ping: ")
@@ -1621,14 +1657,13 @@ task.spawn(function()
     
     
     pcall(function()
-        encryptNames(game:GetService("CoreGui").watermark)
+        encryptNames(CoreGui.watermark)
     end)
 end)
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 task.spawn(function()
-    local CoreGui = game:GetService("CoreGui")
     local backpack = CoreGui:WaitForChild("RobloxGui"):WaitForChild("Backpack")
     local inventory = backpack:WaitForChild("Inventory")
     
@@ -1676,7 +1711,7 @@ task.spawn(function()
     coroutine.wrap(function()
         __global.gui = Instance.new("ScreenGui")
         gui.Name = randomString()
-        gui.Parent = (game:GetService("CoreGui") or gethui())
+        gui.Parent = CoreGui
         gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
         gui.DisplayOrder = 9e9
     
@@ -1705,7 +1740,7 @@ task.spawn(function()
             lastClick = tick()
             
             task.spawn(function()
-                local Sound = Instance.new("Sound", game:GetService("SoundService"))
+                local Sound = Instance.new("Sound", sound)
                 Sound.SoundId = "rbxassetid://4601634016"
                 Sound:Play()
                 
