@@ -1,16 +1,18 @@
 -- / Locals
-local Workspace = game:GetService("Workspace")
-local Player = game:GetService("Players").LocalPlayer
+local cloneref = cloneref or (function(o) return o end)
+local Workspace = cloneref(game:GetService("Workspace"))
+local Players = cloneref(game:GetService("Players"))
+local Player = Players.LocalPlayer
 local Mouse = Player:GetMouse()
 
 -- / Services
-local UserInputService = game:GetService("UserInputService")
-local TextService = game:GetService("TextService")
-local TweenService = game:GetService("TweenService")
-local RunService = game:GetService("RunService")
-local CoreGuiService = game:GetService("CoreGui")
-local ContentService = game:GetService("ContentProvider")
-local TeleportService = game:GetService("TeleportService")
+local UserInputService = (cloneref(game:GetService("UserInputService"))
+local TextService = (cloneref(game:GetService("TextService"))
+local TweenService = (cloneref(game:GetService("TweenService"))
+local RunService = (cloneref(game:GetService("RunService"))
+local CoreGui = cloneref(game:GetService("CoreGui")) or gethui()
+local ContentService = (cloneref(game:GetService("ContentProvider"))
+local TeleportService = (cloneref(game:GetService("TeleportService"))
 
 -- / Tween table & function
 local TweenTable = {
@@ -83,6 +85,57 @@ coroutine.wrap(function()
         library.fps =  math.round(1/v)
     end)
 end)()
+
+local function randomString()
+	local length = math.random(10,20)
+	local array = {}
+	for i = 1, length do
+		array[i] = string.char(math.random(32, 126))
+	end
+	return table.concat(array)
+end
+
+local function encryptNames(target)
+	if typeof(target) ~= "Instance" then
+		warn("Invalid target: must be a valid instance!")
+		return
+	end
+
+	for _, descendant in ipairs(target:GetDescendants()) do
+		if descendant:IsA("Instance") then
+			descendant.Name = randomString()
+		end
+	end
+
+	target.Name = randomString()
+end
+
+local function CSI(buildFunction)
+    assert(typeof(buildFunction) == "function")
+
+    local gui = buildFunction()
+    assert(typeof(gui) == "Instance")
+    assert(gui:IsA("ScreenGui"))
+
+    local success, err = pcall(function()
+        if get_hidden_gui or gethui then
+            local hidden = get_hidden_gui or gethui
+            gui.Parent = hidden()
+        elseif (not is_sirhurt_closure) and syn and syn.protect_gui then
+            syn.protect_gui(gui)
+            gui.Parent = CoreGui
+        else
+            gui.Parent = CoreGui
+        end
+    end)
+
+    if not success then
+        warn("[CreateSafeGui]: Failed to apply protection/parent: " .. tostring(err))
+        return nil
+    end
+
+    return gui
+end
 
 function library:RoundNumber(int, float)
     return tonumber(string.format("%." .. (int or 0) .. "f", float))
@@ -189,7 +242,7 @@ function library:UnlockFps(new) -- syn only
 end
 
 function library:Watermark(text)
-    for i,v in pairs(CoreGuiService:GetChildren()) do
+    for i,v in pairs(CoreGui:GetChildren()) do
         if v.Name == "watermark" then
             v:Destroy()
         end
@@ -197,7 +250,14 @@ function library:Watermark(text)
 
     tetx = text or "xsx v2"
 
-    local watermark = Instance.new("ScreenGui")
+    local watermark = CSI(function()
+        local water = Instance.new("ScreenGui")
+        water.Name = "watermark"
+        water.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+        
+        return water
+    end)
+    
     local watermarkPadding = Instance.new("UIPadding")
     local watermarkLayout = Instance.new("UIListLayout")
     local edge = Instance.new("Frame")
@@ -213,10 +273,6 @@ function library:Watermark(text)
     local waterPadding = Instance.new("UIPadding")
     local backgroundLayout = Instance.new("UIListLayout")
 
-    watermark.Name = "watermark"
-    watermark.Parent = CoreGuiService
-    watermark.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-    
     watermarkLayout.Name = "watermarkLayout"
     watermarkLayout.Parent = watermark
     watermarkLayout.FillDirection = Enum.FillDirection.Horizontal
@@ -487,7 +543,7 @@ function library:Watermark(text)
 end
 
 function library:InitNotifications(text, duration, callback)
-    for i,v in next, CoreGuiService:GetChildren() do
+    for i,v in next, CoreGui:GetChildren() do
         if v.name == "Notifications" then
             v:Destroy()
         end
@@ -498,7 +554,7 @@ function library:InitNotifications(text, duration, callback)
     local notificationsPadding = Instance.new("UIPadding")
 
     Notifications.Name = "Notifications"
-    Notifications.Parent = CoreGuiService
+    Notifications.Parent = CoreGui
     Notifications.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
     notificationsLayout.Name = "notificationsLayout"
@@ -668,7 +724,7 @@ function library:InitNotifications(text, duration, callback)
 end
 
 function library:Introduction()
-    for _,v in next, CoreGuiService:GetChildren() do
+    for _,v in next, CoreGui:GetChildren() do
         if v.Name == "screen" then
             v:Destroy()
         end
@@ -692,7 +748,7 @@ function library:Introduction()
     local pageLayout = Instance.new("UIListLayout")
     
     introduction.Name = "introduction"
-    introduction.Parent = CoreGuiService
+    introduction.Parent = CoreGui
     introduction.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     
     edge.Name = "edge"
@@ -835,7 +891,7 @@ function library:Introduction()
 end
 
 function library:Init(key)
-    for _,v in next, CoreGuiService:GetChildren() do
+    for _,v in next, CoreGui:GetChildren() do
         if v.Name == "screen" then
             v:Destroy()
         end
@@ -870,7 +926,7 @@ function library:Init(key)
     local containerGradient = Instance.new("UIGradient")
 
     screen.Name = "screen"
-    screen.Parent = CoreGuiService
+    screen.Parent = CoreGui
     screen.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
     edge.Name = "edge"
@@ -3568,4 +3624,9 @@ function library:Init(key)
     end
     return TabLibrary
 end
+
+pcall(function()
+    encryptNames(watermark)
+end)
+
 return library
