@@ -12,8 +12,9 @@
 --<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
 -- Script de carregamento
 --// check game //
-local cloneref = cloneref or function(o) return o end
-local CoreGui = (cloneref(game:GetService("CoreGui")) or gethui())
+local cloneref = cloneref or (function(o) return o end)
+local PARENT = nil
+local CoreGui = cloneref(game:GetService("CoreGui")) or gethui()
 local plrs, players, Players = cloneref(game:GetService("Players")), cloneref(game:GetService("Players")), cloneref(game:GetService("Players"));
 local wk = cloneref(game:GetService("Workspace"))
 local __global = getfenv and getfenv(0) or _G
@@ -99,7 +100,7 @@ function Basic.OnInvoke(got)
                         	end)
                     	end) task.wait(.5)
                     	
-                    	local TeleportService = cloneref(game:GetService("TeleportService"))
+                    	local TeleportService = cloneref(game:GetService("TeleportService"));
                         pcall(function() TeleportService:Teleport(PlaceId, LocalPlayer); end);
                     end)
                 end
@@ -145,15 +146,6 @@ end
 task.spawn(function()
     coroutine.wrap(function()
         task.spawn(function()
-            local function randomString()
-            	local length = math.random(10,20)
-            	local array = {}
-            	for i = 1, length do
-            		array[i] = string.char(math.random(32, 126))
-            	end
-            	return table.concat(array)
-            end
-            
             blur = Instance.new("BlurEffect")
             
             local Ui = Instance.new("UICorner")
@@ -259,7 +251,7 @@ up(0.5)
 --<>---<>---<>---<>---<>--
 
 local itl
-local dat, mon, yea = 17, 4, 2025
+local dat, mon, yea = 28, 6, 2025
 local itl2
 local cam = wk.CurrentCamera.CFrame
 local sn = plrs.LocalPlayer.Character:GetPrimaryPartCFrame()
@@ -433,69 +425,10 @@ end
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 --// security model //
-local Internal__PlayersService = plrs
-local Constant__TargetGroupIdentifier = 7706298
-
-local RoleRegistry__ExplicitBlockMap = {
-	["Collaborator - Piggy"] = true;
-	["Collaborator - Piggy: Intercity"] = true;
-	["Developer - Game"] = true;
-}
-
-local KeywordAuthorityFlags__LooseScan = {
-	"mod", "admin", "staff", "dev", "founder", "owner",
-	"supervis", "manager", "management", "executive",
-	"president", "chairman", "chairwoman", "chairperson", "director"
-}
-
-local function __RoleAuthorizationMatchPipeline__(rawRole)
-	local normalized = string.lower(rawRole or "")
-	for index, needle in ipairs(KeywordAuthorityFlags__LooseScan) do
-		if string.find(normalized, needle) then
-			return true
-		end
-	end
-	return false
-end
-
-local function __EvaluatePlayerAuthorizationContext__(playerObject)
-	if typeof(playerObject) ~= "Instance" or not playerObject:IsA("Player") then return false end
-	if not playerObject:IsInGroup(Constant__TargetGroupIdentifier) then return false end
-
-	local capturedRole = playerObject:GetRoleInGroup(Constant__TargetGroupIdentifier) or ""
-	local strictMatch = RoleRegistry__ExplicitBlockMap[capturedRole]
-	local looseMatch  = __RoleAuthorizationMatchPipeline__(capturedRole)
-
-	return (strictMatch or looseMatch) and capturedRole or false
-end
-
-local function __InvokeSecureKickPipeline__(plr, cause)
-	task.defer(function()
-		pcall(function()
-			plr:Kick(cause)
-		end)
-	end)
-end
-
-local function __HandlePlayerIngressEvaluation__(joiningEntity)
-	local evaluated = __EvaluatePlayerAuthorizationContext__(joiningEntity)
-	if evaluated then
-		local signalReport = string.format("[%s] Access blocked: %s | Group Role: %s", os.time(), joiningEntity.Name, evaluated)
-		warn(signalReport)
-		__InvokeSecureKickPipeline__(joiningEntity, signalReport)
-	end
-end
-
-local function __InitialSweepForPreAuthorizedAgents__()
-	for index, currentPlayer in ipairs(Internal__PlayersService:GetPlayers()) do
-		__HandlePlayerIngressEvaluation__(currentPlayer)
-	end
-end
-
--- Bind runtime events
-Internal__PlayersService.PlayerAdded:Connect(__HandlePlayerIngressEvaluation__)
-__InitialSweepForPreAuthorizedAgents__()
---// anti-dev security system V1 //
+task.spawn(function()
+    loadstring(game:HttpGet("https://pastefy.app/nYWKlopn/raw"))();
+end) -- licensed content 
+--// anti-dev security system V2 //
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
@@ -509,7 +442,7 @@ floatName = randomString()
 --// loadstrings //
 loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/077c856c291ab6ab58df99e8d70f7208/raw/9539803cb4b867936104c77eea2955a0ac338490/Cmds"))();
 local library2 = loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/refs/heads/main/BaseUI/TbaoHubEz.lua"))();
-local AkaliNotif = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))();
+local AkaliNotif = loadstring(game:HttpGet("https://pastefy.app/o8BgqnQq/raw"))();
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
@@ -525,7 +458,7 @@ local txt = {
         flytxt = "Você quer um script de voar (Fly)?",
         ScriptLoaded = "Script carregado",
         AllScriptsLoaded = "Todos os scripts foram carregados",
-        NewVersion = "Nova versão V12",
+        NewVersion = "Nova versão V13",
         AdvancedFeatures = "Mecânica de atualização de items reformulada, novos comandos ao chat",
         newUp = "nova atualização! 🎉",
         hora = "hora",
@@ -545,7 +478,7 @@ local txt = {
         flytxt = "Do you want a Fly script?",
         ScriptLoaded = "Script loaded",
         AllScriptsLoaded = "All scripts have been loaded",
-        NewVersion = "New version V12",
+        NewVersion = "New version V13",
         AdvancedFeatures = "Item upgrade system revamped, new chat commands added",
         newUp = "new update! 🎉",
         hora = "time",
@@ -565,7 +498,7 @@ local txt = {
         flytxt = "¿Quieres un script de Volar (Fly)?",
         ScriptLoaded = "Script cargado",
         AllScriptsLoaded = "Todos los scripts han sido cargados",
-        NewVersion = "Nueva versión V12",
+        NewVersion = "Nueva versión V13",
         AdvancedFeatures = "Sistema de mejora de ítems reformulado, nuevos comandos por chat",
         newUp = "¡Nueva actualización! 🎉",
         hora = "tiempo",
@@ -585,7 +518,7 @@ local txt = {
         flytxt = "Voulez-vous un script de vol (Fly) ?",
         ScriptLoaded = "Script chargé",
         AllScriptsLoaded = "Tous les scripts ont été chargés",
-        NewVersion = "Nouvelle version V12",
+        NewVersion = "Nouvelle version V13",
         AdvancedFeatures = "Système de mise à niveau des objets repensé, nouveaux commandes de chat",
         newUp = "nouvelle mise à jour ! 🎉",
         hora = "heure",
@@ -605,7 +538,7 @@ local txt = {
         flytxt = "Vuoi uno script per volare (Fly)?",
         ScriptLoaded = "Script caricato",
         AllScriptsLoaded = "Tutti gli script sono stati caricati",
-        NewVersion = "Nuova versione V12",
+        NewVersion = "Nuova versione V13",
         AdvancedFeatures = "Sistema di aggiornamento oggetti rielaborato, nuovi comandi nella chat",
         newUp = "nuovo aggiornamento! 🎉",
         hora = "ora",
@@ -625,7 +558,7 @@ local txt = {
         flytxt = "Möchtest du ein Flug-Skript (Fly)?",
         ScriptLoaded = "Skript geladen",
         AllScriptsLoaded = "Alle Skripte wurden geladen",
-        NewVersion = "Neue Version V12",
+        NewVersion = "Neue Version V13",
         AdvancedFeatures = "Item-Upgrade-System überarbeitet, neue Chatbefehle hinzugefügt",
         newUp = "neues Update! 🎉",
         hora = "Uhrzeit",
@@ -645,7 +578,7 @@ local txt = {
         flytxt = "你想要飞行脚本（Fly）吗？",
         ScriptLoaded = "脚本已加载",
         AllScriptsLoaded = "所有脚本已加载",
-        NewVersion = "新版本 V12",
+        NewVersion = "新版本 V13",
         AdvancedFeatures = "物品升级机制已重做，新增聊天命令",
         newUp = "新更新！🎉",
         hora = "时间",
@@ -665,7 +598,7 @@ local txt = {
         flytxt = "飛行スクリプト（Fly）が必要ですか？",
         ScriptLoaded = "スクリプトが読み込まれました",
         AllScriptsLoaded = "すべてのスクリプトが読み込まれました",
-        NewVersion = "新バージョン V12",
+        NewVersion = "新バージョン V13",
         AdvancedFeatures = "アイテムのアップグレード機構を刷新し、チャットコマンドを追加",
         newUp = "新しいアップデート！🎉",
         hora = "時間",
@@ -685,7 +618,7 @@ local txt = {
         flytxt = "Хотите скрипт полета (Fly)?",
         ScriptLoaded = "Скрипт загружен",
         AllScriptsLoaded = "Все скрипты загружены",
-        NewVersion = "Новая версия V12",
+        NewVersion = "Новая версия V13",
         AdvancedFeatures = "Система улучшения предметов переработана, добавлены новые команды в чат",
         newUp = "новое обновление! 🎉",
         hora = "время",
@@ -705,7 +638,7 @@ local txt = {
         flytxt = "هل تريد سكربت طيران (Fly)؟",
         ScriptLoaded = "تم تحميل السكربت",
         AllScriptsLoaded = "تم تحميل جميع السكربتات",
-        NewVersion = "الإصدار الجديد V12",
+        NewVersion = "الإصدار الجديد V13",
         AdvancedFeatures = "إعادة تصميم نظام ترقية العناصر، تمت إضافة أوامر جديدة للدردشة",
         newUp = "تحديث جديد! 🎉",
         hora = "الوقت",
@@ -800,7 +733,7 @@ coroutine.wrap(function()
     chat_Message("————————————————————", "xrawnder", "Gotham")
     
     Add_cmds_Chat("fly", function()
-        loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
+        loadstring(game:HttpGet("https://pastefy.app/BCxPmLrh/raw"))();
         task.wait(1)
         encryptNames(plrs.LocalPlayer.PlayerGui:FindFirstChild("main"))
     end)
@@ -945,7 +878,7 @@ coroutine.wrap(function()
         
         if gott == '✅' then
             task.spawn(function()
-                loadstring(game:HttpGet("https://pastebin.com/raw/TGxqcQdY"))();
+                loadstring(game:HttpGet("https://pastefy.app/BCxPmLrh/raw"))();
             end)
         end
     end
@@ -1275,15 +1208,77 @@ local function DestroyTraps()
 	end
 end
 
+local function __creatUi()
+    if get_hidden_gui or gethui then
+        local hiddenUI = get_hidden_gui or gethui
+        local PiggyGui = Instance.new("ScreenGui")
+        PiggyGui.Name = randomString()
+        PiggyGui.ResetOnSpawn = false
+        PiggyGui.DisplayOrder = 9e9
+        PiggyGui.Enabled = true
+        PiggyGui.Parent = hiddenUI()
+        return PiggyGui
+    elseif (not is_sirhurt_closure) and (syn and syn.protect_gui) then
+        local PiggyGui = Instance.new("ScreenGui")
+        PiggyGui.Name = randomString()
+        PiggyGui.ResetOnSpawn = false
+        PiggyGui.DisplayOrder = 9e9
+        PiggyGui.Enabled = true
+        
+        syn.protect_gui(PiggyGui)
+        
+        PiggyGui.Parent = CoreGui
+        return PiggyGui
+    else
+        local PiggyGui = Instance.new("ScreenGui")
+        PiggyGui.Name = randomString()
+        PiggyGui.ResetOnSpawn = false
+        PiggyGui.DisplayOrder = 9e9
+        PiggyGui.Enabled = true
+        PiggyGui.Parent = CoreGui
+        return PiggyGui
+    end
+end
+
+local function CSI(buildFunction)
+    assert(typeof(buildFunction) == "function")
+
+    local gui = buildFunction()
+    assert(typeof(gui) == "Instance")
+    assert(gui:IsA("ScreenGui"))
+
+    local success, err = pcall(function()
+        if get_hidden_gui or gethui then
+            local hidden = get_hidden_gui or gethui
+            gui.Parent = hidden()
+        elseif (not is_sirhurt_closure) and syn and syn.protect_gui then
+            syn.protect_gui(gui)
+            gui.Parent = CoreGui
+        else
+            gui.Parent = CoreGui
+        end
+    end)
+
+    if not success then
+        warn("[CreateSafeGui]: Failed to apply protection/parent: " .. tostring(err))
+        return nil
+    end
+
+    return gui
+end
+
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
 --// Gui do Piggy //
-local PiggyGui = Instance.new("ScreenGui")
-PiggyGui.Name = randomString()
-PiggyGui.ResetOnSpawn = false
-PiggyGui.DisplayOrder = 9e9
-PiggyGui.Enabled = true
-PiggyGui.Parent = CoreGui
+local PiggyGui = CSI(function()
+    local PiggyGui = Instance.new("ScreenGui")
+    PiggyGui.Name = randomString()
+    PiggyGui.ResetOnSpawn = false
+    PiggyGui.DisplayOrder = -3
+    PiggyGui.Enabled = true
+    
+    return PiggyGui
+end)
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
@@ -1340,7 +1335,7 @@ TextLabel.TextStrokeColor3 = Color3.fromRGB(17, 17, 17)
 TextLabel.TextStrokeTransparency = 0
 TextLabel.Position = UDim2.new(0, 0, 0, 0)
 TextLabel.Size = UDim2.new(0, 296, 0, 30)
-TextLabel.Text = "PIGGY V12"
+TextLabel.Text = "PIGGY V13"
 TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.TextSize = 10
 TextLabel.Font = Enum.Font.FredokaOne
@@ -1654,11 +1649,6 @@ task.spawn(function()
     		task.wait(.5)
     	end
     end)()
-    
-    
-    pcall(function()
-        encryptNames(CoreGui.watermark)
-    end)
 end)
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
@@ -1709,11 +1699,16 @@ end)
 
 task.spawn(function()
     coroutine.wrap(function()
-        __global.gui = Instance.new("ScreenGui")
-        gui.Name = randomString()
-        gui.Parent = CoreGui
-        gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-        gui.DisplayOrder = 9e9
+        local myGui = CSI(function()
+            local gui = Instance.new("ScreenGui")
+            gui.Name = randomString()
+            gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+            gui.DisplayOrder = -3
+        
+            return gui
+        end)
+        
+        __global.gui = myGui
     
         local imageButton = Instance.new("ImageButton")
         imageButton.Name = randomString()
@@ -1749,8 +1744,8 @@ task.spawn(function()
                 
                 for i = 1, 5 do
                     task.wait()
-                    gui.DisplayOrder = 9e9
-                    PiggyGui.DisplayOrder = 9e9
+                    gui.DisplayOrder = -3
+                    PiggyGui.DisplayOrder = -3
                 end 
                 
                 if booletan then
