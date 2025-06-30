@@ -4,15 +4,15 @@ local Workspace = cloneref(game:GetService("Workspace"))
 local Players = cloneref(game:GetService("Players"))
 local Player = Players.LocalPlayer
 local Mouse = Player:GetMouse()
+local __global = getfenv and getfenv(0) or _G
 
 -- / Services
-local UserInputService = (cloneref(game:GetService("UserInputService"))
-local TextService = (cloneref(game:GetService("TextService"))
-local TweenService = (cloneref(game:GetService("TweenService"))
-local RunService = (cloneref(game:GetService("RunService"))
+local UserInputService = cloneref(game:GetService("UserInputService"))
+local TextService = cloneref(game:GetService("TextService"))
+local TweenService = cloneref(game:GetService("TweenService"))
+local RunService = cloneref(game:GetService("RunService"))
 local CoreGui = cloneref(game:GetService("CoreGui")) or gethui()
-local ContentService = (cloneref(game:GetService("ContentProvider"))
-local TeleportService = (cloneref(game:GetService("TeleportService"))
+local TeleportService = cloneref(game:GetService("TeleportService"))
 
 -- / Tween table & function
 local TweenTable = {
@@ -250,12 +250,18 @@ function library:Watermark(text)
 
     tetx = text or "xsx v2"
 
-    local watermark = CSI(function()
+    __global.Walter = CSI(function()
         local water = Instance.new("ScreenGui")
         water.Name = "watermark"
         water.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
         
         return water
+    end)
+    
+    local watermark = __global.Walter
+    
+    pcall(function()
+        encryptNames(watermark)
     end)
     
     local watermarkPadding = Instance.new("UIPadding")
@@ -3624,9 +3630,5 @@ function library:Init(key)
     end
     return TabLibrary
 end
-
-pcall(function()
-    encryptNames(watermark)
-end)
 
 return library
