@@ -11,8 +11,10 @@
 --]]
 
 --<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
+local cloneref = cloneref or (function(o) return o end)
+local CoreGui = cloneref(game:GetService("CoreGui")) or gethui()
+local Players = cloneref(game:GetService("Players"))
+local RunService = cloneref(game:GetService("RunService"))
 local LocalPlayer = Players.LocalPlayer
 local charr = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local jp = charr.Humanoid.JumpPower
@@ -41,8 +43,41 @@ local function encryptNames(target)
 	target.Name = randomString()
 end
 
-local gui = Instance.new("ScreenGui", game.CoreGui)
-gui.Name = randomString()
+local function CSI(buildFunction)
+    assert(typeof(buildFunction) == "function")
+
+    local gui = buildFunction()
+    assert(typeof(gui) == "Instance")
+    assert(gui:IsA("ScreenGui"))
+
+    local success, err = pcall(function()
+        if get_hidden_gui or gethui then
+            local hidden = get_hidden_gui or gethui
+            gui.Parent = hidden()
+        elseif (not is_sirhurt_closure) and syn and syn.protect_gui then
+            syn.protect_gui(gui)
+            gui.Parent = CoreGui
+        else
+            gui.Parent = CoreGui
+        end
+    end)
+
+    if not success then
+        warn("[CreateSafeGui]: Failed to apply protection/parent: " .. tostring(err))
+        return nil
+    end
+
+    return gui
+end
+
+local gui = CSI(function()
+    local g = Instance.new("ScreenGui")
+    g.DisplayOrder = -5
+    g.Name = randomString()
+    
+    return g
+end)
+
 local frame = Instance.new("Frame", gui)
 frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 frame.Position = UDim2.new(0.404, 0, 0.346, 0)
@@ -55,7 +90,7 @@ local label = Instance.new("TextLabel", frame)
 label.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 label.Size = UDim2.new(1, 0, 0, 20)
 label.Font = Enum.Font.SourceSans
-label.Text = "Noclip gui V2.5"
+label.Text = "Noclip gui V3"
 label.TextColor3 = Color3.fromRGB(0, 99, 390)
 label.TextScaled = true
 label.TextWrapped = true
