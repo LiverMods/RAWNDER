@@ -48,8 +48,41 @@ local function encryptNames(target)
 	target.Name = randomString()
 end
 
-local gui = Instance.new("ScreenGui", game.CoreGui)
-gui.Name = randomString()
+local function CSI(buildFunction)
+    assert(typeof(buildFunction) == "function")
+
+    local gui = buildFunction()
+    assert(typeof(gui) == "Instance")
+    assert(gui:IsA("ScreenGui"))
+
+    local success, err = pcall(function()
+        if get_hidden_gui or gethui then
+            local hidden = get_hidden_gui or gethui
+            gui.Parent = hidden()
+        elseif (not is_sirhurt_closure) and syn and syn.protect_gui then
+            syn.protect_gui(gui)
+            gui.Parent = CoreGui
+        else
+            gui.Parent = CoreGui
+        end
+    end)
+
+    if not success then
+        warn("[CreateSafeGui]: Failed to apply protection/parent: " .. tostring(err))
+        return nil
+    end
+
+    return gui
+end
+
+local gui = CSI(function()
+    local g = Instance.new("ScreenGui", game.CoreGui)
+    g.DisplayOrder = -5
+    g.Name = randomString()
+    
+    return g
+end)
+
 local frame = Instance.new("Frame", gui)
 frame.Name = randomString()
 frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
