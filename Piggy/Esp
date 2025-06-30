@@ -11,23 +11,27 @@
 --]]
 
 --<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
-pcall(function()
-	game.StarterGui:SetCore("SendNotification", {
-		Title = "Attention",
-		Text = "Turn it off when the match is over!",
-		Duration = 60
-	})
-end)
-
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
+local cloneref = cloneref or (function(o) return o end)
+local CoreGui = cloneref(game:GetService("CoreGui")) or gethui()
+local Players = cloneref(game:GetService("Players"));
+local RunService = cloneref(game:GetService("RunService"));
+local StarterGui = cloneref(game:GetService("StarterGui"));
 local LocalPlayer = Players.LocalPlayer
+local charr = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
 local enabled = false
 local fillTransparency = 0.87
 local outlineTransparency = 0.1
 local uselocalplayer = false
 local ignoredNames = { "Bess", "Ombra", "MrBliss" }
 local traitorStates = {}
+
+pcall(function()
+	StarterGui:SetCore("SendNotification", {
+		Title = "Attention",
+		Text = "Turn it off when the match is over!",
+		Duration = 60
+	})
+end)
 
 local function randomString()
 	local length = math.random(17, 45)
@@ -76,7 +80,7 @@ local function CSI(buildFunction)
 end
 
 local gui = CSI(function()
-    local g = Instance.new("ScreenGui", game.CoreGui)
+    local g = Instance.new("ScreenGui")
     g.DisplayOrder = -5
     g.Name = randomString()
     
@@ -195,7 +199,7 @@ end)
 
 game.Players.PlayerAdded:Connect(function(plr)
 	plr.CharacterAdded:Connect(function(char)
-		if enabled then createOrUpdateESP(char) end
+		if enabled then task.wait(.7) createOrUpdateESP(char) end
 	end)
 end)
 
