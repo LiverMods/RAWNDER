@@ -214,7 +214,7 @@ task.spawn(function()
 
             function updateProgress(percent)
                 Progress:TweenSize(UDim2.new(percent, 0, 1, 0), Enum.EasingDirection.InOut, Enum.EasingStyle.Linear, 0.2, true)
-                TextLabel.Text = string.format("Carregando... %d%%", percent * 100)
+                TextLabel.Text = string.format("Loading... %d%%", percent * 100)
             end
 
             blur.Enabled = true
@@ -426,7 +426,7 @@ end
 
 --// security model //
 task.spawn(function()
-    loadstring(game:HttpGet("https://pastefy.app/nYWKlopn/raw"))();
+    loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/3adcecc74c21797d0469abf20c598892/raw/3357f195b76df95e13d186e72fab61ff3a66035d/gistfile1.txt"))();
 end) -- licensed content 
 --// anti-dev security system V2 //
 
@@ -442,7 +442,7 @@ floatName = randomString()
 --// loadstrings //
 loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/077c856c291ab6ab58df99e8d70f7208/raw/9539803cb4b867936104c77eea2955a0ac338490/Cmds"))();
 local library2 = loadstring(game:HttpGet("https://raw.githubusercontent.com/LiverMods/RAWNDER/refs/heads/main/BaseUI/TbaoHubEz.lua"))();
-local AkaliNotif = loadstring(game:HttpGet("https://pastefy.app/o8BgqnQq/raw"))();
+local AkaliNotif = loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/d552b273882e5a8bdfc17e3adc0e4c0c/raw/1e692f92d9140215ecb039df9dc1ffc63b59053e/gistfile1.txt"))();
 
 --<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>----<>--
 
