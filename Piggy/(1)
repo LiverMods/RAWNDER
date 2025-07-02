@@ -733,9 +733,7 @@ coroutine.wrap(function()
     chat_Message("————————————————————", "xrawnder", "Gotham")
     
     Add_cmds_Chat("fly", function()
-        loadstring(game:HttpGet("https://pastefy.app/BCxPmLrh/raw"))();
-        task.wait(1)
-        encryptNames(plrs.LocalPlayer.PlayerGui:FindFirstChild("main"))
+        loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/2230df3a4235a7857cc728055d77b689/raw/63a2f89683e45501332fa363f19ab9711dc99ea9/gistfile1.txt"))();
     end)
     
     pcall(function() getgenv().CTT = true end)
@@ -878,7 +876,7 @@ coroutine.wrap(function()
         
         if gott == '✅' then
             task.spawn(function()
-                loadstring(game:HttpGet("https://pastefy.app/BCxPmLrh/raw"))();
+                loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/2230df3a4235a7857cc728055d77b689/raw/63a2f89683e45501332fa363f19ab9711dc99ea9/gistfile1.txt"))();
             end)
         end
     end
