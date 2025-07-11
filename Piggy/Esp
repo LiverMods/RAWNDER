@@ -99,7 +99,7 @@ local label = Instance.new("TextLabel", frame)
 label.Size = UDim2.new(1, 0, 0, 20)
 label.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 label.Font = Enum.Font.SourceSans
-label.Text = "ESP gui V6"
+label.Text = "ESP gui V7"
 label.TextColor3 = Color3.fromRGB(0, 99, 390)
 label.TextScaled = true
 
@@ -165,25 +165,40 @@ local function createOrUpdateESP(model)
 	esp.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 end
 
-local function refreshAll()
-	if not enabled then return end
+local activeModels = {}
 
-	for _, obj in ipairs(workspace:GetDescendants()) do
-		if obj:IsA("Model") and obj:FindFirstChild("Humanoid") then
-			createOrUpdateESP(obj)
+local function isValidModel(model)
+	return model:IsA("Model")
+		and model:FindFirstChild("Humanoid")
+		and (uselocalplayer or model ~= LocalPlayer.Character)
+		and not table.find(ignoredNames, model.Name)
+end
+
+local function addModel(model)
+	if isValidModel(model) and not table.find(activeModels, model) then
+		table.insert(activeModels, model)
+		createOrUpdateESP(model)
+	end
+end
+
+local function setupInitial()
+	for _, inst in ipairs(workspace:GetDescendants()) do
+		if inst:IsA("Humanoid") and inst.Parent then
+			addModel(inst.Parent)
 		end
 	end
 end
 
-local updateConnection
+local descendantConn
 toggle.MouseButton1Click:Connect(function()
 	enabled = not enabled
 	toggle.Text = enabled and "ON" or "OFF"
 
 	if not enabled then
-        local folder = game.CoreGui:FindFirstChild("ESPFolder")
-        if folder then folder:Destroy() end
-        if updateConnection then updateConnection:Disconnect() end
+		local folder = game.CoreGui:FindFirstChild("ESPFolder")
+		if folder then folder:Destroy() end
+		if descendantConn then descendantConn:Disconnect() end
+		activeModels = {}
 	else
 		local folder = game.CoreGui:FindFirstChild("ESPFolder")
 		if not folder then
@@ -191,13 +206,27 @@ toggle.MouseButton1Click:Connect(function()
 			folder.Name = "ESPFolder"
 		end
 
-		refreshAll()
-		if updateConnection then updateConnection:Disconnect() end
-		updateConnection = RunService.RenderStepped:Connect(refreshAll)
+		setupInitial()
+
+		descendantConn = workspace.DescendantAdded:Connect(function(desc)
+			if desc:IsA("Humanoid") and desc.Parent then
+				task.wait(0.1)
+				addModel(desc.Parent)
+			end
+		end)
+
+		task.spawn(function()
+			while enabled do
+				for _, model in ipairs(activeModels) do
+					createOrUpdateESP(model)
+				end
+				task.wait(0.2)
+			end
+		end)
 	end
 end)
 
-game.Players.PlayerAdded:Connect(function(plr)
+Players.PlayerAdded:Connect(function(plr)
 	plr.CharacterAdded:Connect(function(char)
 		if enabled then task.wait(.7) createOrUpdateESP(char) end
 	end)
