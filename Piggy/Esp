@@ -11,7 +11,8 @@
 --]]
 
 --<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>----<LM>--
-local cloneref = cloneref or (function(o) return o end)
+local newcclosure = newcclosure or function(f) return f end
+local cloneref = cloneref or newcclosure(function(o) return o end)
 local CoreGui = cloneref(game:GetService("CoreGui")) or gethui()
 local Players = cloneref(game:GetService("Players"));
 local RunService = cloneref(game:GetService("RunService"));
