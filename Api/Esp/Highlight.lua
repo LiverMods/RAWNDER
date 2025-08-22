@@ -1,4 +1,4 @@
--- ESPModule V1.1 (BETA)©
+-- ESPModule V1.2 (BETA)©
 local ESP = {}
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
@@ -11,22 +11,19 @@ ESPFolder.Parent = CoreGui
 getgenv().ESPSettings = getgenv().ESPSettings or {
     Enabled = true,
     FillUseTeamColor = true,
-    OutlineUseTeamColor = false,
-    BorderUseTeamColor = false,
+    OutlineUseTeamColor = true,
     IgnoreSameTeam = true,
     FillColor = Color3.new(0,0,0),
-    OutlineColor = Color3.new(1,1,1),
-    BorderColor = Color3.new(1,0,0),
+    OutlineColor = Color3.new(1,0,0),
     FillTransparency = 0.7,
     OutlineTransparency = 0,
-    BorderTransparency = 0,
     Friends = {Enabled = true, List = {}, Color = Color3.fromRGB(0,255,0)},
     Blacklist = {Enabled = true, List = {}, Color = Color3.fromRGB(255,0,0)},
     CustomColors = {},
     IgnoreLocalPlayer = true
 }
 
-local function getPlayerColor(player, mode)
+local function getPlayerColor(player)
     local s = getgenv().ESPSettings
     local name = player.Name
     if s.Friends.Enabled and table.find(s.Friends.List, name) then
@@ -35,25 +32,10 @@ local function getPlayerColor(player, mode)
         return s.Blacklist.Color
     elseif s.CustomColors[name] then
         return s.CustomColors[name]
-    end
-    if mode == "Fill" then
-        if s.FillUseTeamColor then
-            return player.Team and player.TeamColor.Color or s.FillColor
-        else
-            return s.FillColor or (player.Team and player.TeamColor.Color)
-        end
-    elseif mode == "Outline" then
-        if s.OutlineUseTeamColor then
-            return player.Team and player.TeamColor.Color or s.OutlineColor
-        else
-            return s.OutlineColor or (player.Team and player.TeamColor.Color)
-        end
-    elseif mode == "Border" then
-        if s.BorderUseTeamColor then
-            return player.Team and player.TeamColor.Color or s.BorderColor
-        else
-            return s.BorderColor or (player.Team and player.TeamColor.Color)
-        end
+    elseif s.FillUseTeamColor then
+        return player.Team and player.TeamColor.Color or s.FillColor
+    else
+        return s.FillColor
     end
 end
 
@@ -70,15 +52,22 @@ local function createESP(player)
     esp.Parent = ESPFolder
     esp.Adornee = player.Character
     esp.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-    esp.FillColor = getPlayerColor(player, "Fill")
-    esp.OutlineColor = getPlayerColor(player, "Border")
+    local color = getPlayerColor(player)
+    esp.FillColor = color
+    esp.OutlineColor = color
     esp.FillTransparency = s.FillTransparency
-    esp.OutlineTransparency = s.BorderTransparency
+    esp.OutlineTransparency = s.OutlineTransparency
 end
 
 function removeESP(player)
     local esp = ESPFolder:FindFirstChild(player.Name)
     if esp then esp:Destroy() end
+end
+
+local function UpdateAllESP()
+    for _, p in ipairs(Players:GetPlayers()) do
+        createESP(p)
+    end
 end
 
 local function setupPlayer(player)
@@ -89,10 +78,15 @@ local function setupPlayer(player)
     if player.Character then
         createESP(player)
     end
+
     player:GetPropertyChangedSignal("Team"):Connect(function()
-        createESP(player)
+        UpdateAllESP()
     end)
 end
+
+LocalPlayer:GetPropertyChangedSignal("Team"):Connect(function()
+    UpdateAllESP()
+end)
 
 Players.PlayerAdded:Connect(setupPlayer)
 Players.PlayerRemoving:Connect(removeESP)
@@ -101,18 +95,14 @@ for _, p in ipairs(Players:GetPlayers()) do
     setupPlayer(p)
 end
 
-ESP.UpdateAll = function()
-    for _, p in ipairs(Players:GetPlayers()) do
-        createESP(p)
-    end
-end
+ESP.UpdateAll = UpdateAllESP
 
 ESP.Toggle = function(state)
     getgenv().ESPSettings.Enabled = state
     if not state then
         ESPFolder:ClearAllChildren()
     else
-        ESP.UpdateAll()
+        UpdateAllESP()
     end
 end
 
@@ -124,7 +114,7 @@ ESP.SetFriend = function(name, state)
         local i = table.find(list, name)
         if i then table.remove(list, i) end
     end
-    ESP.UpdateAll()
+    UpdateAllESP()
 end
 
 ESP.SetBlacklist = function(name, state)
@@ -135,12 +125,12 @@ ESP.SetBlacklist = function(name, state)
         local i = table.find(list, name)
         if i then table.remove(list, i) end
     end
-    ESP.UpdateAll()
+    UpdateAllESP()
 end
 
 ESP.SetCustomColor = function(name, color)
     getgenv().ESPSettings.CustomColors[name] = color
-    ESP.UpdateAll()
+    UpdateAllESP()
 end
 
 return ESP
