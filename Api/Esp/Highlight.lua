@@ -1,4 +1,4 @@
--- ESPModule V1.2 (BETA)©
+-- ESPModule V1.3 (BETA)©
 local ESP = {}
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
@@ -131,6 +131,13 @@ end
 ESP.SetCustomColor = function(name, color)
     getgenv().ESPSettings.CustomColors[name] = color
     UpdateAllESP()
+end
+
+ESP.RemoveCustomColor = function(name)
+    if getgenv().ESPSettings.CustomColors[name] then
+        getgenv().ESPSettings.CustomColors[name] = nil
+        UpdateAllESP()
+    end
 end
 
 return ESP
