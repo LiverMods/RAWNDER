@@ -1,4 +1,4 @@
--- // Kavo Ui V5 \\ --
+-- // Kavo Ui V5.2 \\ --
 --[[       
        • GNU AFFERO GENERAL PUBLIC LICENSE
            • Version 3, 19 November 2007
@@ -13,7 +13,12 @@
 
 local Kavo = {}
 
-local cloneref = cloneref or function(o) return o end
+local function missing(t, f, fallback)
+    if type(f) == t then return f end
+    return fallback
+end
+    
+local cloneref = missing("function", cloneref, function(...) return ... end)
 local CoreGui = cloneref((game:GetService("CoreGui") or gethui()))
 local tween = cloneref(game:GetService("TweenService"))
 local tweeninfo = TweenInfo.new
