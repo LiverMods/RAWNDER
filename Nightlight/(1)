@@ -1,7 +1,7 @@
 local bs = game.PlaceId
 local normal = 15507705710
 local hard = 15628391893
-loacal special = 112071459241774
+local special = 112071459241774
 local dat, mon, yea = 04, 02, 2024
 
 local function check(id, _namecall)
