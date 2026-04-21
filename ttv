@@ -70,8 +70,20 @@ end
 local Library = loadstring(game:HttpGet("https://bit.ly/Kavo-Ui-2"))();
 
 --// Loadstrings //
-loadstring(game:HttpGet("https://bit.ly/typeSpeed-script"))();
-AkaliNotif = loadstring(game:HttpGet("https://bit.ly/3OnnrTi"))();
+local function typeSpeed(Accel, GearSpeed)
+    local speeds = {GearSpeed, GearSpeed, GearSpeed, GearSpeed, GearSpeed}
+    local accels = {Accel, Accel, Accel, Accel, Accel}
+    task.spawn(function()
+        for _, v in next, getgc(true) do
+            if type(v) == "table" and rawget(v, "GearSpeeds") then
+                v.GearSpeeds = speeds
+                v.GearAccels = accels
+            end
+        end
+    end)
+end
+
+AkaliNotif = loadstring(game:HttpGet("https://gist.githubusercontent.com/LiverMods/d552b273882e5a8bdfc17e3adc0e4c0c/raw/686321eeb025db73e5748f71d695bf92dbfe617f/AkaliNotif"))();
 
 --// Variáveis Globais //
 grown = 0
